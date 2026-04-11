@@ -1,0 +1,12 @@
+<html layout:decorate="~{a2c_layout}">
+<div layout:fragment="content" class="board-shell trade-market-shell">
+	<div class="container-xl">
+		<section class="panel-surface trade-error-card">
+			<span class="section-kicker">404 오류</span>
+			<h1 class="section-title">거래 상품을 찾을 수 없습니다.</h1>
+			<p class="board-copy" th:text="${message}">요청한 거래 상품이 존재하지 않습니다.</p>
+			<a class="btn btn-a2c-primary" th:href="@{/trade/items}">거래 게시판으로 이동</a>
+		</section>
+	</div>
+</div>
+</html>

@@ -1,0 +1,75 @@
+<th:block th:fragment="guideStepContent">
+    <article class="aion-guide-card guide-step-shell">
+        <header class="aion-guide-top guide-step-header"
+            th:insert="~{guide/fragments :: guideStepHeaderContent(eyebrowClass='aion-guide-step guide-step-eyebrow', stepLabel='STEP 7', title='키나 수급 방법', description='안정적으로 키나를 벌 수 있는 주요 루트를 정리한 단계입니다.')}">
+        </header>
+
+       
+
+        <section class="aion-guide-section guide-step-section">
+            <h3>던전 파밍</h3>
+            <ul>
+                <li>원정 및 초월 던전은 가장 안정적인 키나 수급 루트입니다.</li>
+                <li>재료와 장비 드랍이 꾸준하며 반복 플레이가 가능합니다.</li>
+                <li>드라웁니르(정복 난이도)는 현재 최상위 효율 파밍처입니다.</li>
+            </ul>
+        </section>
+
+        <section class="aion-guide-section guide-step-section">
+            <h3>필드 사냥</h3>
+            <ul>
+                <li>재료, 마석, 잡템 등을 모아 판매하여 수익을 얻습니다.</li>
+                <li>초반에는 경쟁이 적은 지역에서 사냥하는 것이 효율적입니다.</li>
+            </ul>
+        </section>
+
+        <section class="aion-guide-section guide-step-section">
+            <h3>채집 (초보 추천)</h3>
+            <ul>
+                <li>약초 채집은 경쟁이 적고 빠르게 판매되어 안정적인 수익을 제공합니다.</li>
+                <li>광석은 경쟁이 있지만 가격이 높은 편입니다.</li>
+                <li>오드는 최근 시세가 높아 고수익 채집 루트로 평가됩니다.</li>
+            </ul>
+        </section>
+
+        <section class="aion-guide-section guide-step-section">
+            <h3>어비스 장비 판매</h3>
+            <ul>
+                <li>어비스 장비는 거래소에서 높은 가격에 판매됩니다.</li>
+                <li>PvP 또는 미니게임으로 어포를 모아 장비를 획득할 수 있습니다.</li>
+            </ul>
+        </section>
+
+        <section class="aion-guide-section guide-step-section">
+            <h3>제작 아이템 판매</h3>
+            <ul>
+                <li>재료를 바로 팔기보다 제작 후 판매하면 더 높은 수익이 가능합니다.</li>
+                <li>물약 및 비약류 아이템이 대표적인 수익 루트입니다.</li>
+                <li>시세 변동과 제작 실패를 고려해야 합니다.</li>
+            </ul>
+        </section>
+
+        <section class="aion-guide-section guide-step-section aion-guide-notice guide-step-tip-card"
+            th:insert="~{guide/fragments :: guideInfoCardContent(title='추가 루트', headingLevel='h3', contentFragment=~{guide/step7 :: step7ExtraRouteContent})}">
+        </section>
+
+        <section class="aion-guide-section guide-step-section aion-guide-notice guide-step-tip-card"
+            th:insert="~{guide/fragments :: guideInfoCardContent(title='핵심 요약', headingLevel='h3', contentFragment=~{guide/step7 :: step7SummaryContent})}">
+        </section>
+    </article>
+</th:block>
+<!-- 공용 안내 카드에 주입할 step 7 추가 루트 본문이다. -->
+<th:block th:fragment="step7ExtraRouteContent">
+    <ul>
+        <li>큐나를 활용한 거래소 구매는 가장 빠른 방법입니다.</li>
+        <li>단, 비용 부담이 커 무과금 유저에게는 비추천입니다.</li>
+    </ul>
+</th:block>
+<!-- 공용 안내 카드에 주입할 step 7 핵심 요약 본문이다. -->
+<th:block th:fragment="step7SummaryContent">
+    <ul>
+        <li>던전 + 채집 + 거래소 활용이 가장 안정적인 루트입니다.</li>
+        <li>초반은 채집, 중반부터 던전 파밍이 핵심입니다.</li>
+        <li>드라웁니르 던전은 현재 기준 최고 효율 키나 수급처입니다.</li>
+    </ul>
+</th:block>

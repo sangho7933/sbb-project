@@ -1,0 +1,717 @@
+/* 마이페이지 시뮬레이터 화면의 카드, 슬롯, 추천 UI를 관리한다. */
+:root {
+	--mypage-bg-top: rgba(22, 18, 38, 0.96);
+	--mypage-bg-mid: rgba(15, 20, 44, 0.88);
+	--mypage-line: rgba(154, 185, 255, 0.18);
+	--mypage-line-strong: rgba(135, 198, 255, 0.42);
+	--mypage-text-soft: rgba(233, 238, 255, 0.72);
+	--mypage-gold: #f5c66a;
+	--mypage-glow: 0 0 24px rgba(110, 177, 255, 0.24);
+}
+
+.mypage-simulator-page {
+	position: relative;
+}
+
+.mypage-simulator {
+	position: relative;
+	display: grid;
+	gap: 1.5rem;
+}
+
+.mypage-simulator::before {
+	content: "";
+	position: absolute;
+	inset: 4.5rem 0 0;
+	border-radius: 28px;
+	background:
+		radial-gradient(circle at 20% 22%, rgba(255, 190, 120, 0.14), transparent 28%),
+		radial-gradient(circle at 78% 20%, rgba(113, 188, 255, 0.18), transparent 24%),
+		radial-gradient(circle at 50% 55%, rgba(110, 88, 255, 0.14), transparent 36%),
+		linear-gradient(180deg, rgba(8, 10, 22, 0.28), rgba(8, 10, 22, 0));
+	pointer-events: none;
+}
+
+.mypage-panel {
+	position: relative;
+	border: 1px solid var(--mypage-line);
+	border-radius: 28px;
+	background:
+		linear-gradient(180deg, var(--mypage-bg-top), var(--mypage-bg-mid)),
+		rgba(10, 12, 28, 0.95);
+	box-shadow: 0 24px 60px rgba(2, 6, 20, 0.35);
+	backdrop-filter: blur(12px);
+}
+
+.mypage-hero {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1.5rem;
+	padding: 2.1rem 2rem;
+	overflow: hidden;
+}
+
+.mypage-hero::after {
+	content: "";
+	position: absolute;
+	inset: auto -6rem -6rem auto;
+	width: 18rem;
+	height: 18rem;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(117, 201, 255, 0.22), transparent 62%);
+	filter: blur(6px);
+}
+
+.mypage-kicker {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.35rem 0.8rem;
+	border-radius: 999px;
+	border: 1px solid rgba(156, 122, 255, 0.32);
+	background: rgba(141, 87, 255, 0.12);
+	color: #efe5ff;
+	font-size: 0.76rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+}
+
+.mypage-title {
+	margin: 0.95rem 0 0.7rem;
+	font-size: clamp(2rem, 4vw, 3rem);
+	font-weight: 800;
+	color: #f9fbff;
+}
+
+.mypage-subtitle {
+	margin: 0;
+	max-width: 43rem;
+	color: var(--mypage-text-soft);
+	font-size: 1rem;
+	line-height: 1.7;
+}
+
+.mypage-hero-badges {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 0.55rem;
+	min-width: 11rem;
+}
+
+.mypage-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.45rem;
+	padding: 0.45rem 0.9rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.05);
+	color: #eef4ff;
+	font-size: 0.84rem;
+}
+
+.mypage-status {
+	display: none;
+	padding: 0.85rem 1rem;
+	border-radius: 16px;
+	border: 1px solid rgba(117, 201, 255, 0.28);
+	background: rgba(117, 201, 255, 0.08);
+	color: #edf7ff;
+}
+
+.mypage-status.is-visible {
+	display: block;
+}
+
+.mypage-grid {
+	display: grid;
+	grid-template-columns: minmax(280px, 0.9fr) minmax(520px, 1.45fr) minmax(300px, 0.88fr);
+	gap: 1.35rem;
+	align-items: start;
+}
+
+.mypage-panel-left,
+.mypage-panel-center,
+.mypage-panel-right {
+	padding: 1.5rem;
+}
+
+.mypage-panel-head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 1.15rem;
+}
+
+.mypage-panel-head h2 {
+	margin: 0.45rem 0 0;
+	font-size: 1.45rem;
+	color: #fbfdff;
+}
+
+.mypage-main-tabs,
+.mypage-slot-tabs,
+.mypage-inline-actions,
+.mypage-primary-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem;
+}
+
+.mypage-tab-button,
+.mypage-slot-button,
+.mypage-ghost-button,
+.mypage-primary-button,
+.mypage-search button,
+.mypage-slot-card button {
+	border: 1px solid rgba(120, 160, 255, 0.22);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.04);
+	color: #edf3ff;
+	font-weight: 700;
+	transition: 0.2s ease;
+}
+
+.mypage-tab-button,
+.mypage-slot-button {
+	/* 탭과 슬롯 버튼 텍스트는 공용 theme 버튼 톤을 따르도록 맞춘다. */
+	color: var(--theme-secondary-text);
+}
+
+.mypage-tab-button,
+.mypage-ghost-button,
+.mypage-search button {
+	padding: 0.75rem 1rem;
+}
+
+.mypage-slot-button {
+	min-width: 5.1rem;
+	padding: 0.65rem 0.8rem;
+	font-size: 0.9rem;
+}
+
+.mypage-tab-button:hover,
+.mypage-slot-button:hover,
+.mypage-ghost-button:hover,
+.mypage-primary-button:hover,
+.mypage-search button:hover,
+.mypage-slot-card button:hover {
+	transform: translateY(-1px);
+	border-color: rgba(117, 201, 255, 0.46);
+	box-shadow: var(--mypage-glow);
+}
+
+.mypage-tab-button.is-active,
+.mypage-slot-button.is-active {
+	border-color: rgba(117, 201, 255, 0.56);
+	background: linear-gradient(180deg, rgba(91, 127, 255, 0.32), rgba(35, 52, 110, 0.46));
+	box-shadow: var(--mypage-glow);
+}
+
+.mypage-slot-button span {
+	display: block;
+	font-size: 0.72rem;
+	font-weight: 500;
+	color: var(--theme-panel-muted);
+}
+
+.mypage-search {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 0.6rem;
+	margin: 1rem 0 0.9rem;
+}
+
+.mypage-search input {
+	padding: 0.78rem 0.9rem;
+	border-radius: 16px;
+	border: 1px solid rgba(130, 150, 205, 0.24);
+	background: rgba(8, 12, 25, 0.55);
+	color: #f8fbff;
+}
+
+.mypage-search input:focus {
+	outline: none;
+	border-color: rgba(117, 201, 255, 0.56);
+	box-shadow: 0 0 0 3px rgba(117, 201, 255, 0.12);
+}
+
+.mypage-list-summary,
+.mypage-section-label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	margin-bottom: 0.85rem;
+	color: #f6f9ff;
+}
+
+.mypage-list-summary span,
+.mypage-section-label {
+	color: var(--mypage-text-soft);
+	font-size: 0.88rem;
+}
+
+.mypage-item-list,
+.mypage-recommendation-list,
+.mypage-vault-list {
+	display: grid;
+	gap: 0.85rem;
+}
+
+.mypage-item-list {
+	max-height: 58rem;
+	overflow-y: auto;
+	padding-right: 0.2rem;
+}
+
+.mypage-item-card,
+.mypage-recommend-card,
+.mypage-vault-card,
+.mypage-selected-card,
+.mypage-user-card,
+.mypage-stat-card {
+	border: 1px solid rgba(136, 165, 225, 0.16);
+	border-radius: 22px;
+	background: rgba(255, 255, 255, 0.035);
+}
+
+.mypage-item-card {
+	padding: 0.95rem;
+	cursor: pointer;
+}
+
+.mypage-item-card.is-selected,
+.mypage-item-card:hover {
+	border-color: rgba(117, 201, 255, 0.54);
+	box-shadow: var(--mypage-glow);
+	background: rgba(255, 255, 255, 0.065);
+}
+
+.mypage-item-head,
+.mypage-vault-head,
+.mypage-preview-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.9rem;
+}
+
+.mypage-item-meta,
+.mypage-vault-copy,
+.mypage-preview-copy {
+	display: flex;
+	align-items: center;
+	gap: 0.9rem;
+	min-width: 0;
+}
+
+.mypage-item-thumb,
+.mypage-slot-thumb,
+.mypage-vault-thumb {
+	display: grid;
+	place-items: center;
+	width: 56px;
+	height: 56px;
+	border-radius: 18px;
+	border: 1px solid rgba(146, 191, 255, 0.28);
+	background:
+		radial-gradient(circle at 30% 30%, rgba(122, 178, 255, 0.22), transparent 55%),
+		rgba(14, 17, 34, 0.92);
+	overflow: hidden;
+	flex-shrink: 0;
+}
+
+.mypage-slot-thumb {
+	width: 64px;
+	height: 64px;
+}
+
+.mypage-item-thumb img,
+.mypage-slot-thumb img,
+.mypage-vault-thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.mypage-item-name,
+.mypage-vault-name,
+.mypage-preview-name {
+	font-weight: 800;
+	color: #fbfdff;
+}
+
+.mypage-item-sub,
+.mypage-vault-sub,
+.mypage-preview-sub,
+.mypage-item-description,
+.mypage-empty-copy,
+.mypage-empty-message {
+	color: var(--mypage-text-soft);
+	font-size: 0.88rem;
+	line-height: 1.55;
+}
+
+.mypage-item-badges,
+.mypage-preview-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: 0.8rem;
+}
+
+.mypage-chip {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.34rem 0.64rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.06);
+	color: #eef5ff;
+	font-size: 0.79rem;
+}
+
+.mypage-chip.is-owned {
+	background: rgba(245, 198, 106, 0.16);
+	color: #ffe2a1;
+}
+
+.mypage-item-power,
+.mypage-slot-power,
+.mypage-recommend-score {
+	color: var(--mypage-gold);
+	font-weight: 800;
+	white-space: nowrap;
+}
+
+.mypage-board {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(160px, 0.84fr) minmax(0, 1fr);
+	grid-template-areas:
+		". weapon ."
+		"helmet center armor"
+		"gloves center pants"
+		"boots center ring"
+		"shoulder center necklace";
+	gap: 0.9rem 1rem;
+	padding: 1.15rem;
+	border-radius: 28px;
+	border: 1px solid rgba(117, 201, 255, 0.2);
+	background:
+		radial-gradient(circle at 50% 45%, rgba(111, 162, 255, 0.15), transparent 34%),
+		radial-gradient(circle at 18% 18%, rgba(255, 184, 116, 0.14), transparent 20%),
+		radial-gradient(circle at 82% 20%, rgba(108, 209, 255, 0.18), transparent 22%),
+		linear-gradient(180deg, rgba(9, 12, 27, 0.92), rgba(13, 18, 38, 0.94));
+	overflow: hidden;
+}
+
+.mypage-board::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(circle, rgba(255, 255, 255, 0.14) 0 1px, transparent 1px);
+	background-size: 120px 120px;
+	opacity: 0.24;
+	pointer-events: none;
+}
+
+.mypage-board-center {
+	grid-area: center;
+	align-self: stretch;
+	justify-self: stretch;
+	border-radius: 999px;
+	background:
+		radial-gradient(circle at center, rgba(117, 201, 255, 0.2), rgba(117, 201, 255, 0.02) 50%, transparent 70%);
+	border: 1px solid rgba(117, 201, 255, 0.08);
+	filter: blur(0.2px);
+}
+
+.mypage-slot-card {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
+	min-height: 176px;
+	padding: 0.9rem;
+	border-radius: 22px;
+	border: 1px solid rgba(132, 177, 255, 0.26);
+	background: rgba(10, 15, 36, 0.82);
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+	cursor: pointer;
+}
+
+.mypage-slot-card.is-active,
+.mypage-slot-card:hover {
+	border-color: rgba(117, 201, 255, 0.56);
+	box-shadow: 0 0 26px rgba(117, 201, 255, 0.22);
+}
+
+.mypage-slot-card.is-filled {
+	background: linear-gradient(180deg, rgba(14, 20, 46, 0.92), rgba(16, 28, 66, 0.82));
+}
+
+.mypage-slot-weapon {
+	grid-area: weapon;
+}
+
+.mypage-slot-helmet {
+	grid-area: helmet;
+}
+
+.mypage-slot-armor {
+	grid-area: armor;
+}
+
+.mypage-slot-gloves {
+	grid-area: gloves;
+}
+
+.mypage-slot-pants {
+	grid-area: pants;
+}
+
+.mypage-slot-boots {
+	grid-area: boots;
+}
+
+.mypage-slot-ring {
+	grid-area: ring;
+}
+
+.mypage-slot-shoulder {
+	grid-area: shoulder;
+}
+
+.mypage-slot-necklace {
+	grid-area: necklace;
+}
+
+.mypage-slot-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 0.7rem;
+}
+
+.mypage-slot-label {
+	/* 슬롯명과 핵심 값은 라이트 테마에서도 읽히도록 panel heading 색을 재사용한다. */
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: var(--theme-panel-heading);
+}
+
+.mypage-slot-name {
+	font-size: 0.95rem;
+	font-weight: 700;
+	color: var(--theme-panel-heading);
+}
+
+.mypage-slot-card button {
+	margin-top: auto;
+	padding: 0.45rem 0.72rem;
+	font-size: 0.78rem;
+}
+
+.mypage-selected-preview {
+	margin-top: 1.2rem;
+}
+
+.mypage-selected-card {
+	padding: 1rem 1.05rem;
+}
+
+.mypage-primary-actions {
+	margin-top: 1rem;
+	justify-content: center;
+}
+
+.mypage-primary-button {
+	width: 100%;
+	padding: 0.95rem 1rem;
+	background: linear-gradient(180deg, rgba(82, 130, 255, 0.72), rgba(39, 63, 128, 0.9));
+	box-shadow: 0 14px 30px rgba(32, 56, 124, 0.34);
+}
+
+.mypage-primary-button[disabled] {
+	opacity: 0.45;
+	cursor: not-allowed;
+	box-shadow: none;
+}
+
+.mypage-user-summary,
+.mypage-recommendation-section,
+.mypage-vault-section {
+	margin-top: 1rem;
+}
+
+.mypage-user-card {
+	padding: 1rem;
+}
+
+.mypage-user-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.85rem;
+	padding: 0.55rem 0;
+	color: #eff5ff;
+}
+
+.mypage-user-row + .mypage-user-row {
+	border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.mypage-gold {
+	color: var(--mypage-gold);
+	font-weight: 800;
+}
+
+.mypage-stat-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.75rem;
+	margin-top: 1rem;
+}
+
+.mypage-stat-card {
+	padding: 0.85rem 0.95rem;
+}
+
+.mypage-stat-label {
+	display: block;
+	font-size: 0.8rem;
+	color: var(--mypage-text-soft);
+}
+
+.mypage-stat-value {
+	display: block;
+	margin-top: 0.35rem;
+	font-size: 1.15rem;
+	font-weight: 800;
+	color: var(--theme-panel-heading);
+}
+
+.mypage-recommend-button {
+	margin-top: 1rem;
+}
+
+.mypage-recommend-card,
+.mypage-vault-card {
+	padding: 0.95rem;
+}
+
+.mypage-recommend-card strong {
+	display: block;
+	margin-bottom: 0.45rem;
+	color: var(--theme-panel-heading);
+}
+
+.mypage-recommend-meta {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	margin-bottom: 0.55rem;
+}
+
+.mypage-recommend-tag {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.28rem 0.58rem;
+	border-radius: 999px;
+	background: rgba(117, 201, 255, 0.12);
+	color: #a8ddff;
+	font-size: 0.76rem;
+	font-weight: 700;
+}
+
+.mypage-empty-state {
+	/* 빈 상태 카드도 theme 패널 대비를 따라 다크/라이트 모두 같은 톤을 유지한다. */
+	padding: 1rem;
+	border-radius: 18px;
+	border: 1px dashed var(--theme-panel-border);
+	background: var(--theme-form-bg);
+	color: var(--theme-panel-muted);
+}
+
+.mypage-empty-state .mypage-empty-copy,
+.mypage-empty-state .mypage-empty-message {
+	color: var(--theme-panel-muted);
+}
+
+.grade-epic,
+.grade-legend {
+	color: #ffd583;
+}
+
+.grade-rare,
+.grade-unique {
+	color: #89d3ff;
+}
+
+@media (max-width: 1399px) {
+	.mypage-grid {
+		grid-template-columns: minmax(260px, 0.9fr) minmax(420px, 1.22fr) minmax(280px, 0.86fr);
+	}
+
+	.mypage-board {
+		grid-template-columns: minmax(0, 1fr) minmax(130px, 0.72fr) minmax(0, 1fr);
+	}
+
+	.mypage-slot-card {
+		min-height: 164px;
+	}
+}
+
+@media (max-width: 1199px) {
+	.mypage-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.mypage-item-list {
+		max-height: none;
+	}
+}
+
+@media (max-width: 767px) {
+	.mypage-hero {
+		padding: 1.45rem 1.25rem;
+		flex-direction: column;
+	}
+
+	.mypage-panel-left,
+	.mypage-panel-center,
+	.mypage-panel-right {
+		padding: 1.15rem;
+	}
+
+	.mypage-hero-badges {
+		align-items: flex-start;
+	}
+
+	.mypage-board {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-areas:
+			"weapon helmet"
+			"armor gloves"
+			"pants boots"
+			"shoulder ring"
+			"necklace necklace";
+	}
+
+	.mypage-board-center {
+		display: none;
+	}
+
+	.mypage-slot-card {
+		min-height: 154px;
+	}
+
+	.mypage-stat-grid {
+		grid-template-columns: 1fr;
+	}
+}

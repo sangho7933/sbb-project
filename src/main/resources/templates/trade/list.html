@@ -1,0 +1,141 @@
+<html layout:decorate="~{a2c_layout}">
+<div layout:fragment="content" class="board-shell trade-market-shell">
+	<div class="container-xl">
+		<section class="board-header-card">
+			<div>
+				<span class="section-kicker">거래</span>
+				<h1 class="section-title">거래 게시판</h1>
+				<p class="board-copy">모든 계정은 즉시 1,000G를 받고 거래 게시판을 바로 이용할 수 있습니다. 카탈로그에서 아이템을 고른 뒤 가격을 입력해 등록해 보세요.</p>
+			</div>
+			<div class="board-header-actions">
+				<a class="btn btn-a2c-primary" th:if="${tradeEnabled}" th:href="@{/trade/items/new}">상품 등록</a>
+				<a class="btn btn-a2c-secondary" th:if="${!tradeEnabled}" th:href="@{/user/login}">로그인 후 거래 시작</a>
+			</div>
+		</section>
+
+		<div class="trade-flash success" th:if="${successMessage != null}" th:text="${successMessage}"></div>
+		<div class="trade-flash error" th:if="${errorMessage != null}" th:text="${errorMessage}"></div>
+
+		<section class="panel-surface trade-filter-card">
+			<form class="trade-filter-form" th:action="@{/trade/items}" method="get">
+				<div class="trade-filter-field">
+					<label for="category">카테고리</label>
+					<select id="category" name="category" class="form-select">
+						<option value="">전체</option>
+						<option th:each="categoryOption : ${categories}" th:value="${categoryOption}"
+							th:selected="${selectedCategory == categoryOption}" th:text="${categoryOption}"></option>
+					</select>
+				</div>
+				<div class="trade-filter-field trade-filter-grow">
+					<label for="kw">제목 검색</label>
+					<input id="kw" type="text" name="kw" class="form-control" th:value="${kw}" placeholder="아이템 이름으로 검색">
+				</div>
+				<div class="trade-filter-actions">
+					<button type="submit" class="btn btn-a2c-primary">검색</button>
+				</div>
+			</form>
+		</section>
+
+		<div class="trade-summary-row">
+			<div class="trade-status-filter">
+				<a class="btn btn-a2c-secondary btn-sm"
+					th:href="@{/trade/items(category=${selectedCategory}, kw=${kw}, sort=${sort})}">전체</a>
+				<a class="btn btn-a2c-secondary btn-sm"
+					th:href="@{/trade/items(category=${selectedCategory}, kw=${kw}, status=SELLING, sort=${sort})}">판매중</a>
+				<a class="btn btn-a2c-secondary btn-sm"
+					th:href="@{/trade/items(category=${selectedCategory}, kw=${kw}, status=SOLD, sort=${sort})}">판매완료</a>
+
+				<th:block th:if="${currentUser != null}">
+					<a class="btn btn-a2c-secondary btn-sm"
+						th:href="@{/trade/items(category=${selectedCategory}, kw=${kw}, sort=${sort}, mine=true)}">내 상품</a>
+					<a class="btn btn-a2c-secondary btn-sm" th:href="@{/trade/items/purchases}">내 구매내역</a>
+				</th:block>
+
+				<th:block th:if="${currentUser == null}">
+					<a class="btn btn-a2c-secondary btn-sm" th:href="@{/user/login}">내 상품</a>
+					<a class="btn btn-a2c-secondary btn-sm" th:href="@{/user/login}">내 구매내역</a>
+				</th:block>
+			</div>
+
+			<span th:text="${'총 ' + paging.totalElements + '개의 상품'}"></span>
+			<span class="trade-balance-badge" th:if="${currentUser != null}"
+				th:text="${'현재 보유 골드 ' + #numbers.formatInteger(currentUser.gold, 1, 'COMMA') + 'G'}"></span>
+			<span th:if="${currentUser == null}">로그인 후 구매와 등록이 가능합니다.</span>
+		</div>
+
+		<section class="trade-grid-wrapper" th:if="${!paging.isEmpty()}">
+			<div class="trade-grid-horizontal" id="tradeGrid">
+				<article class="panel-surface trade-card" th:each="item : ${paging.content}">
+					<a class="trade-card-media" th:href="@{|/trade/items/${item.id}|}">
+						<img th:if="${item.imageUrl != null and !#strings.isEmpty(item.imageUrl)}"
+							th:src="${item.imageUrl}" th:alt="${item.title}"
+							class="trade-card-thumb"
+							th:classappend="${item.soldOut} ? ' sold-image' : ''">
+						<div class="trade-card-placeholder trade-card-placeholder-fixed"
+							th:unless="${item.imageUrl != null and !#strings.isEmpty(item.imageUrl)}">
+							이미지 없음
+						</div>
+						<div class="sold-overlay" th:if="${item.soldOut}">판매완료</div>
+					</a>
+
+					<div class="trade-card-body">
+						<div class="trade-card-chip-row">
+							<span class="trade-status-badge" th:classappend="${item.soldOut ? ' sold' : ''}"
+								th:text="${item.soldOut ? '판매완료' : '판매중'}"></span>
+							<span class="trade-category-chip" th:text="${item.category != null and !#strings.isEmpty(item.category) ? item.category : '미분류'}"></span>
+						</div>
+						<h3 class="trade-card-title">
+							<a th:href="@{|/trade/items/${item.id}|}" th:text="${item.title}"></a>
+						</h3>
+						<p class="trade-card-price" th:text="${item.price != null ? #numbers.formatInteger(item.price, 1, 'COMMA') + 'G' : '가격 미정'}"></p>
+						<p class="trade-card-option" th:text="${item.options != null and !#strings.isEmpty(item.options) ? item.options : '추가 옵션 없음'}"></p>
+
+						<div class="trade-card-footer">
+							<div class="trade-card-seller">
+								<span>판매자</span>
+								<strong th:text="${item.seller != null ? item.seller.username : '알 수 없음'}"></strong>
+							</div>
+							<div class="trade-card-actions">
+								<a class="btn btn-a2c-secondary btn-sm" th:href="@{|/trade/items/${item.id}|}">상세보기</a>
+								<button type="button" class="btn btn-a2c-secondary btn-sm" th:if="${item.soldOut}" disabled>판매완료</button>
+								<a class="btn btn-a2c-primary btn-sm" th:if="${currentUser == null and !item.soldOut}" th:href="@{/user/login}">로그인 후 구매</a>
+								<button type="button" class="btn btn-a2c-secondary btn-sm"
+									th:if="${currentUser != null and item.seller != null and currentUser.id == item.seller.userId and !item.soldOut}" disabled>내 상품</button>
+								<button type="button" class="btn btn-a2c-secondary btn-sm"
+									th:if="${currentUser != null and item.price != null and currentUser.id != (item.seller != null ? item.seller.userId : -1) and currentUser.gold < item.price and !item.soldOut}" disabled>골드 부족</button>
+								<form th:if="${currentUser != null and item.price != null and item.seller != null and currentUser.id != item.seller.userId and currentUser.gold >= item.price and !item.soldOut}"
+									th:action="@{|/trade/items/${item.id}/purchase|}" method="post">
+									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+									<button type="submit" class="btn btn-a2c-primary btn-sm">바로 구매</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<div class="empty-board-message" th:if="${paging.isEmpty()}">등록된 거래 상품이 없습니다.</div>
+
+		<div class="pagination-shell" th:if="${paging.totalPages > 1}">
+			<ul class="pagination justify-content-center">
+				<li class="page-item" th:classappend="${!paging.hasPrevious()} ? 'disabled'">
+					<a class="page-link" th:if="${paging.hasPrevious()}"
+						th:href="@{/trade/items(page=${paging.number - 1}, category=${selectedCategory}, kw=${kw}, status=${status}, sort=${sort}, mine=${mine})}">이전</a>
+					<span class="page-link" th:unless="${paging.hasPrevious()}">이전</span>
+				</li>
+				<li class="page-item" th:each="pageNo : ${#numbers.sequence(0, paging.totalPages - 1)}"
+					th:classappend="${pageNo == paging.number} ? 'active'">
+					<a class="page-link" th:href="@{/trade/items(page=${pageNo}, category=${selectedCategory}, kw=${kw}, status=${status}, sort=${sort}, mine=${mine})}"
+						th:text="${pageNo + 1}"></a>
+				</li>
+				<li class="page-item" th:classappend="${!paging.hasNext()} ? 'disabled'">
+					<a class="page-link" th:if="${paging.hasNext()}"
+						th:href="@{/trade/items(page=${paging.number + 1}, category=${selectedCategory}, kw=${kw}, status=${status}, sort=${sort}, mine=${mine})}">다음</a>
+					<span class="page-link" th:unless="${paging.hasNext()}">다음</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+</html>

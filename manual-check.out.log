@@ -1,0 +1,432 @@
+> Task :compileJava
+> Task :processResources UP-TO-DATE
+> Task :classes
+> Task :resolveMainClassName
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.1)
+
+2026-03-31T16:51:13.816+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Starting SbbApplication using Java 17.0.18 with PID 4980 (C:\sbb\build\classes\java\main started by KH in C:\sbb)
+2026-03-31T16:51:13.818+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-03-31T16:51:13.978+09:00  INFO 4980 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-31T16:51:13.979+09:00  INFO 4980 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-31T16:51:14.434+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-31T16:51:14.479+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 36 ms. Found 3 JPA repository interfaces.
+2026-03-31T16:51:14.915+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8086 (http)
+2026-03-31T16:51:14.924+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31T16:51:14.924+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2026-03-31T16:51:14.961+09:00  INFO 4980 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-03-31T16:51:14.962+09:00  INFO 4980 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 982 ms
+2026-03-31T16:51:14.982+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-31T16:51:15.059+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./data/local user=SA
+2026-03-31T16:51:15.061+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-31T16:51:15.067+09:00  INFO 4980 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/local'
+2026-03-31T16:51:15.154+09:00  INFO 4980 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-31T16:51:15.198+09:00  INFO 4980 --- [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2026-03-31T16:51:15.219+09:00  INFO 4980 --- [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-31T16:51:15.368+09:00  INFO 4980 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-31T16:51:15.399+09:00  WARN 4980 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-31T16:51:16.048+09:00  INFO 4980 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-31T16:51:16.084+09:00  INFO 4980 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T16:51:16.296+09:00  INFO 4980 --- [  restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-31T16:51:16.616+09:00  WARN 4980 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-31T16:51:16.827+09:00  INFO 4980 --- [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@686eb2b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@cd6d2d, org.springframework.security.web.context.SecurityContextHolderFilter@4f7e3119, org.springframework.security.web.header.HeaderWriterFilter@3b19d50a, org.springframework.web.filter.CorsFilter@5e0e0c05, org.springframework.security.web.csrf.CsrfFilter@302ebc8b, org.springframework.security.web.authentication.logout.LogoutFilter@52859fba, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2fef9f02, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@561cd757, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@20962110, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@771c1ce3, org.springframework.security.web.access.ExceptionTranslationFilter@786d0783, org.springframework.security.web.access.intercept.AuthorizationFilter@6dac99fb]
+2026-03-31T16:51:17.034+09:00  WARN 4980 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2026-03-31T16:51:17.058+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8086 (http) with context path ''
+2026-03-31T16:51:17.064+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Started SbbApplication in 3.478 seconds (process running for 3.755)
+2026-03-31T16:51:17.375+09:00  INFO 4980 --- [nio-8086-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-31T16:51:17.376+09:00  INFO 4980 --- [nio-8086-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-31T16:51:17.377+09:00  INFO 4980 --- [nio-8086-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+Hibernate: 
+    select
+        q1_0.id,
+        q1_0.author_id,
+        q1_0.content,
+        q1_0.create_date,
+        q1_0.modify_date,
+        q1_0.subject,
+        q1_0.view_count 
+    from
+        question q1_0
+Hibernate: 
+    select
+        q1_0.id,
+        q1_0.author_id,
+        q1_0.content,
+        q1_0.create_date,
+        q1_0.modify_date,
+        q1_0.subject,
+        q1_0.view_count 
+    from
+        question q1_0 
+    order by
+        q1_0.create_date desc 
+    offset
+        ? rows 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        q1_0.id,
+        q1_0.author_id,
+        q1_0.content,
+        q1_0.create_date,
+        q1_0.modify_date,
+        q1_0.subject,
+        q1_0.view_count 
+    from
+        question q1_0
+Hibernate: 
+    select
+        q1_0.id,
+        q1_0.author_id,
+        q1_0.content,
+        q1_0.create_date,
+        q1_0.modify_date,
+        q1_0.subject,
+        q1_0.view_count 
+    from
+        question q1_0 
+    order by
+        q1_0.view_count desc,
+        q1_0.create_date desc 
+    offset
+        ? rows 
+    fetch
+        first ? rows only
+2026-03-31T17:34:10.352+09:00  INFO 4980 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 16 class path changes (0 additions, 16 deletions, 0 modifications)
+2026-03-31T17:34:10.362+09:00  INFO 4980 --- [       Thread-1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T17:34:10.365+09:00  INFO 4980 --- [       Thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-31T17:34:10.370+09:00  INFO 4980 --- [       Thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.1)
+
+2026-03-31T17:34:10.426+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Starting SbbApplication using Java 17.0.18 with PID 4980 (C:\sbb\build\classes\java\main started by KH in C:\sbb)
+2026-03-31T17:34:10.426+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-03-31T17:34:10.590+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-31T17:34:10.596+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 1 JPA repository interface.
+2026-03-31T17:34:10.695+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8086 (http)
+2026-03-31T17:34:10.695+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31T17:34:10.695+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2026-03-31T17:34:10.707+09:00  INFO 4980 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-03-31T17:34:10.708+09:00  INFO 4980 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 277 ms
+2026-03-31T17:34:10.720+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-03-31T17:34:10.726+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn20: url=jdbc:h2:file:./data/local user=SA
+2026-03-31T17:34:10.727+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-03-31T17:34:10.727+09:00  INFO 4980 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/local'
+2026-03-31T17:34:10.755+09:00  WARN 4980 --- [  restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Unsatisfied dependency expressed through method 'entityManagerFactory' parameter 1: Error creating bean with name 'persistenceManagedTypes' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/JpaBaseConfiguration$PersistenceManagedTypesConfiguration.class]: Failed to instantiate [org.springframework.orm.jpa.persistenceunit.PersistenceManagedTypes]: Factory method 'persistenceManagedTypes' threw exception with message: Failed to read candidate component class: file [C:\sbb\build\classes\java\main\com\mysite\sbb\board\BoardPostService.class]
+2026-03-31T17:34:10.755+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-03-31T17:34:10.756+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2026-03-31T17:34:10.757+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-03-31T17:34:10.763+09:00  INFO 4980 --- [  restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-03-31T17:34:10.779+09:00 ERROR 4980 --- [  restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Unsatisfied dependency expressed through method 'entityManagerFactory' parameter 1: Error creating bean with name 'persistenceManagedTypes' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/JpaBaseConfiguration$PersistenceManagedTypesConfiguration.class]: Failed to instantiate [org.springframework.orm.jpa.persistenceunit.PersistenceManagedTypes]: Factory method 'persistenceManagedTypes' threw exception with message: Failed to read candidate component class: file [C:\sbb\build\classes\java\main\com\mysite\sbb\board\BoardPostService.class]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:802) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:546) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1334) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1164) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1232) ~[spring-context-6.1.2.jar:6.1.2]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:950) ~[spring-context-6.1.2.jar:6.1.2]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625) ~[spring-context-6.1.2.jar:6.1.2]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.1.jar:3.2.1]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:762) ~[spring-boot-3.2.1.jar:3.2.1]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:464) ~[spring-boot-3.2.1.jar:3.2.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334) ~[spring-boot-3.2.1.jar:3.2.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1358) ~[spring-boot-3.2.1.jar:3.2.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1347) ~[spring-boot-3.2.1.jar:3.2.1]
+	at com.mysite.sbb.SbbApplication.main(SbbApplication.java:10) ~[main/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.2.1.jar:3.2.1]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'persistenceManagedTypes' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/JpaBaseConfiguration$PersistenceManagedTypesConfiguration.class]: Failed to instantiate [org.springframework.orm.jpa.persistenceunit.PersistenceManagedTypes]: Factory method 'persistenceManagedTypes' threw exception with message: Failed to read candidate component class: file [C:\sbb\build\classes\java\main\com\mysite\sbb\board\BoardPostService.class]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:655) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:643) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1334) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1164) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:911) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:789) ~[spring-beans-6.1.2.jar:6.1.2]
+	... 24 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.orm.jpa.persistenceunit.PersistenceManagedTypes]: Factory method 'persistenceManagedTypes' threw exception with message: Failed to read candidate component class: file [C:\sbb\build\classes\java\main\com\mysite\sbb\board\BoardPostService.class]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:177) ~[spring-beans-6.1.2.jar:6.1.2]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:651) ~[spring-beans-6.1.2.jar:6.1.2]
+	... 38 common frames omitted
+Caused by: jakarta.persistence.PersistenceException: Failed to read candidate component class: file [C:\sbb\build\classes\java\main\com\mysite\sbb\board\BoardPostService.class]
+	at org.springframework.orm.jpa.persistenceunit.PersistenceManagedTypesScanner.scanPackage(PersistenceManagedTypesScanner.java:147) ~[spring-orm-6.1.2.jar:6.1.2]
+	at org.springframework.orm.jpa.persistenceunit.PersistenceManagedTypesScanner.scan(PersistenceManagedTypesScanner.java:99) ~[spring-orm-6.1.2.jar:6.1.2]
+	at org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$PersistenceManagedTypesConfiguration.persistenceManagedTypes(JpaBaseConfiguration.java:200) ~[spring-boot-autoconfigure-3.2.1.jar:3.2.1]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140) ~[spring-beans-6.1.2.jar:6.1.2]
+	... 39 common frames omitted
+Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 6 out of bounds for length 0
+	at org.springframework.asm.ClassReader.readShort(ClassReader.java:3630) ~[spring-core-6.1.2.jar:6.1.2]
+	at org.springframework.asm.ClassReader.<init>(ClassReader.java:197) ~[spring-core-6.1.2.jar:6.1.2]
+	at org.springframework.asm.ClassReader.<init>(ClassReader.java:180) ~[spring-core-6.1.2.jar:6.1.2]
+	at org.springframework.asm.ClassReader.<init>(ClassReader.java:166) ~[spring-core-6.1.2.jar:6.1.2]
+	at org.springframework.asm.ClassReader.<init>(ClassReader.java:287) ~[spring-core-6.1.2.jar:6.1.2]
+	at org.springframework.core.type.classreading.SimpleMetadataReader.getClassReader(SimpleMetadataReader.java:56) ~[spring-core-6.1.2.jar:6.1.2]
+	at org.springframework.core.type.classreading.SimpleMetadataReader.<init>(SimpleMetadataReader.java:48) ~[spring-core-6.1.2.jar:6.1.2]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:103) ~[spring-core-6.1.2.jar:6.1.2]
+	at org.springframework.core.type.classreading.CachingMetadataReaderFactory.getMetadataReader(CachingMetadataReaderFactory.java:122) ~[spring-core-6.1.2.jar:6.1.2]
+	at org.springframework.orm.jpa.persistenceunit.PersistenceManagedTypesScanner.scanPackage(PersistenceManagedTypesScanner.java:122) ~[spring-orm-6.1.2.jar:6.1.2]
+	... 46 common frames omitted
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.1)
+
+2026-03-31T17:34:12.225+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Starting SbbApplication using Java 17.0.18 with PID 4980 (C:\sbb\build\classes\java\main started by KH in C:\sbb)
+2026-03-31T17:34:12.225+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-03-31T17:34:12.381+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-31T17:34:12.391+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 3 JPA repository interfaces.
+2026-03-31T17:34:12.466+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8086 (http)
+2026-03-31T17:34:12.467+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31T17:34:12.467+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2026-03-31T17:34:12.477+09:00  INFO 4980 --- [  restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-03-31T17:34:12.477+09:00  INFO 4980 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 251 ms
+2026-03-31T17:34:12.488+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-03-31T17:34:12.494+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection conn21: url=jdbc:h2:file:./data/local user=SA
+2026-03-31T17:34:12.494+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-03-31T17:34:12.494+09:00  INFO 4980 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/local'
+2026-03-31T17:34:12.520+09:00  INFO 4980 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-31T17:34:12.522+09:00  INFO 4980 --- [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-31T17:34:12.524+09:00  INFO 4980 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-31T17:34:12.526+09:00  WARN 4980 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-31T17:34:12.581+09:00  INFO 4980 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    alter table if exists question 
+       add column category varchar(30) check (category in ('FREE_BOARD','GUILD_RECRUITMENT','BOSS_GUIDE','HIGHLIGHT'))
+2026-03-31T17:34:12.593+09:00  INFO 4980 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T17:34:12.758+09:00  WARN 4980 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-31T17:34:12.842+09:00  INFO 4980 --- [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2c9b1620, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@25ae1904, org.springframework.security.web.context.SecurityContextHolderFilter@2c80c528, org.springframework.security.web.header.HeaderWriterFilter@4d416f1d, org.springframework.web.filter.CorsFilter@5fb04bde, org.springframework.security.web.csrf.CsrfFilter@2b317df5, org.springframework.security.web.authentication.logout.LogoutFilter@53b90b5d, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@57cec375, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@cfecb98, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@459d3d1a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7e44fe36, org.springframework.security.web.access.ExceptionTranslationFilter@4fc0cd50, org.springframework.security.web.access.intercept.AuthorizationFilter@4cb6da5d]
+2026-03-31T17:34:12.916+09:00  WARN 4980 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2026-03-31T17:34:12.923+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8086 (http) with context path ''
+2026-03-31T17:34:12.926+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Started SbbApplication in 0.714 seconds (process running for 2579.616)
+Hibernate: 
+    update
+        question 
+    set
+        category=? 
+    where
+        category is null
+2026-03-31T17:34:12.946+09:00  INFO 4980 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-03-31T17:36:14.032+09:00  INFO 4980 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2026-03-31T17:36:14.038+09:00  INFO 4980 --- [       Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T17:36:14.039+09:00  INFO 4980 --- [       Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2026-03-31T17:36:14.043+09:00  INFO 4980 --- [       Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.1)
+
+2026-03-31T17:36:14.116+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Starting SbbApplication using Java 17.0.18 with PID 4980 (C:\sbb\build\classes\java\main started by KH in C:\sbb)
+2026-03-31T17:36:14.116+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-03-31T17:36:14.274+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-31T17:36:14.285+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 3 JPA repository interfaces.
+2026-03-31T17:36:14.371+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8086 (http)
+2026-03-31T17:36:14.371+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31T17:36:14.372+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2026-03-31T17:36:14.382+09:00  INFO 4980 --- [  restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-03-31T17:36:14.383+09:00  INFO 4980 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 265 ms
+2026-03-31T17:36:14.393+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2026-03-31T17:36:14.398+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection conn31: url=jdbc:h2:file:./data/local user=SA
+2026-03-31T17:36:14.398+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2026-03-31T17:36:14.398+09:00  INFO 4980 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/local'
+2026-03-31T17:36:14.422+09:00  INFO 4980 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-31T17:36:14.424+09:00  INFO 4980 --- [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-31T17:36:14.427+09:00  INFO 4980 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-31T17:36:14.429+09:00  WARN 4980 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-31T17:36:14.481+09:00  INFO 4980 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-31T17:36:14.486+09:00  INFO 4980 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T17:36:14.596+09:00  WARN 4980 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-31T17:36:14.678+09:00  INFO 4980 --- [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@10c4f2f0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@24814dac, org.springframework.security.web.context.SecurityContextHolderFilter@6b282c2a, org.springframework.security.web.header.HeaderWriterFilter@5ce80ec1, org.springframework.web.filter.CorsFilter@47cd765f, org.springframework.security.web.csrf.CsrfFilter@379fc653, org.springframework.security.web.authentication.logout.LogoutFilter@7c0b9f19, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@309750ac, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@224cd242, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4aea3118, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4d554c3a, org.springframework.security.web.access.ExceptionTranslationFilter@5387692a, org.springframework.security.web.access.intercept.AuthorizationFilter@23e808f3]
+2026-03-31T17:36:14.750+09:00  WARN 4980 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2026-03-31T17:36:14.756+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8086 (http) with context path ''
+2026-03-31T17:36:14.759+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Started SbbApplication in 0.659 seconds (process running for 2701.45)
+Hibernate: 
+    update
+        question 
+    set
+        category=? 
+    where
+        category is null
+2026-03-31T17:36:14.764+09:00  INFO 4980 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-03-31T18:00:49.610+09:00  INFO 4980 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 2 deletions, 0 modifications)
+2026-03-31T18:00:49.618+09:00  INFO 4980 --- [      Thread-13] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T18:00:49.618+09:00  INFO 4980 --- [      Thread-13] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2026-03-31T18:00:49.623+09:00  INFO 4980 --- [      Thread-13] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.1)
+
+2026-03-31T18:00:49.690+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Starting SbbApplication using Java 17.0.18 with PID 4980 (C:\sbb\build\classes\java\main started by KH in C:\sbb)
+2026-03-31T18:00:49.691+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-03-31T18:00:49.867+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-31T18:00:49.878+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 3 JPA repository interfaces.
+2026-03-31T18:00:49.965+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8086 (http)
+2026-03-31T18:00:49.965+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31T18:00:49.966+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2026-03-31T18:00:49.978+09:00  INFO 4980 --- [  restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-03-31T18:00:49.978+09:00  INFO 4980 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 284 ms
+2026-03-31T18:00:49.990+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2026-03-31T18:00:49.995+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection conn41: url=jdbc:h2:file:./data/local user=SA
+2026-03-31T18:00:49.995+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2026-03-31T18:00:49.995+09:00  INFO 4980 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/local'
+2026-03-31T18:00:50.019+09:00  INFO 4980 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-31T18:00:50.020+09:00  INFO 4980 --- [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-31T18:00:50.024+09:00  INFO 4980 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-31T18:00:50.026+09:00  WARN 4980 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-31T18:00:50.085+09:00  INFO 4980 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-31T18:00:50.091+09:00  INFO 4980 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T18:00:50.215+09:00  WARN 4980 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-31T18:00:50.298+09:00  INFO 4980 --- [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@71895910, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6b7cc645, org.springframework.security.web.context.SecurityContextHolderFilter@50642d90, org.springframework.security.web.header.HeaderWriterFilter@6f110bf9, org.springframework.web.filter.CorsFilter@55b98ea, org.springframework.security.web.csrf.CsrfFilter@72be1bc7, org.springframework.security.web.authentication.logout.LogoutFilter@686fcff5, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2993fcb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@52067478, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1ffbebfe, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4e7788ed, org.springframework.security.web.access.ExceptionTranslationFilter@145b2d73, org.springframework.security.web.access.intercept.AuthorizationFilter@149f5aca]
+2026-03-31T18:00:50.374+09:00  WARN 4980 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2026-03-31T18:00:50.382+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8086 (http) with context path ''
+2026-03-31T18:00:50.386+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Started SbbApplication in 0.712 seconds (process running for 4177.076)
+Hibernate: 
+    update
+        question 
+    set
+        category=? 
+    where
+        category is null
+2026-03-31T18:00:50.433+09:00  INFO 4980 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-03-31T18:00:51.800+09:00  INFO 4980 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 19 class path changes (4 additions, 0 deletions, 15 modifications)
+2026-03-31T18:00:51.805+09:00  INFO 4980 --- [      Thread-18] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T18:00:51.805+09:00  INFO 4980 --- [      Thread-18] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
+2026-03-31T18:00:51.810+09:00  INFO 4980 --- [      Thread-18] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.1)
+
+2026-03-31T18:00:51.866+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Starting SbbApplication using Java 17.0.18 with PID 4980 (C:\sbb\build\classes\java\main started by KH in C:\sbb)
+2026-03-31T18:00:51.867+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-03-31T18:00:51.999+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-31T18:00:52.008+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 3 JPA repository interfaces.
+2026-03-31T18:00:52.078+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8086 (http)
+2026-03-31T18:00:52.079+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31T18:00:52.079+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2026-03-31T18:00:52.089+09:00  INFO 4980 --- [  restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-03-31T18:00:52.089+09:00  INFO 4980 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 221 ms
+2026-03-31T18:00:52.099+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2026-03-31T18:00:52.104+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-6 - Added connection conn51: url=jdbc:h2:file:./data/local user=SA
+2026-03-31T18:00:52.104+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2026-03-31T18:00:52.104+09:00  INFO 4980 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/local'
+2026-03-31T18:00:52.126+09:00  INFO 4980 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-31T18:00:52.129+09:00  INFO 4980 --- [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-31T18:00:52.132+09:00  INFO 4980 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-31T18:00:52.133+09:00  WARN 4980 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-31T18:00:52.173+09:00  INFO 4980 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-31T18:00:52.179+09:00  INFO 4980 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T18:00:52.282+09:00  WARN 4980 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-31T18:00:52.356+09:00  INFO 4980 --- [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@41c1a934, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2d436b1e, org.springframework.security.web.context.SecurityContextHolderFilter@8b05291, org.springframework.security.web.header.HeaderWriterFilter@1f1d482b, org.springframework.web.filter.CorsFilter@2fd71069, org.springframework.security.web.csrf.CsrfFilter@31a11c63, org.springframework.security.web.authentication.logout.LogoutFilter@7dc2fa7b, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2b3a9f0a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@31cb05e0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2c546ae, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@50ea0856, org.springframework.security.web.access.ExceptionTranslationFilter@5fbd901f, org.springframework.security.web.access.intercept.AuthorizationFilter@3c97c027]
+2026-03-31T18:00:52.419+09:00  WARN 4980 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2026-03-31T18:00:52.425+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8086 (http) with context path ''
+2026-03-31T18:00:52.429+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Started SbbApplication in 0.575 seconds (process running for 4179.119)
+Hibernate: 
+    update
+        question 
+    set
+        category=? 
+    where
+        category is null
+2026-03-31T18:00:52.433+09:00  INFO 4980 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-03-31T18:02:29.820+09:00  INFO 4980 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 17 class path changes (0 additions, 0 deletions, 17 modifications)
+2026-03-31T18:02:29.825+09:00  INFO 4980 --- [      Thread-23] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T18:02:29.826+09:00  INFO 4980 --- [      Thread-23] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2026-03-31T18:02:29.828+09:00  INFO 4980 --- [      Thread-23] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.1)
+
+2026-03-31T18:02:29.891+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Starting SbbApplication using Java 17.0.18 with PID 4980 (C:\sbb\build\classes\java\main started by KH in C:\sbb)
+2026-03-31T18:02:29.891+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-03-31T18:02:30.028+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-31T18:02:30.037+09:00  INFO 4980 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 3 JPA repository interfaces.
+2026-03-31T18:02:30.114+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8086 (http)
+2026-03-31T18:02:30.114+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31T18:02:30.114+09:00  INFO 4980 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2026-03-31T18:02:30.125+09:00  INFO 4980 --- [  restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-03-31T18:02:30.125+09:00  INFO 4980 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 233 ms
+2026-03-31T18:02:30.134+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2026-03-31T18:02:30.140+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection conn61: url=jdbc:h2:file:./data/local user=SA
+2026-03-31T18:02:30.140+09:00  INFO 4980 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2026-03-31T18:02:30.140+09:00  INFO 4980 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/local'
+2026-03-31T18:02:30.161+09:00  INFO 4980 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-31T18:02:30.163+09:00  INFO 4980 --- [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-31T18:02:30.165+09:00  INFO 4980 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-31T18:02:30.167+09:00  WARN 4980 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-31T18:02:30.201+09:00  INFO 4980 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-31T18:02:30.206+09:00  INFO 4980 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T18:02:30.318+09:00  WARN 4980 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-31T18:02:30.395+09:00  INFO 4980 --- [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@50560700, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@282978aa, org.springframework.security.web.context.SecurityContextHolderFilter@40833bad, org.springframework.security.web.header.HeaderWriterFilter@2abffe04, org.springframework.web.filter.CorsFilter@356eb4cd, org.springframework.security.web.csrf.CsrfFilter@3c3518c8, org.springframework.security.web.authentication.logout.LogoutFilter@3442767, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@728b6929, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@54e4882d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@fd9b1e0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1c854168, org.springframework.security.web.access.ExceptionTranslationFilter@28ce7504, org.springframework.security.web.access.intercept.AuthorizationFilter@31058be1]
+2026-03-31T18:02:30.462+09:00  WARN 4980 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2026-03-31T18:02:30.467+09:00  INFO 4980 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8086 (http) with context path ''
+2026-03-31T18:02:30.470+09:00  INFO 4980 --- [  restartedMain] com.mysite.sbb.SbbApplication            : Started SbbApplication in 0.594 seconds (process running for 4277.16)
+Hibernate: 
+    update
+        question 
+    set
+        category=? 
+    where
+        category is null
+2026-03-31T18:02:30.474+09:00  INFO 4980 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged

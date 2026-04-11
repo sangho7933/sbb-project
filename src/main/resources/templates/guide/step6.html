@@ -1,0 +1,65 @@
+<th:block th:fragment="guideStepContent">
+    <article class="aion-guide-card guide-step-shell">
+        <header class="aion-guide-top guide-step-header"
+            th:insert="~{guide/fragments :: guideStepHeaderContent(eyebrowClass='aion-guide-step guide-step-eyebrow', stepLabel='STEP 6', title='거래소 이용 가이드', description='아이템을 사고팔며 키나를 관리하는 기본 시스템입니다.')}">
+        </header>
+
+        <div class="aion-guide-banner guide-step-media-stack">
+            <img src="/images/거래소.jpg" alt="아이온2 거래소 이미지">
+        </div>
+
+        <section class="aion-guide-section guide-step-section aion-guide-notice guide-step-tip-card"
+            th:insert="~{guide/fragments :: guideInfoCardContent(title='멤버십 안내', headingLevel='h3', contentFragment=~{guide/step6 :: step6MembershipNoticeContent})}">
+        </section>
+
+        <section class="aion-guide-section guide-step-section">
+            <h3>거래소 접속 방법</h3>
+            <ul>
+                <li>게임 화면에서 ESC 키 또는 메뉴 버튼을 누릅니다.</li>
+                <li>우측 하단의 거래소 아이콘을 선택하면 입장할 수 있습니다.</li>
+                <li>거래소 내부에는 일반 거래소와 교환소 탭이 함께 구성되어 있습니다.</li>
+            </ul>
+        </section>
+
+        <section class="aion-guide-section guide-step-section">
+            <h3>아이템 판매 방법</h3>
+            <ul>
+                <li>거래소의 판매 탭을 선택합니다.</li>
+                <li>가방에서 판매 가능한 아이템을 고릅니다.</li>
+                <li>판매 가격을 입력한 뒤 등록합니다.</li>
+                <li>등록 시 수수료가 먼저 차감되고, 판매 완료 후 추가 수수료를 제외한 금액이 정산됩니다.</li>
+                <li>판매 대금은 정산 탭에서 수령할 수 있습니다.</li>
+            </ul>
+        </section>
+
+        <section class="aion-guide-section guide-step-section">
+            <h3>아이템 구매 방법</h3>
+            <ul>
+                <li>구매 탭에서 원하는 아이템을 검색하거나 필터를 사용합니다.</li>
+                <li>매물을 확인한 뒤 구매 버튼을 누르면 즉시 가방으로 들어옵니다.</li>
+            </ul>
+        </section>
+
+        <section class="aion-guide-section guide-step-section aion-guide-notice guide-step-tip-card"
+            th:insert="~{guide/fragments :: guideInfoCardContent(title='알아두면 좋은 점', headingLevel='h3', contentFragment=~{guide/step6 :: step6NoticeContent})}">
+        </section>
+    </article>
+</th:block>
+<!-- 공용 안내 카드에 주입할 멤버십 안내 본문이다. -->
+<th:block th:fragment="step6MembershipNoticeContent">
+    <ul>
+        <li>아이온2에서 거래소를 이용하려면 반드시 멤버십을 구독해야 합니다.</li>
+        <li>이용 가능한 멤버십은 슈고 특급 멤버십, 산들바람 멤버십입니다.</li>
+        <li>멤버십을 구독해야만 거래소 기능이 열립니다.</li>
+        <li>거래소는 아이템 판매와 재료 판매 등 키나 수급의 핵심 루트입니다.</li>
+        <li>사실상 멤버십 구독은 키나 수급 루트를 해제하는 것과 비슷합니다.</li>
+        <li>멤버십이 없으면 거래소 이용 자체가 불가능합니다.</li>
+    </ul>
+</th:block>
+<!-- 공용 안내 카드에 주입할 step 6 보조 안내 본문이다. -->
+<th:block th:fragment="step6NoticeContent">
+    <ul>
+        <li>교환소는 거래세와 수수료가 높을 수 있으니 미리 확인하는 것이 좋습니다.</li>
+        <li>기본 거래 재화는 키나입니다.</li>
+    </ul>
+</th:block>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta th:if="${_csrf != null}" name="_csrf" th:content="${_csrf.token}">
+	<meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}">
+	<script>
+		(function () {
+			try {
+				var savedTheme = localStorage.getItem("a2c-faction-theme");
+				var theme = savedTheme === "elyos" ? "elyos" : "asmodian";
+				document.documentElement.setAttribute("data-theme", theme);
+			} catch (error) {
+				document.documentElement.setAttribute("data-theme", "asmodian");
+			}
+		})();
+	</script>
+	<link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/a2c.css}">
+
+	<title th:text="${pageTitle != null ? pageTitle : 'A2C'}">A2C</title>
+</head>
+
+<body class="asmodian">
+	<script>
+		(function () {
+			var theme = document.documentElement.getAttribute("data-theme") || "asmodian";
+			document.body.classList.remove("asmodian", "elyos");
+			document.body.classList.add(theme);
+		})();
+	</script>
+	<nav th:replace="~{site_nav :: siteNavFragment}"></nav>
+	<th:block layout:fragment="content"></th:block>
+
+	<button type="button" id="themeToggleButton" class="theme-toggle-button" aria-live="polite"
+		aria-label="테마 전환" title="테마 전환">
+		<span class="theme-toggle-icon" data-theme-icon>★</span>
+		<span class="theme-toggle-copy">
+			<span class="theme-toggle-kicker">전환</span>
+			<span class="theme-toggle-label" data-theme-label>천족</span>
+		</span>
+	</button>
+
+	<button type="button" id="angelAIButton" aria-controls="aiChat" aria-expanded="false" title="검색 도우미 열기">
+		<span class="halo" aria-hidden="true">◌</span>
+		<span class="wing left" aria-hidden="true">◁</span>
+		<span class="angel-label">AI</span>
+		<span class="wing right" aria-hidden="true">▷</span>
+	</button>
+
+	<section id="aiChat" aria-hidden="true">
+		<div id="aiHeader">
+			<div class="ai-header-copy">
+				<span class="ai-header-kicker">A2C 검색</span>
+				<strong>A2C 검색 도우미</strong>
+			</div>
+			<button type="button" id="aiCloseButton" class="ai-close-button" aria-label="채팅 닫기">×</button>
+		</div>
+		<div id="aiMessages">
+			<div class="ai-message ai-message-bot">찾고 싶은 직업, 게시판, 장비, 가이드를 입력해 주세요. 관련 페이지를 바로 찾아드릴게요.</div>
+		</div>
+		<div id="aiInputBox">
+			<input type="text" id="aiInput" placeholder="예: 뉴비 뭐부터 해야함, 마도, 자유게시판" maxlength="500">
+			<button type="button" id="aiSendButton">전송</button>
+		</div>
+	</section>
+
+	<script th:src="@{/bootstrap.min.js}"></script>
+	<th:block layout:fragment="script"></th:block>
+	<script th:src="@{/theme-toggle.js}"></script>
+	<script th:src="@{/ai-chat.js}"></script>
+</body>
+
+</html>

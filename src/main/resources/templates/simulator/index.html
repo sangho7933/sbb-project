@@ -1,0 +1,126 @@
+<html layout:decorate="~{a2c_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<div layout:fragment="content">
+	<link rel="stylesheet" th:href="@{/simulator.css}">
+	<section class="mypage-simulator-page py-5">
+		<div class="container-xl">
+			<div id="simulatorPage"
+				class="mypage-simulator"
+				th:data-dashboard-url="@{/api/simulator/dashboard}"
+				th:data-items-url="@{/api/simulator/items}"
+				th:data-simulator-url="@{/api/simulator/simulator}"
+				th:data-recommend-url="@{/api/simulator/recommendations}"
+				th:data-sync-url="@{/api/simulator/sync}">
+
+				<div class="mypage-panel mypage-hero">
+					<div>
+						<span class="mypage-kicker">SIMULATOR</span>
+						<h1 class="mypage-title">&#xC7A5;&#xBE44; &#xC2DC;&#xBBAC;&#xB808;&#xC774;&#xD130;</h1>
+						<p class="mypage-subtitle">
+							&#xC7A5;&#xBE44; &#xC774;&#xB984;&#xACFC; &#xC2A4;&#xD0EF; &#xBCC0;&#xD654;&#xB97C; &#xC9C1;&#xC811; &#xBE44;&#xAD50;&#xD574;&#xBCF4;&#xC138;&#xC694;. &#xAD6C;&#xB9E4; &#xB9AC;&#xC2A4;&#xD2B8;&#xC640; &#xC804;&#xCCB4; &#xB9AC;&#xC2A4;&#xD2B8;&#xB97C; &#xAE30;&#xC900;&#xC73C;&#xB85C; &#xD074;&#xB9AD; &#xB610;&#xB294; &#xB4DC;&#xB798;&#xADF8;&#xB85C; &#xC138;&#xD305;&#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.
+						</p>
+					</div>
+					<div class="mypage-hero-badges" data-role="hero-badges"></div>
+				</div>
+
+				<div class="mypage-status" data-role="status-message"></div>
+
+				<noscript>
+					<div class="alert alert-warning mt-3">&#xC7A5;&#xBE44; &#xC2DC;&#xBBAC;&#xB808;&#xC774;&#xD130;&#xB294; JavaScript&#xAC00; &#xD544;&#xC694;&#xD569;&#xB2C8;&#xB2E4;.</div>
+				</noscript>
+
+				<div class="mypage-grid">
+					<aside class="mypage-panel mypage-panel-left">
+						<div class="mypage-panel-head">
+							<div>
+								<span class="mypage-kicker">ITEMS</span>
+								<h2>&#xC544;&#xC774;&#xD15C; &#xBAA9;&#xB85D;</h2>
+							</div>
+							<button type="button" class="mypage-ghost-button" data-role="sync-button" data-action="sync-catalog" hidden>DB &#xB3D9;&#xAE30;&#xD654;</button>
+						</div>
+
+						<div class="mypage-main-tabs">
+							<button type="button" class="mypage-tab-button is-active" data-action="toggle-tab" data-owned="false">&#xC804;&#xCCB4; &#xC544;&#xC774;&#xD15C;</button>
+							<button type="button" class="mypage-tab-button" data-action="toggle-tab" data-owned="true">&#xBCF4;&#xC720; &#xC544;&#xC774;&#xD15C;</button>
+						</div>
+
+						<div class="mypage-slot-tabs" data-role="slot-tabs"></div>
+
+						<form class="mypage-search" data-role="search-form">
+							<input type="search" name="keyword" data-role="keyword-input" placeholder="&#xC544;&#xC774;&#xD15C; &#xAC80;&#xC0C9;">
+							<button type="submit">&#xAC80;&#xC0C9;</button>
+						</form>
+
+						<div class="mypage-list-summary">
+							<strong data-role="list-title">&#xC804;&#xCCB4; &#xC544;&#xC774;&#xD15C;</strong>
+							<span data-role="list-meta"></span>
+						</div>
+
+						<div class="mypage-item-list" data-role="catalog-list"></div>
+					</aside>
+
+					<section class="mypage-panel mypage-panel-center">
+						<div class="mypage-panel-head">
+							<div>
+								<span class="mypage-kicker">LOADOUT</span>
+								<h2>&#xD604;&#xC7AC; &#xC7A5;&#xCC29; &#xC2AC;&#xB86F;</h2>
+								<p class="mypage-item-sub">&#xC544;&#xC774;&#xD15C; &#xCE74;&#xB4DC;&#xB97C; &#xD074;&#xB9AD;&#xD558;&#xAC70;&#xB098; &#xB4DC;&#xB798;&#xADF8;&#xD574;&#xC11C; &#xC6D0;&#xD558;&#xB294; &#xC2AC;&#xB86F;&#xC5D0; &#xC7A5;&#xCC29;&#xD574;&#xBCF4;&#xC138;&#xC694;.</p>
+							</div>
+							<div class="mypage-inline-actions">
+								<a class="mypage-ghost-button" th:href="@{/mypage}">&#xB9C8;&#xC774;&#xD398;&#xC774;&#xC9C0;</a>
+								<button type="button" class="mypage-ghost-button" data-action="load-saved">&#xC800;&#xC7A5; &#xC138;&#xD305; &#xBD88;&#xB7EC;&#xC624;&#xAE30;</button>
+								<button type="button" class="mypage-ghost-button" data-action="clear-all">&#xC804;&#xCCB4; &#xCD08;&#xAE30;&#xD654;</button>
+							</div>
+						</div>
+
+						<div class="mypage-board" data-role="slot-board"></div>
+
+						<div class="mypage-selected-preview" data-role="selected-item"></div>
+
+						<div class="mypage-primary-actions">
+							<button type="button" class="mypage-primary-button" data-action="equip-selected" disabled>&#xC7A5;&#xCC29;&#xD558;&#xAE30;</button>
+						</div>
+					</section>
+
+					<aside class="mypage-panel mypage-panel-right">
+						<div class="mypage-panel-head">
+							<div>
+								<span class="mypage-kicker">RESULT</span>
+								<h2>&#xC2A4;&#xD0EF; &#xACB0;&#xACFC;</h2>
+							</div>
+						</div>
+
+						<div class="mypage-stat-grid" data-role="stats-grid"></div>
+
+						<button type="button" class="mypage-primary-button mypage-recommend-button" data-action="request-growth">&#xC131;&#xC7A5; &#xCD94;&#xCC9C; &#xBC1B;&#xAE30;</button>
+					</aside>
+				</div>
+
+				<div class="mypage-modal" data-role="recommend-modal" hidden aria-hidden="true">
+					<div class="mypage-modal-overlay" data-action="close-recommend-modal"></div>
+					<div class="mypage-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="recommendModalTitle" tabindex="-1">
+						<button type="button" class="mypage-modal-close" data-action="close-recommend-modal" aria-label="닫기">&times;</button>
+						<div class="mypage-modal-head">
+							<div>
+								<span class="mypage-kicker">GROWTH RESULT</span>
+								<h2 id="recommendModalTitle">성장 추천 결과</h2>
+							</div>
+						</div>
+
+						<div class="mypage-modal-content" data-role="recommendations"></div>
+
+						<div class="mypage-modal-footer">
+							<div class="mypage-modal-actions">
+								<button type="button" class="mypage-primary-button mypage-modal-primary-button" data-action="close-recommend-modal">닫기</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+<th:block layout:fragment="script">
+	<script th:src="@{/simulator.js}"></script>
+</th:block>
+</html>

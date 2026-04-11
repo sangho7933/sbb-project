@@ -1,0 +1,69 @@
+<html layout:decorate="~{a2c_layout}">
+<div layout:fragment="content" class="board-shell trade-market-shell">
+	<div class="container-xl">
+		<section class="board-header-card">
+			<div>
+				<span class="section-kicker">구매 내역</span>
+				<h1 class="section-title">내 구매내역</h1>
+				<p class="board-copy">내가 구매한 거래 상품 목록을 확인할 수 있습니다.</p>
+			</div>
+			<div class="board-header-actions">
+				<a class="btn btn-a2c-secondary" th:href="@{/trade/items}">거래 게시판</a>
+			</div>
+		</section>
+
+		<div class="trade-summary-row">
+			<div class="trade-status-filter">
+				<a class="btn btn-a2c-secondary btn-sm" th:href="@{/trade/items}">전체</a>
+				<a class="btn btn-a2c-secondary btn-sm" th:href="@{/trade/items(status=SELLING)}">판매중</a>
+				<a class="btn btn-a2c-secondary btn-sm" th:href="@{/trade/items(status=SOLD)}">판매완료</a>
+				<a class="btn btn-a2c-secondary btn-sm" th:href="@{/trade/items(mine=true)}">내 상품</a>
+				<a class="btn btn-a2c-secondary btn-sm" th:href="@{/trade/items/purchases}">내 구매내역</a>
+			</div>
+			<span th:text="${'총 ' + transactions.size() + '건의 거래 내역'}"></span>
+		</div>
+
+		<div class="trade-grid-wrapper" th:if="${!transactions.isEmpty()}">
+			<div class="trade-grid-horizontal">
+				<article class="panel-surface trade-card" th:each="t : ${transactions}">
+					<a class="trade-card-media" th:href="@{|/trade/items/${t.item.id}|}">
+						<img th:if="${t.item.imageUrl != null and !#strings.isEmpty(t.item.imageUrl)}"
+							th:src="${t.item.imageUrl}" th:alt="${t.item.title}"
+							class="trade-card-thumb">
+						<div class="trade-card-placeholder trade-card-placeholder-fixed"
+							th:unless="${t.item.imageUrl != null and !#strings.isEmpty(t.item.imageUrl)}"
+							style="height:150px; line-height:150px; text-align:center;">이미지 없음</div>
+						<div class="sold-overlay" th:if="${t.item.soldOut}">판매완료</div>
+					</a>
+					<div class="trade-card-body">
+						<div class="trade-card-chip-row">
+							<span class="trade-status-badge" th:classappend="${t.item.soldOut ? ' sold' : ''}"
+								th:text="${t.item.soldOut ? '판매완료' : '판매중'}"></span>
+							<span class="trade-category-chip" th:text="${t.item.category != null ? t.item.category : '미분류'}"></span>
+						</div>
+						<h3 class="trade-card-title">
+							<a th:href="@{|/trade/items/${t.item.id}|}" th:text="${t.item.title}"></a>
+						</h3>
+						<p class="trade-card-price" th:text="${t.price != null ? #numbers.formatInteger(t.price, 1, 'COMMA') + 'G' : '가격 미정'}"></p>
+						<p class="trade-card-option" th:text="${t.item.options != null ? t.item.options : '추가 옵션 없음'}"></p>
+						<div class="trade-card-footer">
+							<div class="trade-card-seller">
+								<span>판매자</span>
+								<strong th:text="${t.seller != null ? t.seller.username : '알 수 없음'}"></strong>
+							</div>
+							<div class="trade-card-actions">
+								<a class="btn btn-a2c-secondary btn-sm" th:href="@{|/trade/items/${t.item.id}|}">상세보기</a>
+								<button type="button" class="btn btn-a2c-secondary btn-sm" th:if="${t.item.soldOut}" disabled>판매완료</button>
+							</div>
+						</div>
+					</div>
+				</article>
+			</div>
+		</div>
+
+		<div class="empty-board-message" th:if="${transactions.isEmpty()}">
+			구매한 거래 내역이 없습니다.
+		</div>
+	</div>
+</div>
+</html>

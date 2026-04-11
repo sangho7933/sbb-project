@@ -1,0 +1,111 @@
+<th:block th:fragment="guideStepContent">
+	<article class="guide-step-shell">
+		<header class="guide-step-header"
+			th:insert="~{guide/fragments :: guideStepHeaderContent(eyebrowClass='guide-step-eyebrow', stepLabel='STEP 3', title='직업 선택', description='근거리와 원거리 직업을 먼저 구분한 뒤, 각 직업의 역할과 전투 스타일을 보고 선택하는 단계입니다.')}">
+		</header>
+
+		<section class="guide-step-main-card">
+
+			<!-- 근거리 -->
+			<section class="guide-step-job-block">
+				<h3 class="guide-step-job-block-title">근거리 직업</h3>
+
+				<div class="guide-step-job-row">
+					<div class="guide-step-job-image-wrap">
+						<img src="/images/수호성.png" alt="수호성 이미지" class="guide-step-job-image">
+					</div>
+					<div class="guide-step-job-content">
+						<h4>수호성</h4>
+						<p>강한 방어력과 생존력을 바탕으로 전방에서 버티는 탱커형 직업입니다. 파티 플레이에서 안정적인 역할을 맡기 좋습니다.</p>
+					</div>
+				</div>
+
+				<div class="guide-step-job-row">
+					<div class="guide-step-job-image-wrap">
+						<img src="/images/검성.png" alt="검성 이미지" class="guide-step-job-image">
+					</div>
+					<div class="guide-step-job-content">
+						<h4>검성</h4>
+						<p>빠른 접근과 강한 근접 공격이 특징인 직업입니다. 직관적인 전투 스타일을 좋아하는 유저에게 잘 맞습니다.</p>
+					</div>
+				</div>
+
+				<div class="guide-step-job-row">
+					<div class="guide-step-job-image-wrap">
+						<img src="/images/호법성.png" alt="호법성 이미지" class="guide-step-job-image">
+					</div>
+					<div class="guide-step-job-content">
+						<h4>호법성</h4>
+						<p>버프와 보조 능력을 활용하면서 직접 전투에도 참여할 수 있는 균형형 직업입니다. 솔로와 파티 모두 무난하게 즐길 수 있습니다.</p>
+					</div>
+				</div>
+
+				<div class="guide-step-job-row">
+					<div class="guide-step-job-image-wrap">
+						<img src="/images/살성.png" alt="살성 이미지" class="guide-step-job-image">
+					</div>
+					<div class="guide-step-job-content">
+						<h4>살성</h4>
+						<p>기동성과 순간 화력이 뛰어난 암살형 직업입니다. 빠른 판단과 숙련된 조작에 따라 성능 체감이 큰 편입니다.</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- 원거리 -->
+			<section class="guide-step-job-block">
+				<h3 class="guide-step-job-block-title">원거리 직업</h3>
+
+				<div class="guide-step-job-row">
+					<div class="guide-step-job-image-wrap">
+						<img src="/images/마도성.png" alt="마도성 이미지" class="guide-step-job-image">
+					</div>
+					<div class="guide-step-job-content">
+						<h4>마도성</h4>
+						<p>강력한 마법 공격으로 높은 화력을 낼 수 있는 대표적인 원거리 딜러입니다. 대신 생존은 항상 신경 써야 합니다.</p>
+					</div>
+				</div>
+
+				<div class="guide-step-job-row">
+					<div class="guide-step-job-image-wrap">
+						<img src="/images/정령성.png" alt="정령성 이미지" class="guide-step-job-image">
+					</div>
+					<div class="guide-step-job-content">
+						<h4>정령성</h4>
+						<p>정령을 소환해 함께 전투하는 운영형 직업입니다. 직접적인 화력뿐 아니라 다양한 활용이 가능한 것이 장점입니다.</p>
+					</div>
+				</div>
+
+				<div class="guide-step-job-row">
+					<div class="guide-step-job-image-wrap">
+						<img src="/images/궁성.png" alt="궁성 이미지" class="guide-step-job-image">
+					</div>
+					<div class="guide-step-job-content">
+						<h4>궁성</h4>
+						<p>긴 사거리와 안정적인 견제가 강점인 직업입니다. 거리 유지와 위치 선정이 중요한 원거리 딜러입니다.</p>
+					</div>
+				</div>
+
+				<div class="guide-step-job-row">
+					<div class="guide-step-job-image-wrap">
+						<img src="/images/치유성.png" alt="치유성 이미지" class="guide-step-job-image">
+					</div>
+					<div class="guide-step-job-content">
+						<h4>치유성</h4>
+						<p>회복과 지원 능력에 특화된 직업으로 파티에서 중요한 역할을 맡습니다. 안정적인 플레이를 선호하는 유저에게 잘 맞습니다.</p>
+					</div>
+				</div>
+				<div class="guide-step-job-tip guide-step-section guide-step-tip-card"
+					th:insert="~{guide/fragments :: guideInfoCardContent(title='팁', headingLevel='h4', contentFragment=~{guide/step3 :: stepJobTipContent})}">
+				</div>
+			</section>
+
+		</section>
+	</article>
+</th:block>
+<!-- 공용 안내 카드에 주입할 step 3 전용 팁 본문이다. -->
+<th:block th:fragment="stepJobTipContent">
+	<p>
+		PVP 위주의 플레이를 선호한다면 <strong>살성</strong>을 추천합니다.<br>
+		파티 플레이를 중심으로 한다면 <strong>수호성</strong>, <strong>치유성</strong>, <strong>호법성</strong>이 안정적인 선택입니다.
+	</p>
+</th:block>

@@ -1,0 +1,36 @@
+<th:block th:fragment="guideStepContent">
+	<article class="guide-step-shell">
+		<header class="guide-step-header"
+			th:insert="~{guide/fragments :: guideStepHeaderContent(eyebrowClass='guide-step-eyebrow', stepLabel='STEP 2', title='종족 (천족/마족)', description='게임을 본격적으로 시작하기 전체적인 맵이미지와 종족간의 날개(주신의 흔적 동선입니다).')}">
+		</header>
+
+		<section class="guide-step-main-card">
+			<div class="guide-step-race-images guide-step-grid">
+				<div class="guide-step-race-item">
+					<img src="/images/천족.png" alt="천족 이미지" class="guide-step-race-image">
+					<h3>천족</h3>
+				</div>
+
+				<div class="guide-step-race-item">
+					<img src="/images/마족.png" alt="마족 이미지" class="guide-step-race-image">
+					<h3>마족</h3>
+				</div>
+			</div>
+
+			<div class="guide-step-section">
+				<h3>설명</h3>
+				<p>천족과 마족은 시작 지역과 초반 진행 동선이 서로 다르며 스토리가 다릅니다.</p>
+				<p>친구와 함께 시작할 예정이라면 같은 종족을 선택하는 것이 좋습니다.</p>
+				<p>친구 추가 or 레기온 or 거래소는 같이 안되지만 파티 및 던전을 모든 종족이 같이 돌 수 있습니다.</p>
+			</div>
+
+			<!-- 🔥 여기 추가 -->
+			<div class="guide-step-download">
+				<th:block
+					th:replace="~{guide/fragments :: guideExternalLinkButton(url='https://tc-imba.com/aion2-interactive-map/', label='추천 사이트')}">
+				</th:block>
+			</div>
+
+		</section>
+	</article>
+</th:block>

@@ -1,0 +1,688 @@
+<html layout:decorate="~{a2c_layout}">
+<div layout:fragment="content" class="board-shell">
+	<div class="container-xl">
+		<section class="board-header-card">
+			<div>
+				<span class="section-kicker">관리</span>
+				<h1 class="section-title">관리자 페이지</h1>
+				<p class="board-copy" th:if="${adminModeActive}">현재 관리자 모드가 활성화되어 있습니다.</p>
+				<p class="board-copy" th:unless="${adminModeActive}">현재 일반 모드입니다. 관리자 기능은 관리자 모드가 켜져 있을 때만 보입니다.</p>
+			</div>
+			<div class="board-header-actions d-flex gap-2">
+				<a class="btn btn-a2c-secondary" th:href="@{/}">메인 페이지</a>
+				<form th:if="${adminModeActive}" th:action="@{/admin/mode/disable}" method="post">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+					<button type="submit" class="btn btn-a2c-secondary">일반 모드로 전환</button>
+				</form>
+				<form th:unless="${adminModeActive}" th:action="@{/admin/mode/enable}" method="post">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+					<button type="submit" class="btn btn-a2c-primary">관리자 모드 활성화</button>
+				</form>
+			</div>
+		</section>
+
+		<div class="trade-flash success" th:if="${successMessage != null}" th:text="${successMessage}"></div>
+
+		<section class="panel-surface mb-4" th:unless="${adminModeActive}">
+			<div class="section-heading-row">
+				<div>
+					<span class="section-kicker">모드 상태</span>
+					<h2 class="section-title">일반 모드</h2>
+				</div>
+			</div>
+			<p class="board-copy mb-3">관리자 계정이지만 현재는 일반 사용자 화면으로 보이는 상태입니다.</p>
+			<form th:action="@{/admin/mode/enable}" method="post">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				<button type="submit" class="btn btn-a2c-primary">관리자 모드로 진입</button>
+			</form>
+		</section>
+
+		<th:block th:if="${adminModeActive}">
+			
+			<!-- 목록 섹션마다 상태 badge, 관리 form, 페이지네이션을 같은 규칙으로 재사용한다. -->
+
+			<section class="panel-surface admin-dashboard-panel mb-4">
+			
+				<div class="section-heading-row admin-dashboard-heading">
+					<div>
+						<span class="section-kicker">운영 현황</span>
+						<h2 class="section-title admin-panel-title">한눈에 보는 관리자 통계</h2>
+					</div>
+					<p class="admin-dashboard-copy">
+    현재 저장된 전체 데이터를 기준으로 단순 집계한 조회 전용 요약입니다.<br>
+    <span class="admin-dashboard-tip">ℹ️ 그래프에 마우스를 올리면 더욱 자세한 정보를 확인할 수 있습니다.</span>
+</p>
+				</div>
+
+				<div class="admin-summary-grid">
+					<article class="admin-summary-card">
+						<span class="admin-summary-label">총 회원 수</span>
+						<div class="admin-summary-metric">
+							<strong class="admin-summary-value" th:text="${#numbers.formatInteger(dashboardStats.totalUsers, 1, 'COMMA')}">0</strong>
+							<span class="admin-summary-unit">명</span>
+						</div>
+					</article>
+					<article class="admin-summary-card">
+						<span class="admin-summary-label">총 게시글 수</span>
+						<div class="admin-summary-metric">
+							<strong class="admin-summary-value" th:text="${#numbers.formatInteger(dashboardStats.totalPosts, 1, 'COMMA')}">0</strong>
+							<span class="admin-summary-unit">건</span>
+						</div>
+					</article>
+					<article class="admin-summary-card">
+						<span class="admin-summary-label">총 댓글 수</span>
+						<div class="admin-summary-metric">
+							<strong class="admin-summary-value" th:text="${#numbers.formatInteger(dashboardStats.totalComments, 1, 'COMMA')}">0</strong>
+							<span class="admin-summary-unit">건</span>
+						</div>
+					</article>
+					<article class="admin-summary-card">
+						<span class="admin-summary-label">총 거래글 수</span>
+						<div class="admin-summary-metric">
+							<strong class="admin-summary-value" th:text="${#numbers.formatInteger(dashboardStats.totalTradeItems, 1, 'COMMA')}">0</strong>
+							<span class="admin-summary-unit">건</span>
+						</div>
+					</article>
+				</div>
+
+				<div class="admin-chart-grid">
+					<article class="admin-chart-card admin-chart-card-wide">
+						<div class="admin-chart-head">
+							<div>
+								<h3 class="admin-chart-title">&#xC2DC;&#xAC04;&#xB300;&#xBCC4; &#xB85C;&#xADF8;&#xC778; &#xC218;</h3>
+								<p class="admin-chart-copy">&#xC624;&#xB298; &#xAE30;&#xC900; &#xC2DC;&#xAC04;&#xB300;&#xBCC4; &#xB85C;&#xADF8;&#xC778; &#xC0AC;&#xC6A9;&#xC790; &#xC218;&#xC785;&#xB2C8;&#xB2E4;.</p>
+							</div>
+							<span class="admin-chart-chip">&#xB85C;&#xADF8;&#xC778; &#xAE30;&#xC900;</span>
+						</div>
+						<div class="admin-chart-shell">
+							<canvas id="adminLoginTimeChart" aria-label="&#xC2DC;&#xAC04;&#xB300;&#xBCC4; &#xB85C;&#xADF8;&#xC778; &#xC218; &#xCC28;&#xD2B8;"></canvas>
+							<p class="admin-chart-empty" hidden>&#xC9D1;&#xACC4; &#xB370;&#xC774;&#xD130;&#xAC00; &#xC5C6;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+						</div>
+					</article>
+
+					<article class="admin-chart-card">
+						<div class="admin-chart-head">
+							<div>
+								<h3 class="admin-chart-title">회원 종족 비율</h3>
+								<p class="admin-chart-copy">천족과 마족의 전체 회원 비율을 빠르게 확인할 수 있습니다.</p>
+							</div>
+							<span class="admin-chart-chip">회원 기준</span>
+						</div>
+						<div class="admin-chart-shell">
+							<canvas id="adminUserRaceChart" aria-label="회원 종족 비율 차트"></canvas>
+							<p class="admin-chart-empty" hidden>집계할 데이터가 없습니다.</p>
+						</div>
+					</article>
+
+					<article class="admin-chart-card">
+						<div class="admin-chart-head">
+							<div>
+								<h3 class="admin-chart-title">게시판 카테고리별 게시글 수</h3>
+								<p class="admin-chart-copy">자유게시판부터 하이라이트까지 카테고리별 게시글 수를 비교합니다.</p>
+							</div>
+							<span class="admin-chart-chip">게시글 기준</span>
+						</div>
+						<div class="admin-chart-shell">
+							<canvas id="adminBoardCategoryChart" aria-label="게시판 카테고리별 게시글 수 차트"></canvas>
+							<p class="admin-chart-empty" hidden>집계할 데이터가 없습니다.</p>
+						</div>
+					</article>
+
+					<article class="admin-chart-card">
+						<div class="admin-chart-head">
+							<div>
+								<h3 class="admin-chart-title">댓글 상태 통계</h3>
+								<p class="admin-chart-copy">현재 노출 중인 댓글과 삭제 처리된 댓글 상태를 집계합니다.</p>
+							</div>
+							<span class="admin-chart-chip">댓글 기준</span>
+						</div>
+						<div class="admin-chart-shell">
+							<canvas id="adminCommentStatusChart" aria-label="댓글 상태 통계 차트"></canvas>
+							<p class="admin-chart-empty" hidden>집계할 데이터가 없습니다.</p>
+						</div>
+					</article>
+
+					<article class="admin-chart-card">
+						<div class="admin-chart-head">
+							<div>
+								<h3 class="admin-chart-title">거래글 상태 통계</h3>
+								<p class="admin-chart-copy">판매중, 판매완료, 숨김 처리 건수를 한 번에 확인합니다.</p>
+							</div>
+							<span class="admin-chart-chip">거래글 기준</span>
+						</div>
+						<div class="admin-chart-shell">
+							<canvas id="adminTradeStatusChart" aria-label="거래글 상태 통계 차트"></canvas>
+							<p class="admin-chart-empty" hidden>집계할 데이터가 없습니다.</p>
+						</div>
+						<p class="admin-chart-note">숨김 수치는 판매 상태와 별도로 집계됩니다.</p>
+					</article>
+				</div>
+			</section>
+
+			<section class="panel-surface mb-4">
+				<div class="section-heading-row">
+					<div>
+					
+					
+					
+					
+						<span class="section-kicker">회원</span>
+						<h2 class="section-title">회원 목록</h2>
+					</div>
+					<span th:text="|총 ${userPageData.totalElements}명|">총 0명</span>
+				</div>
+				<div class="table-responsive admin-table-wrap">
+					<table class="table table-dark table-striped align-middle admin-responsive-table admin-users-table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>아이디</th>
+								<th>이메일</th>
+								<th>골드</th>
+								<th>종족</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${userPageData.isEmpty()}">
+								<td colspan="5" th:text="${kw != null and !kw.isBlank()} ? '검색 결과가 없습니다.' : '조회된 회원이 없습니다.'">조회된 회원이 없습니다.</td>
+							</tr>
+							<tr th:each="member : ${userPageData.content}">
+								<td th:text="${member.id}">1</td>
+								<td>
+									<a th:href="@{|/admin/users/${member.id}|}" th:text="${member.username}">admin</a>
+									<th:block th:if="${member.username == 'admin'}"
+										th:replace="~{::adminStatusBadge(label='관리자', badgeClass='text-bg-warning ms-2')}">
+									</th:block>
+								</td>
+								<td th:text="${member.email}">admin@example.com</td>
+								<td th:text="${#numbers.formatInteger(member.gold, 1, 'COMMA') + 'G'}">1,000G</td>
+								<td th:text="${member.race}">-</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<th:block th:if="${userPageData.totalPages > 1}"
+					th:replace="~{::adminPagination(hasPrevious=${userPageData.hasPrevious()}, previousUrl=@{/admin(kw=${kw}, userPage=${userPageData.number - 1}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})}, currentPage=${userPageData.number + 1}, totalPages=${userPageData.totalPages}, hasNext=${userPageData.hasNext()}, nextUrl=@{/admin(kw=${kw}, userPage=${userPageData.number + 1}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})})}">
+				</th:block>
+			</section>
+
+			<section class="panel-surface mb-4">
+				<div class="section-heading-row">
+					<div>
+						<span class="section-kicker">게시글</span>
+						<h2 class="section-title">게시글 목록</h2>
+					</div>
+					<span th:text="|총 ${postPageData.totalElements}건|">총 0건</span>
+				</div>
+				<div class="table-responsive admin-table-wrap">
+					<table class="table table-dark table-striped align-middle admin-responsive-table admin-posts-table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>분류</th>
+								<th>제목</th>
+								<th>작성자</th>
+								<th>작성일</th>
+								<th>관리</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${postPageData.isEmpty()}">
+								<td colspan="6" th:text="${kw != null and !kw.isBlank()} ? '검색 결과가 없습니다.' : '조회된 게시글이 없습니다.'">조회된 게시글이 없습니다.</td>
+							</tr>
+							<tr th:each="post : ${postPageData.content}">
+								<td th:text="${post.id}">1</td>
+								<td th:text="${post.category != null ? post.category.label : '-'}">-</td>
+								<td>
+									<a th:if="${post.category != null}" th:href="@{|/boards/${post.category.code}/posts/${post.id}|}" target="_blank" th:text="${post.subject}">제목</a>
+									<span th:unless="${post.category != null}" th:text="${post.subject}">제목</span>
+								</td>
+								<td th:text="${post.author != null ? post.author.username : '-'}">-</td>
+								<td th:text="${post.createDate != null ? #temporals.format(post.createDate, 'yyyy-MM-dd HH:mm') : '-'}">-</td>
+								<td>
+									<th:block
+										th:replace="~{::adminActionForm(actionUrl=|/admin/posts/${post.id}/delete|, confirmMessage='이 게시글을 삭제하시겠습니까?', buttonLabel='삭제', buttonClass='btn btn-danger btn-sm', kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})}">
+									</th:block>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<th:block th:if="${postPageData.totalPages > 1}"
+					th:replace="~{::adminPagination(hasPrevious=${postPageData.hasPrevious()}, previousUrl=@{/admin(kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number - 1}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})}, currentPage=${postPageData.number + 1}, totalPages=${postPageData.totalPages}, hasNext=${postPageData.hasNext()}, nextUrl=@{/admin(kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number + 1}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})})}">
+				</th:block>
+			</section>
+
+			<section class="panel-surface mb-4">
+				<div class="section-heading-row">
+					<div>
+						<span class="section-kicker">댓글</span>
+						<h2 class="section-title">댓글 목록</h2>
+					</div>
+					<span th:text="|총 ${commentPageData.totalElements}건|">총 0건</span>
+				</div>
+				<div class="table-responsive admin-table-wrap">
+					<table class="table table-dark table-striped align-middle admin-responsive-table admin-comments-table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>내용</th>
+								<th>작성자</th>
+								<th>게시글</th>
+								<th>상태</th>
+								<th>관리</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${commentPageData.isEmpty()}">
+								<td colspan="6" th:text="${kw != null and !kw.isBlank()} ? '검색 결과가 없습니다.' : '조회된 댓글이 없습니다.'">조회된 댓글이 없습니다.</td>
+							</tr>
+							<tr th:each="comment : ${commentPageData.content}">
+								<td th:text="${comment.id}">1</td>
+								<td>
+									<div class="text-truncate admin-comment-preview" th:text="${comment.content}">내용</div>
+								</td>
+								<td th:text="${comment.author != null ? comment.author.username : '-'}">-</td>
+								<td>
+									<a th:if="${comment.post != null and comment.post.category != null}" th:href="|/boards/${comment.post.category.code}/posts/${comment.post.id}#comment_${comment.id}|" target="_blank"
+										th:text="${comment.post.subject}">게시글</a>
+									<span th:unless="${comment.post != null and comment.post.category != null}"
+										th:text="${comment.post != null ? comment.post.subject : '-'}">-</span>
+								</td>
+								<td>
+									<th:block
+										th:replace="~{::adminStatusBadge(label=${comment.deleted ? '삭제됨' : '노출 중'}, badgeClass=${comment.deleted ? 'text-bg-secondary' : 'text-bg-success'})}">
+									</th:block>
+								</td>
+								<td>
+									<th:block th:if="${!comment.deleted}"
+										th:replace="~{::adminActionForm(actionUrl=|/admin/comments/${comment.id}/delete|, confirmMessage='이 댓글을 삭제하시겠습니까?', buttonLabel='삭제', buttonClass='btn btn-danger btn-sm', kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})}">
+									</th:block>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<th:block th:if="${commentPageData.totalPages > 1}"
+					th:replace="~{::adminPagination(hasPrevious=${commentPageData.hasPrevious()}, previousUrl=@{/admin(kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number - 1}, tradePage=${tradePageData.number})}, currentPage=${commentPageData.number + 1}, totalPages=${commentPageData.totalPages}, hasNext=${commentPageData.hasNext()}, nextUrl=@{/admin(kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number + 1}, tradePage=${tradePageData.number})})}">
+				</th:block>
+			</section>
+
+			<section class="panel-surface">
+				<div class="section-heading-row">
+					<div>
+						<span class="section-kicker">거래</span>
+						<h2 class="section-title">거래글 목록</h2>
+					</div>
+					<span th:text="|총 ${tradePageData.totalElements}건|">총 0건</span>
+				</div>
+				<div class="table-responsive admin-table-wrap">
+					<table class="table table-dark table-striped align-middle admin-responsive-table admin-trades-table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>제목</th>
+								<th>판매자</th>
+								<th>가격</th>
+								<th>상태</th>
+								<th>노출</th>
+								<th>관리</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${tradePageData.isEmpty()}">
+								<td colspan="7" th:text="${kw != null and !kw.isBlank()} ? '검색 결과가 없습니다.' : '조회된 거래글이 없습니다.'">조회된 거래글이 없습니다.</td>
+							</tr>
+							<tr th:each="item : ${tradePageData.content}">
+								<td th:text="${item.id}">1</td>
+								<td>
+									<a th:if="${!item.hidden}" th:href="@{|/trade/items/${item.id}|}" target="_blank" th:text="${item.title}">거래글</a>
+									<span th:if="${item.hidden}" th:text="${item.title}">거래글</span>
+								</td>
+								<td th:text="${item.seller != null ? item.seller.username : '-'}">-</td>
+								<td th:text="${item.price != null ? #numbers.formatInteger(item.price, 1, 'COMMA') + 'G' : '-'}">-</td>
+								<td th:text="${item.soldOut ? '판매완료' : '판매중'}">판매중</td>
+								<td>
+									<th:block
+										th:replace="~{::adminStatusBadge(label=${item.hidden ? '숨김' : '노출 중'}, badgeClass=${item.hidden ? 'text-bg-secondary' : 'text-bg-success'})}">
+									</th:block>
+								</td>
+								<td>
+									<th:block th:if="${!item.hidden}"
+										th:replace="~{::adminActionForm(actionUrl=|/admin/trade-items/${item.id}/hide|, confirmMessage='이 거래글을 숨김 처리하시겠습니까?', buttonLabel='숨김', buttonClass='btn btn-warning btn-sm', kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})}">
+									</th:block>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<th:block th:if="${tradePageData.totalPages > 1}"
+					th:replace="~{::adminPagination(hasPrevious=${tradePageData.hasPrevious()}, previousUrl=@{/admin(kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number - 1})}, currentPage=${tradePageData.number + 1}, totalPages=${tradePageData.totalPages}, hasNext=${tradePageData.hasNext()}, nextUrl=@{/admin(kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number + 1})})}">
+				</th:block>
+			</section>
+		</th:block>
+	</div>
+</div>
+<!-- 목록 상태 표시는 라벨과 badge 클래스만 바꿔 재사용한다. -->
+<th:block th:fragment="adminStatusBadge(label, badgeClass)">
+	<span class="badge" th:classappend="| ${badgeClass}|" th:text="${label}">상태</span>
+</th:block>
+<!-- 각 목록의 이전/다음 이동 UI를 같은 구조로 맞춘다. -->
+<div th:fragment="adminPagination(hasPrevious, previousUrl, currentPage, totalPages, hasNext, nextUrl)"
+	class="admin-pagination mt-3">
+	<div>
+		<a class="btn btn-a2c-secondary btn-sm" th:if="${hasPrevious}" th:href="${previousUrl}">이전</a>
+	</div>
+	<span th:text="|${currentPage} / ${totalPages}|">1 / 1</span>
+	<div>
+		<a class="btn btn-a2c-secondary btn-sm" th:if="${hasNext}" th:href="${nextUrl}">다음</a>
+	</div>
+</div>
+<!-- 삭제/숨김 액션에서 검색어와 탭 페이지 상태를 함께 유지한다. -->
+<form th:fragment="adminActionForm(actionUrl, confirmMessage, buttonLabel, buttonClass, kw, userPage, postPage, commentPage, tradePage)"
+	th:action="${actionUrl}" method="post" th:attr="onsubmit=|return confirm('${confirmMessage}');|">
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	<input type="hidden" name="kw" th:value="${kw}" />
+	<input type="hidden" name="userPage" th:value="${userPage}" />
+	<input type="hidden" name="postPage" th:value="${postPage}" />
+	<input type="hidden" name="commentPage" th:value="${commentPage}" />
+	<input type="hidden" name="tradePage" th:value="${tradePage}" />
+	<button type="submit" th:class="${buttonClass}" th:text="${buttonLabel}">관리</button>
+</form>
+<th:block layout:fragment="script">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+		(function () {
+			const dashboardStats = /*[[${dashboardStats}]]*/ null;
+			if (!dashboardStats) {
+				return;
+			}
+
+			const chartDefinitions = [
+				{
+					id: "adminLoginTimeChart",
+					type: "bar",
+					unit: "\uBA85",
+					paletteKey: "board",
+					items: dashboardStats.loginTimeStats || []
+				},
+				{
+					id: "adminUserRaceChart",
+					type: "doughnut",
+					unit: "명",
+					paletteKey: "race",
+					items: dashboardStats.userRaceStats || []
+				},
+				{
+					id: "adminBoardCategoryChart",
+					type: "bar",
+					unit: "건",
+					paletteKey: "board",
+					items: dashboardStats.boardCategoryStats || []
+				},
+				{
+					id: "adminCommentStatusChart",
+					type: "doughnut",
+					unit: "건",
+					paletteKey: "comment",
+					items: dashboardStats.commentStatusStats || []
+				},
+				{
+					id: "adminTradeStatusChart",
+					type: "bar",
+					unit: "건",
+					paletteKey: "trade",
+					items: dashboardStats.tradeStatusStats || []
+				}
+			];
+
+			let activeCharts = [];
+
+			function getThemeName() {
+				return document.documentElement.getAttribute("data-theme") === "elyos" ? "elyos" : "asmodian";
+			}
+
+			function getThemeTokens() {
+				const theme = getThemeName();
+				const styles = getComputedStyle(document.documentElement);
+				return {
+					theme: theme,
+					text: styles.getPropertyValue("--theme-panel-heading").trim() || (theme === "elyos" ? "#17304c" : "#fff7ff"),
+					muted: styles.getPropertyValue("--theme-panel-muted").trim() || (theme === "elyos" ? "#69819f" : "#cab9dc"),
+					panel: styles.getPropertyValue("--theme-panel-bg").trim() || (theme === "elyos" ? "rgba(255, 255, 255, 0.92)" : "rgba(22, 16, 31, 0.86)"),
+					grid: theme === "elyos" ? "rgba(23, 48, 76, 0.12)" : "rgba(255, 247, 255, 0.12)",
+					tooltipBackground: theme === "elyos" ? "rgba(255, 255, 255, 0.96)" : "rgba(12, 10, 20, 0.96)",
+					tooltipText: theme === "elyos" ? "#17304c" : "#fff7ff"
+				};
+			}
+
+			function getPalette(theme, key) {
+				const palettes = {
+					asmodian: {
+						race: ["rgba(122, 66, 230, 0.88)", "rgba(213, 86, 115, 0.84)"],
+						board: [
+							"rgba(245, 199, 255, 0.82)",
+							"rgba(122, 66, 230, 0.84)",
+							"rgba(213, 86, 115, 0.82)",
+							"rgba(179, 141, 255, 0.78)"
+						],
+						comment: ["rgba(122, 66, 230, 0.86)", "rgba(130, 117, 148, 0.72)"],
+						trade: ["rgba(122, 66, 230, 0.84)", "rgba(213, 86, 115, 0.82)", "rgba(130, 117, 148, 0.72)"]
+					},
+					elyos: {
+						race: ["rgba(94, 190, 255, 0.86)", "rgba(244, 202, 98, 0.88)"],
+						board: [
+							"rgba(94, 190, 255, 0.84)",
+							"rgba(244, 202, 98, 0.84)",
+							"rgba(23, 48, 76, 0.72)",
+							"rgba(103, 200, 255, 0.62)"
+						],
+						comment: ["rgba(94, 190, 255, 0.84)", "rgba(105, 129, 159, 0.62)"],
+						trade: ["rgba(94, 190, 255, 0.84)", "rgba(244, 202, 98, 0.82)", "rgba(105, 129, 159, 0.64)"]
+					}
+				};
+
+				return (palettes[theme] && palettes[theme][key]) || palettes.asmodian[key] || [];
+			}
+
+			function toSeries(items) {
+				const safeItems = Array.isArray(items) ? items : [];
+				const values = safeItems.map((item) => Number(item && item.value ? item.value : 0));
+				return {
+					labels: safeItems.map((item) => (item && item.label) || ""),
+					values: values,
+					total: values.reduce((sum, value) => sum + value, 0)
+				};
+			}
+
+			function tooltipOptions(tokens, unit) {
+				return {
+					backgroundColor: tokens.tooltipBackground,
+					titleColor: tokens.tooltipText,
+					bodyColor: tokens.tooltipText,
+					borderColor: tokens.grid,
+					borderWidth: 1,
+					callbacks: {
+						label: function (context) {
+							const data = context.dataset.data;
+							const total = data.reduce((a, b) => a + b, 0);
+							const value = Number(context.raw || 0);
+							const percent = ((value / total) * 100).toFixed(1);
+
+							return `${context.label}: ${value.toLocaleString("ko-KR")}${unit} (${percent}%)`;
+						}
+					}
+				};
+			}
+
+			function doughnutOptions(tokens, unit) {
+				return {
+					responsive: true,
+					maintainAspectRatio: false,
+					cutout: "62%",
+					animation: {
+						duration: 220
+					},
+					plugins: {
+						legend: {
+							position: "bottom",
+							labels: {
+								color: tokens.text,
+								usePointStyle: true,
+								pointStyle: "circle",
+								boxWidth: 10,
+								padding: 18
+							}
+						},
+						tooltip: tooltipOptions(tokens, unit)
+					}
+				};
+			}
+
+			function barOptions(tokens, unit) {
+				return {
+					indexAxis: "y",
+					responsive: true,
+					maintainAspectRatio: false,
+					animation: {
+						duration: 220
+					},
+					plugins: {
+						legend: {
+							display: false
+						},
+						tooltip: tooltipOptions(tokens, unit)
+					},
+					scales: {
+						x: {
+							beginAtZero: true,
+							ticks: {
+								color: tokens.text,
+								precision: 0
+							},
+							grid: {
+								color: tokens.grid,
+								drawBorder: false
+							}
+						},
+						y: {
+							ticks: {
+								color: tokens.muted
+							},
+							grid: {
+								display: false,
+								drawBorder: false
+							}
+						}
+					}
+				};
+			}
+
+			function showEmptyState(canvas, message) {
+				const shell = canvas.closest(".admin-chart-shell");
+				const emptyNode = shell ? shell.querySelector(".admin-chart-empty") : null;
+				canvas.hidden = true;
+				if (emptyNode) {
+					emptyNode.hidden = false;
+					emptyNode.textContent = message;
+				}
+			}
+
+			function showChart(canvas) {
+				const shell = canvas.closest(".admin-chart-shell");
+				const emptyNode = shell ? shell.querySelector(".admin-chart-empty") : null;
+				canvas.hidden = false;
+				if (emptyNode) {
+					emptyNode.hidden = true;
+				}
+			}
+
+			function destroyCharts() {
+				activeCharts.forEach((chart) => chart.destroy());
+				activeCharts = [];
+			}
+
+			function renderCharts() {
+				destroyCharts();
+
+				chartDefinitions.forEach((definition) => {
+					const canvas = document.getElementById(definition.id);
+					if (!canvas) {
+						return;
+					}
+
+					if (typeof Chart === "undefined") {
+						showEmptyState(canvas, "차트 라이브러리를 불러오지 못했습니다.");
+						return;
+					}
+
+					const series = toSeries(definition.items);
+					if (series.total === 0) {
+						showEmptyState(canvas, "집계할 데이터가 없습니다.");
+						return;
+					}
+
+					showChart(canvas);
+
+					const tokens = getThemeTokens();
+					const palette = getPalette(tokens.theme, definition.paletteKey).slice(0, series.values.length);
+					const chart = new Chart(canvas, {
+						type: definition.type,
+						data: {
+							labels: series.labels,
+							datasets: [{
+								data: series.values,
+								backgroundColor: palette,
+								borderColor: definition.type === "doughnut" ? tokens.panel : palette,
+								borderWidth: definition.type === "doughnut" ? 2 : 0,
+								borderRadius: definition.type === "bar" ? 12 : 0,
+								borderSkipped: false,
+								maxBarThickness: definition.type === "bar" ? 28 : undefined
+							}]
+						},
+						options: definition.type === "doughnut"
+							? doughnutOptions(tokens, definition.unit)
+							: barOptions(tokens, definition.unit)
+					});
+
+					activeCharts.push(chart);
+				});
+			}
+			const barLabelPlugin = {
+					id: 'barLabel',
+					afterDatasetsDraw(chart) {
+						const { ctx } = chart;
+						chart.data.datasets.forEach((dataset, i) => {
+							const meta = chart.getDatasetMeta(i);
+							meta.data.forEach((bar, index) => {
+								const value = dataset.data[index];
+
+								ctx.fillStyle = '#fff'; // 다크모드면 잘 보임
+								ctx.font = '12px sans-serif';
+								ctx.textAlign = 'left';
+
+								ctx.fillText(value, bar.x + 8, bar.y + 4);
+							});
+						});
+					}
+				};
+
+			renderCharts();
+
+			const themeObserver = new MutationObserver(function (records) {
+				const themeChanged = records.some(function (record) {
+					return record.type === "attributes" && record.attributeName === "data-theme";
+				});
+				if (themeChanged) {
+					renderCharts();
+				}
+			});
+
+			themeObserver.observe(document.documentElement, {
+				attributes: true,
+				attributeFilter: ["data-theme"]
+			});
+		})();
+	</script>
+</th:block>
+</html>

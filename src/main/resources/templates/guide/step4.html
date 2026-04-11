@@ -1,0 +1,40 @@
+<th:block th:fragment="guideStepContent">
+	<article class="guide-step-shell">
+		<header class="guide-step-header"
+			th:insert="~{guide/fragments :: guideStepHeaderContent(eyebrowClass='guide-step-eyebrow', stepLabel='STEP 4', title='레벨업 가이드', description='초반 성장 동선을 빠르게 정리해서 막힘 없이 진행하는 단계입니다.')}">
+		</header>
+
+		<div class="guide-step-grid">
+			<section class="guide-step-section">
+				<h3>설명</h3>
+				<ul>
+					<li>최대 레벨은 45레벨이며, 일반적으로 3~4일이면 도달 가능합니다.</li>
+					<li><h3>메인 퀘스트만 따라가도 자연스럽게 레벨업이 가능합니다.</h3></li>
+					<li>초반에는 장비보다 레벨을 먼저 올리는 것이 중요합니다.</li>
+					<li>레벨업 시 스킬 포인트를 획득하며, 바로 투자하는 것이 효율적입니다.</li>
+				</ul>
+			</section>
+
+			<section class="guide-step-section guide-step-tip-card"
+				th:insert="~{guide/fragments :: guideInfoCardContent(title='TIP', headingLevel='h3', contentFragment=~{guide/step4 :: step4TipCardContent})}">
+			</section>
+		</div>
+
+		<section class="guide-step-section guide-step-image-card">
+			<h3>추가 팁</h3>
+			<ul>
+				<li>우편 보상과 출석 보상은 반드시 수령하세요.</li>
+				<li>이벤트 보상 아이템은 초반 성장에 큰 도움이 됩니다.</li>
+				<li>부활의 정령석은 초반 지역에서 매우 유용한 필수 아이템입니다.</li>
+				<li>대부분의 유저는 45레벨 이후 초기화를 고려하고 초반에는 스킬을 자유롭게 투자합니다.</li>
+			</ul>
+		</section>
+	</article>
+</th:block>
+<!-- 공용 TIP 카드에 주입할 step 4 전용 본문이다. -->
+<th:block th:fragment="step4TipCardContent">
+	<p>
+		45레벨 이후부터 장비 파밍, 통찰 시스템, 정기 추출, 던전 공략 등 본격적인 성장 구간이 시작됩니다.
+		초반에는 장비에 집착하지 말고 메인 퀘스트 위주로 빠르게 레벨을 올리는 것이 가장 효율적입니다.
+	</p>
+</th:block>

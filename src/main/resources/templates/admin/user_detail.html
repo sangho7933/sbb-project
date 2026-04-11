@@ -1,0 +1,259 @@
+<html layout:decorate="~{a2c_layout}">
+<div layout:fragment="content" class="board-shell">
+	<div class="container-xl">
+		<section class="board-header-card">
+			<div>
+				<span class="section-kicker">회원 상세</span>
+				<h1 class="section-title" th:text="${managedUser.username}">username</h1>
+				<p class="board-copy">관리자 전용 회원 상세 정보와 작성 내역입니다.</p>
+			</div>
+			<div class="board-header-actions d-flex gap-2">
+				<a class="btn btn-a2c-secondary" th:href="@{/admin}">관리자 목록</a>
+				<a class="btn btn-a2c-secondary" th:href="@{/}">메인 페이지</a>
+			</div>
+		</section>
+
+		<section class="panel-surface mb-4">
+			<div class="section-heading-row">
+				<div>
+					<span class="section-kicker">기본 정보</span>
+					<h2 class="section-title">회원 기본 정보</h2>
+				</div>
+			</div>
+			<div class="table-responsive admin-table-wrap">
+				<table class="table table-dark table-striped align-middle mb-0 admin-keyvalue-table">
+					<tbody>
+						<tr>
+							<th scope="row" class="admin-key-label">ID</th>
+							<td th:text="${managedUser.id}">1</td>
+						</tr>
+						<tr>
+							<th scope="row">아이디</th>
+							<td>
+								<span th:text="${managedUser.username}">username</span>
+								<span class="badge text-bg-warning ms-2" th:if="${managedUser.username == 'admin'}">관리자</span>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">이메일</th>
+							<td th:text="${managedUser.email}">email</td>
+						</tr>
+						<tr>
+							<th scope="row">골드</th>
+							<td th:text="${#numbers.formatInteger(managedUser.gold, 1, 'COMMA') + 'G'}">1,000G</td>
+						</tr>
+						<tr>
+							<th scope="row">종족</th>
+							<td th:text="${managedUser.race}">race</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="panel-surface mb-4">
+			<div class="section-heading-row">
+				<div>
+					<span class="section-kicker">게시글</span>
+					<h2 class="section-title">작성한 게시글</h2>
+				</div>
+				<span th:text="|총 ${#lists.size(userPosts)}건|">총 0건</span>
+			</div>
+			<div class="table-responsive admin-table-wrap">
+				<table class="table table-dark table-striped align-middle admin-responsive-table admin-user-posts-table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>분류</th>
+							<th>제목</th>
+							<th>작성일</th>
+							<th>댓글 수</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${#lists.isEmpty(userPosts)}">
+							<td colspan="5">작성한 게시글이 없습니다.</td>
+						</tr>
+						<tr th:each="post : ${userPosts}">
+							<td th:text="${post.id}">1</td>
+							<td th:text="${post.category != null ? post.category.label : '-'}">-</td>
+							<td>
+								<a th:if="${post.category != null}" th:href="@{|/boards/${post.category.code}/posts/${post.id}|}" target="_blank"
+									th:text="${post.subject}">subject</a>
+								<span th:unless="${post.category != null}" th:text="${post.subject}">subject</span>
+							</td>
+							<td th:text="${post.createDate != null ? #temporals.format(post.createDate, 'yyyy-MM-dd HH:mm') : '-'}">-</td>
+							<td th:text="${post.commentCount}">0</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="panel-surface mb-4">
+			<div class="section-heading-row">
+				<div>
+					<span class="section-kicker">댓글</span>
+					<h2 class="section-title">작성한 댓글</h2>
+				</div>
+				<span th:text="|총 ${#lists.size(userComments)}건|">총 0건</span>
+			</div>
+			<div class="table-responsive admin-table-wrap">
+				<table class="table table-dark table-striped align-middle admin-responsive-table admin-user-comments-table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>내용 일부</th>
+							<th>원문 보기</th>
+							<th>상태</th>
+							<th>작성일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${#lists.isEmpty(userComments)}">
+							<td colspan="5">작성한 댓글이 없습니다.</td>
+						</tr>
+						<tr th:each="comment : ${userComments}">
+							<td th:text="${comment.id}">1</td>
+							<td>
+								<span th:text="${comment.content != null and #strings.length(comment.content) > 80 ? #strings.substring(comment.content, 0, 80) + '...' : comment.content}">content</span>
+							</td>
+							<td>
+								<a th:if="${comment.post != null and comment.post.category != null}"
+									th:href="@{|/boards/${comment.post.category.code}/posts/${comment.post.id}#comment_${comment.id}|}" target="_blank">원문 보기</a>
+								<span th:unless="${comment.post != null and comment.post.category != null}">-</span>
+							</td>
+							<td>
+								<span class="badge text-bg-secondary" th:if="${comment.deleted}">삭제됨</span>
+								<span class="badge text-bg-success" th:unless="${comment.deleted}">노출 중</span>
+							</td>
+							<td th:text="${comment.createDate != null ? #temporals.format(comment.createDate, 'yyyy-MM-dd HH:mm') : '-'}">-</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="panel-surface mb-4">
+			<div class="section-heading-row">
+				<div>
+					<span class="section-kicker">거래</span>
+					<h2 class="section-title">작성한 거래글</h2>
+				</div>
+				<span th:text="|총 ${#lists.size(userTradeItems)}건|">총 0건</span>
+			</div>
+			<div class="table-responsive admin-table-wrap">
+				<table class="table table-dark table-striped align-middle admin-responsive-table admin-user-trades-table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>제목</th>
+							<th>가격</th>
+							<th>상태</th>
+							<th>노출</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${#lists.isEmpty(userTradeItems)}">
+							<td colspan="5">작성한 거래글이 없습니다.</td>
+						</tr>
+						<tr th:each="item : ${userTradeItems}">
+							<td th:text="${item.id}">1</td>
+							<td>
+								<a th:if="${!item.hidden}" th:href="@{|/trade/items/${item.id}|}" target="_blank" th:text="${item.title}">title</a>
+								<span th:unless="${!item.hidden}" th:text="${item.title}">title</span>
+							</td>
+							<td th:text="${item.price != null ? #numbers.formatInteger(item.price, 1, 'COMMA') + 'G' : '-'}">-</td>
+							<td th:text="${item.soldOut ? '판매완료' : '판매중'}">판매중</td>
+							<td>
+								<span class="badge text-bg-secondary" th:if="${item.hidden}">숨김</span>
+								<span class="badge text-bg-success" th:unless="${item.hidden}">노출 중</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="panel-surface mb-4">
+			<div class="section-heading-row">
+				<div>
+					<span class="section-kicker">구매 이력</span>
+					<h2 class="section-title">구매 이력</h2>
+				</div>
+				<span th:text="|총 ${#lists.size(purchaseHistory)}건|">총 0건</span>
+			</div>
+			<div class="table-responsive admin-table-wrap">
+				<table class="table table-dark table-striped align-middle admin-responsive-table admin-purchase-history-table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>거래글</th>
+							<th>가격</th>
+							<th>상태</th>
+							<th>일시</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${#lists.isEmpty(purchaseHistory)}">
+							<td colspan="5">구매 이력이 없습니다.</td>
+						</tr>
+						<tr th:each="transaction : ${purchaseHistory}">
+							<td th:text="${transaction.id}">1</td>
+							<td>
+								<a th:if="${transaction.item != null and !transaction.item.hidden}" th:href="@{|/trade/items/${transaction.item.id}|}" target="_blank"
+									th:text="${transaction.item.title}">item</a>
+								<span th:unless="${transaction.item != null and !transaction.item.hidden}"
+									th:text="${transaction.item != null ? transaction.item.title : '-'}">-</span>
+							</td>
+							<td th:text="${transaction.price != null ? #numbers.formatInteger(transaction.price, 1, 'COMMA') + 'G' : '-'}">-</td>
+							<td th:text="${transaction.status == 'COMPLETED' ? '완료' : (transaction.status != null ? transaction.status : '-')}">완료</td>
+							<td th:text="${transaction.createdAt != null ? #temporals.format(transaction.createdAt, 'yyyy-MM-dd HH:mm') : '-'}">-</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="panel-surface">
+			<div class="section-heading-row">
+				<div>
+					<span class="section-kicker">판매 이력</span>
+					<h2 class="section-title">판매 이력</h2>
+				</div>
+				<span th:text="|총 ${#lists.size(salesHistory)}건|">총 0건</span>
+			</div>
+			<div class="table-responsive admin-table-wrap">
+				<table class="table table-dark table-striped align-middle admin-responsive-table admin-sales-history-table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>거래글</th>
+							<th>구매자</th>
+							<th>가격</th>
+							<th>일시</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${#lists.isEmpty(salesHistory)}">
+							<td colspan="5">판매 이력이 없습니다.</td>
+						</tr>
+						<tr th:each="transaction : ${salesHistory}">
+							<td th:text="${transaction.id}">1</td>
+							<td>
+								<a th:if="${transaction.item != null and !transaction.item.hidden}" th:href="@{|/trade/items/${transaction.item.id}|}" target="_blank"
+									th:text="${transaction.item.title}">item</a>
+								<span th:unless="${transaction.item != null and !transaction.item.hidden}"
+									th:text="${transaction.item != null ? transaction.item.title : '-'}">-</span>
+							</td>
+							<td th:text="${transaction.buyer != null ? transaction.buyer.username : '-'}">-</td>
+							<td th:text="${transaction.price != null ? #numbers.formatInteger(transaction.price, 1, 'COMMA') + 'G' : '-'}">-</td>
+							<td th:text="${transaction.createdAt != null ? #temporals.format(transaction.createdAt, 'yyyy-MM-dd HH:mm') : '-'}">-</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</div>
+</div>
+</html>

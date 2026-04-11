@@ -1,0 +1,2602 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="_csrf" content="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND">
+	<meta name="_csrf_header" content="X-CSRF-TOKEN">
+	<script>
+		(function () {
+			try {
+				var savedTheme = localStorage.getItem("a2c-faction-theme");
+				var theme = savedTheme === "elyos" ? "elyos" : "asmodian";
+				document.documentElement.setAttribute("data-theme", theme);
+			} catch (error) {
+				document.documentElement.setAttribute("data-theme", "asmodian");
+			}
+		})();
+	</script>
+	<link rel="stylesheet" type="text/css" href="/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/a2c.css">
+	
+	
+		<title>마이페이지 - A2C</title>
+		
+</head>
+
+<body class="asmodian">
+	<script>
+		(function () {
+			var theme = document.documentElement.getAttribute("data-theme") || "asmodian";
+			document.body.classList.remove("asmodian", "elyos");
+			document.body.classList.add(theme);
+		})();
+	</script>
+	<nav class="navbar navbar-expand-xl navbar-dark navbar-a2c">
+	<div class="container-xl">
+		<a class="navbar-brand brand-mark" href="/" aria-label="A2C 홈">
+			<img src="/images/a2c-logo.png" alt="A2C 로고" class="brand-logo">
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#a2cNavbar"
+			aria-controls="a2cNavbar" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="a2cNavbar">
+			<ul class="navbar-nav me-auto mb-2 mb-xl-0">
+				<li class="nav-item">
+					<a class="nav-link" href="/boards/free">자유게시판</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/boards/guild">길드원모집</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/boards/boss">보스공략</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/boards/highlight">하이라이트</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/skilltree">스킬트리</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/trade/items">거래게시판</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link  active" href="/mypage">My Page</a>
+				</li>
+			</ul>
+			<div class="nav-auth-group">
+				
+				
+				<span class="nav-user-badge">관리자</span>
+				<span class="nav-user-badge">admin | 1,000G</span>
+				<form action="/user/logout" 
+      method="post" 
+      style="display:inline;"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+    <button type="submit" class="btn btn-auth btn-light">로그아웃</button>
+</form>
+			</div>
+		</div>
+	</div>
+</nav>
+	<div>
+	<section class="py-5">
+		<div class="container-xl">
+			<style>
+				.mypage-panel {
+					border: 1px solid rgba(255, 255, 255, 0.08);
+					border-radius: 24px;
+					background: rgba(16, 12, 28, 0.84);
+					box-shadow: 0 30px 60px rgba(5, 6, 18, 0.28);
+				}
+
+				.mypage-slot-card,
+				.mypage-item-card,
+				.mypage-rec-card {
+					border: 1px solid rgba(255, 255, 255, 0.08);
+					border-radius: 20px;
+					background: rgba(255, 255, 255, 0.04);
+				}
+
+				.mypage-chip {
+					display: inline-flex;
+					align-items: center;
+					gap: 0.35rem;
+					padding: 0.3rem 0.65rem;
+					border-radius: 999px;
+					background: rgba(255, 255, 255, 0.08);
+					font-size: 0.8rem;
+				}
+
+				.mypage-stat-grid {
+					display: grid;
+					grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+					gap: 0.9rem;
+				}
+
+				.mypage-stat-card {
+					padding: 1rem;
+					border-radius: 18px;
+					background: rgba(255, 255, 255, 0.05);
+					border: 1px solid rgba(255, 255, 255, 0.08);
+				}
+
+				.mypage-stat-label {
+					font-size: 0.82rem;
+					opacity: 0.78;
+				}
+
+				.mypage-stat-value {
+					font-size: 1.35rem;
+					font-weight: 700;
+				}
+			</style>
+
+			<div class="mypage-panel p-4 p-lg-5 mb-4">
+				<div class="d-flex flex-column flex-lg-row justify-content-between gap-4">
+					<div>
+						<span class="section-kicker">MY PAGE</span>
+						<h1 class="display-6 fw-bold text-white mb-3">MY PAGE</h1>
+						<p class="text-light opacity-75 mb-0">
+							Register equipped items, review total stats, and check the next growth priorities from the official item database.
+						</p>
+					</div>
+					<div class="d-flex flex-column gap-2 text-lg-end">
+						<div class="mypage-chip justify-content-center justify-content-lg-end">admin · 1,000G</div>
+						<div class="mypage-chip justify-content-center justify-content-lg-end">Synced Items 8,454</div>
+						<div class="mypage-chip justify-content-center justify-content-lg-end">Last Sync 04-03 15:24</div>
+					</div>
+				</div>
+			</div>
+
+			
+			
+
+			<div class="mypage-panel p-4 mb-4">
+				<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-3">
+					<div>
+						<span class="section-kicker">TOTAL STATS</span>
+						<h2 class="h4 text-white mb-1">Total Stats</h2>
+					</div>
+					<div class="d-flex flex-wrap gap-2">
+						<form method="post" action="/mypage/recommendations"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+							<input type="hidden" name="slotCode" value="weapon">
+							<input type="hidden" name="keyword" value="">
+							<button type="submit" class="btn btn-light">Refresh Recommendations</button>
+						</form>
+						<form method="post" action="/mypage/sync"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+							<input type="hidden" name="slotCode" value="weapon">
+							<input type="hidden" name="keyword" value="">
+							<button type="submit" class="btn btn-outline-light">Sync Official Items</button>
+						</form>
+					</div>
+				</div>
+				<div class="mypage-stat-grid">
+					<div class="mypage-stat-card">
+						<div class="mypage-stat-label">Attack</div>
+						<div class="mypage-stat-value">3 ~ 3</div>
+					</div>
+					<div class="mypage-stat-card">
+						<div class="mypage-stat-label">Defense</div>
+						<div class="mypage-stat-value">32</div>
+					</div>
+					<div class="mypage-stat-card">
+						<div class="mypage-stat-label">Accuracy</div>
+						<div class="mypage-stat-value">50</div>
+					</div>
+					<div class="mypage-stat-card">
+						<div class="mypage-stat-label">Critical</div>
+						<div class="mypage-stat-value">50</div>
+					</div>
+					<div class="mypage-stat-card">
+						<div class="mypage-stat-label">Health</div>
+						<div class="mypage-stat-value">20</div>
+					</div>
+					<div class="mypage-stat-card">
+						<div class="mypage-stat-label">Magic Boost</div>
+						<div class="mypage-stat-value">0</div>
+					</div>
+					<div class="mypage-stat-card">
+						<div class="mypage-stat-label">Magic Accuracy</div>
+						<div class="mypage-stat-value">0</div>
+					</div>
+					<div class="mypage-stat-card">
+						<div class="mypage-stat-label">Power Score</div>
+						<div class="mypage-stat-value">299</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row g-4">
+				<div class="col-lg-4">
+					<div class="mypage-panel p-4 h-100">
+						<div class="mb-3">
+							<span class="section-kicker">EQUIPMENT</span>
+							<h2 class="h4 text-white mb-0">Equipped Items</h2>
+						</div>
+						<div class="d-grid gap-3">
+							<a class="mypage-slot-card p-3 text-decoration-none text-light"
+								href="/mypage?slot=helmet&amp;keyword=">
+								<div class="d-flex justify-content-between align-items-start gap-3">
+									<div>
+										<div class="text-uppercase small opacity-75">투구</div>
+										<div class="fw-semibold fs-5 mt-1">천족 검성의 투구</div>
+										<div class="small opacity-75 mt-1">일반 / Lv.1</div>
+									</div>
+									<div class="text-end small opacity-75">252 candidates</div>
+								</div>
+							</a><a class="mypage-slot-card p-3 text-decoration-none text-light"
+								href="/mypage?slot=armor&amp;keyword=">
+								<div class="d-flex justify-content-between align-items-start gap-3">
+									<div>
+										<div class="text-uppercase small opacity-75">상의</div>
+										<div class="fw-semibold fs-5 mt-1">천족 검성의 흉갑</div>
+										<div class="small opacity-75 mt-1">일반 / Lv.1</div>
+									</div>
+									<div class="text-end small opacity-75">252 candidates</div>
+								</div>
+							</a><a class="mypage-slot-card p-3 text-decoration-none text-light"
+								href="/mypage?slot=boots&amp;keyword=">
+								<div class="d-flex justify-content-between align-items-start gap-3">
+									<div>
+										<div class="text-uppercase small opacity-75">신발</div>
+										<div class="fw-semibold fs-5 mt-1">천족 검성의 장화</div>
+										<div class="small opacity-75 mt-1">일반 / Lv.1</div>
+									</div>
+									<div class="text-end small opacity-75">252 candidates</div>
+								</div>
+							</a><a class="mypage-slot-card p-3 text-decoration-none text-light"
+								href="/mypage?slot=ring&amp;keyword=">
+								<div class="d-flex justify-content-between align-items-start gap-3">
+									<div>
+										<div class="text-uppercase small opacity-75">반지</div>
+										<div class="fw-semibold fs-5 mt-1">Empty Slot</div>
+										<div class="small opacity-75 mt-1">No item equipped yet.</div>
+									</div>
+									<div class="text-end small opacity-75">0 candidates</div>
+								</div>
+							</a><a class="mypage-slot-card p-3 text-decoration-none text-light  border border-info-subtle"
+								href="/mypage?slot=weapon&amp;keyword=">
+								<div class="d-flex justify-content-between align-items-start gap-3">
+									<div>
+										<div class="text-uppercase small opacity-75">무기</div>
+										<div class="fw-semibold fs-5 mt-1">낡은 가더</div>
+										<div class="small opacity-75 mt-1">일반 / Lv.1</div>
+									</div>
+									<div class="text-end small opacity-75">1,699 candidates</div>
+								</div>
+							</a><a class="mypage-slot-card p-3 text-decoration-none text-light"
+								href="/mypage?slot=gloves&amp;keyword=">
+								<div class="d-flex justify-content-between align-items-start gap-3">
+									<div>
+										<div class="text-uppercase small opacity-75">장갑</div>
+										<div class="fw-semibold fs-5 mt-1">천족 검성의 장갑</div>
+										<div class="small opacity-75 mt-1">일반 / Lv.1</div>
+									</div>
+									<div class="text-end small opacity-75">252 candidates</div>
+								</div>
+							</a><a class="mypage-slot-card p-3 text-decoration-none text-light"
+								href="/mypage?slot=necklace&amp;keyword=">
+								<div class="d-flex justify-content-between align-items-start gap-3">
+									<div>
+										<div class="text-uppercase small opacity-75">목걸이</div>
+										<div class="fw-semibold fs-5 mt-1">Empty Slot</div>
+										<div class="small opacity-75 mt-1">No item equipped yet.</div>
+									</div>
+									<div class="text-end small opacity-75">0 candidates</div>
+								</div>
+							</a><a class="mypage-slot-card p-3 text-decoration-none text-light"
+								href="/mypage?slot=shoulder&amp;keyword=">
+								<div class="d-flex justify-content-between align-items-start gap-3">
+									<div>
+										<div class="text-uppercase small opacity-75">견갑</div>
+										<div class="fw-semibold fs-5 mt-1">천족 검성의 견갑</div>
+										<div class="small opacity-75 mt-1">일반 / Lv.1</div>
+									</div>
+									<div class="text-end small opacity-75">252 candidates</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-8">
+					<div class="mypage-panel p-4 mb-4">
+						<div class="mb-3">
+							<span class="section-kicker">RECOMMENDATION</span>
+							<h2 class="h4 text-white mb-1">Growth Priority</h2>
+						</div>
+						<div class="d-grid gap-3">
+							<div class="mypage-rec-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div>
+										<div class="small text-info mb-1">무기</div>
+										<div class="fw-semibold text-white">낡은 가더 -&gt; 빛나는 기룡 패왕의 보주</div>
+										<div class="small opacity-75 mt-2">공격력 +793, 생명력 +378, 정신력 +192 기준으로 가장 큰 개선폭이 예상됩니다.</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power +4398</div>
+										<div class="small opacity-75">Attack +933 / Defense +0</div>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-rec-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div>
+										<div class="small text-info mb-1">상의</div>
+										<div class="fw-semibold text-white">천족 검성의 흉갑 -&gt; 빛나는 기룡 패왕의 흉갑</div>
+										<div class="small opacity-75 mt-2">방어력 +796, 생명력 +574, 치명타 방어력 +278 기준으로 가장 큰 개선폭이 예상됩니다.</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power +2836</div>
+										<div class="small opacity-75">Attack +31 / Defense +1355</div>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-rec-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div>
+										<div class="small text-info mb-1">투구</div>
+										<div class="fw-semibold text-white">천족 검성의 투구 -&gt; 빛나는 기룡 패왕의 투구</div>
+										<div class="small opacity-75 mt-2">방어력 +508, 생명력 +370, 치명타 방어력 +188 기준으로 가장 큰 개선폭이 예상됩니다.</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power +2358</div>
+										<div class="small opacity-75">Attack +25 / Defense +884</div>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-rec-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div>
+										<div class="small text-info mb-1">견갑</div>
+										<div class="fw-semibold text-white">천족 검성의 견갑 -&gt; 빛나는 기룡 패왕의 견갑</div>
+										<div class="small opacity-75 mt-2">방어력 +508, 생명력 +370, 치명타 방어력 +188 기준으로 가장 큰 개선폭이 예상됩니다.</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power +1938</div>
+										<div class="small opacity-75">Attack +23 / Defense +887</div>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-rec-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div>
+										<div class="small text-info mb-1">신발</div>
+										<div class="fw-semibold text-white">천족 검성의 장화 -&gt; 빛나는 기룡 패왕의 장화</div>
+										<div class="small opacity-75 mt-2">방어력 +416, 생명력 +309, 치명타 방어력 +166 기준으로 가장 큰 개선폭이 예상됩니다.</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power +1649</div>
+										<div class="small opacity-75">Attack +21 / Defense +751</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+
+					<div class="mypage-panel p-4">
+						<div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-3">
+							<div>
+								<span class="section-kicker">CATALOG</span>
+								<h2 class="h4 text-white mb-1">무기 Catalog</h2>
+								<p class="text-light opacity-75 mb-0">Browse the top synced official items for the selected slot and equip them instantly.</p>
+							</div>
+							<form class="d-flex gap-2" method="get" action="/mypage">
+								<input type="hidden" name="slot" value="weapon">
+								<input class="form-control" type="search" name="keyword" placeholder="Search item name"
+									value="">
+								<button class="btn btn-outline-light" type="submit">Search</button>
+							</form>
+						</div>
+
+						
+
+						<div class="d-grid gap-3">
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 375 ~ 750</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4569</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620028">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 375 ~ 750</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4569</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620020">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 375 ~ 750</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4569</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620027">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 375 ~ 750</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4569</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620019">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 531 ~ 719</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4515</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120020">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 531 ~ 719</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4515</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120028">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 531 ~ 719</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4515</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120019">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 531 ~ 719</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4515</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120027">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡 패왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 357 ~ 714</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4425</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620018">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡 패왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 357 ~ 714</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4425</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620026">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡 패왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 357 ~ 714</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4425</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620017">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡 패왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 357 ~ 714</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4425</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620025">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡 패왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 506 ~ 684</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4375</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120018">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡 패왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 506 ~ 684</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4375</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120026">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡 패왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 506 ~ 684</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4375</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120017">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡 패왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 506 ~ 684</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4375</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120025">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 345 ~ 690</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4284</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620007">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 345 ~ 690</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4284</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620024">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 345 ~ 690</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4284</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620006">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 345 ~ 690</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4284</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620023">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_ST_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 법봉</div>
+												<div class="small opacity-75">영웅 / 법봉 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 500 ~ 688</span><span class="mypage-chip">명중 75</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">호법성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4281</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110820020">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_ST_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 법봉</div>
+												<div class="small opacity-75">영웅 / 법봉 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 500 ~ 688</span><span class="mypage-chip">명중 75</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">호법성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4281</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110820028">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_ST_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 법봉</div>
+												<div class="small opacity-75">영웅 / 법봉 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 500 ~ 688</span><span class="mypage-chip">명중 75</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">호법성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4281</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110820019">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_ST_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 법봉</div>
+												<div class="small opacity-75">영웅 / 법봉 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 500 ~ 688</span><span class="mypage-chip">명중 75</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">호법성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4281</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110820027">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 489 ~ 661</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4238</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120007">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 489 ~ 661</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4238</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120024">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 489 ~ 661</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4238</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120006">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 489 ~ 661</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4238</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120023">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_ST_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡 패왕의 법봉</div>
+												<div class="small opacity-75">영웅 / 법봉 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 476 ~ 655</span><span class="mypage-chip">명중 75</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">호법성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4149</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110820018">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_ST_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡 패왕의 법봉</div>
+												<div class="small opacity-75">영웅 / 법봉 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 476 ~ 655</span><span class="mypage-chip">명중 75</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">호법성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4149</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110820026">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_ST_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡 패왕의 법봉</div>
+												<div class="small opacity-75">영웅 / 법봉 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 476 ~ 655</span><span class="mypage-chip">명중 75</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">호법성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4149</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110820017">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_ST_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡 패왕의 법봉</div>
+												<div class="small opacity-75">영웅 / 법봉 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 476 ~ 655</span><span class="mypage-chip">명중 75</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">호법성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4149</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110820025">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 327 ~ 654</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4140</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620002">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 327 ~ 654</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4140</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620022">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 327 ~ 654</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4140</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620001">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡왕의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 327 ~ 654</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4140</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620021">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 463 ~ 627</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4102</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120002">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 463 ~ 627</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4102</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120022">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 463 ~ 627</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4102</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120001">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡왕의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 463 ~ 627</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">검성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4102</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120021">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_MB_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 마법서</div>
+												<div class="small opacity-75">영웅 / 법서 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 563 ~ 625</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">마도성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4064</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110520028">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_MB_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 마법서</div>
+												<div class="small opacity-75">영웅 / 법서 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 563 ~ 625</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">마도성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4064</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110520020">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_MB_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 마법서</div>
+												<div class="small opacity-75">영웅 / 법서 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 563 ~ 625</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">마도성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4064</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110520027">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_MB_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 마법서</div>
+												<div class="small opacity-75">영웅 / 법서 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 563 ~ 625</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">마도성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4064</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110520019">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_SW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 장검</div>
+												<div class="small opacity-75">영웅 / 장검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 500 ~ 625</span><span class="mypage-chip">명중 150</span><span class="mypage-chip">치명타 50</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">수호성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4059</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110220020">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_SW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 장검</div>
+												<div class="small opacity-75">영웅 / 장검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 500 ~ 625</span><span class="mypage-chip">명중 150</span><span class="mypage-chip">치명타 50</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">수호성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4059</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110220028">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_SW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 장검</div>
+												<div class="small opacity-75">영웅 / 장검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 500 ~ 625</span><span class="mypage-chip">명중 150</span><span class="mypage-chip">치명타 50</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">수호성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4059</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110220019">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_SW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 장검</div>
+												<div class="small opacity-75">영웅 / 장검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 500 ~ 625</span><span class="mypage-chip">명중 150</span><span class="mypage-chip">치명타 50</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">수호성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4059</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110220027">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_ST_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡왕의 법봉</div>
+												<div class="small opacity-75">영웅 / 법봉 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 460 ~ 633</span><span class="mypage-chip">명중 75</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">호법성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4016</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110820007">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_ST_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡왕의 법봉</div>
+												<div class="small opacity-75">영웅 / 법봉 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 460 ~ 633</span><span class="mypage-chip">명중 75</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">호법성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4016</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110820024">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_ST_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡왕의 법봉</div>
+												<div class="small opacity-75">영웅 / 법봉 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 460 ~ 633</span><span class="mypage-chip">명중 75</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">호법성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4016</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110820006">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_ST_0110_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡왕의 법봉</div>
+												<div class="small opacity-75">영웅 / 법봉 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 460 ~ 633</span><span class="mypage-chip">명중 75</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">호법성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4016</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110820023">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_BW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 활</div>
+												<div class="small opacity-75">영웅 / 활 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 484 ~ 609</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">궁성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4000</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110420020">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_BW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 활</div>
+												<div class="small opacity-75">영웅 / 활 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 484 ~ 609</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">궁성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4000</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110420028">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_BW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 활</div>
+												<div class="small opacity-75">영웅 / 활 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 484 ~ 609</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">궁성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4000</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110420019">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_BW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 활</div>
+												<div class="small opacity-75">영웅 / 활 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 484 ~ 609</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">궁성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4000</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110420027">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_Moon_01.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">가디언 군단장의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 327 ~ 654</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVP 피해 증폭 10%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 전체</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4000</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620004">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_Moon_01.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">아칸 군단장의 보주</div>
+												<div class="small opacity-75">영웅 / 보주 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 327 ~ 654</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVP 피해 증폭 10%</span>
+										</div>
+										<div class="small opacity-75">정령성 / 전체</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4000</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620005">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_Dream_01.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">침식된 지배자의 홍염옥</div>
+												<div class="small opacity-75">영웅 / 보주(늘어남) / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 327 ~ 654</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span>
+										</div>
+										<div class="small opacity-75">정령성 / 전체</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4000</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620016">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_OR_Dream_01.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">침식된 지배자의 홍염옥</div>
+												<div class="small opacity-75">영웅 / 보주(늘어남) / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 327 ~ 654</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 150</span>
+										</div>
+										<div class="small opacity-75">정령성 / 전체</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 4000</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110620015">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_Moon_01.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">가디언 군단장의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 463 ~ 627</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVP 피해 증폭 10%</span>
+										</div>
+										<div class="small opacity-75">검성 / 전체</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3962</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120004">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_Moon_01.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">아칸 군단장의 대검</div>
+												<div class="small opacity-75">영웅 / 대검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 463 ~ 627</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">PVP 피해 증폭 10%</span>
+										</div>
+										<div class="small opacity-75">검성 / 전체</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3962</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120005">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_Dream_01.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">침식된 지배자의 포식대검</div>
+												<div class="small opacity-75">영웅 / 대검(늘어남) / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 463 ~ 627</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">막기 150</span>
+										</div>
+										<div class="small opacity-75">검성 / 전체</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3962</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120015">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_GS_Dream_01.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">침식된 지배자의 포식대검</div>
+												<div class="small opacity-75">영웅 / 대검(늘어남) / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 463 ~ 627</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 150</span><span class="mypage-chip">막기 150</span>
+										</div>
+										<div class="small opacity-75">검성 / 전체</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3962</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110120016">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_MB_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡 패왕의 마법서</div>
+												<div class="small opacity-75">영웅 / 법서 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 536 ~ 595</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">마도성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3944</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110520018">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_MB_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡 패왕의 마법서</div>
+												<div class="small opacity-75">영웅 / 법서 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 536 ~ 595</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">마도성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3944</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110520026">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_MB_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡 패왕의 마법서</div>
+												<div class="small opacity-75">영웅 / 법서 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 536 ~ 595</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">마도성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3944</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110520025">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_MB_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡 패왕의 마법서</div>
+												<div class="small opacity-75">영웅 / 법서 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 536 ~ 595</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">마도성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3944</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110520017">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_SW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡 패왕의 장검</div>
+												<div class="small opacity-75">영웅 / 장검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 476 ~ 595</span><span class="mypage-chip">명중 150</span><span class="mypage-chip">치명타 50</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">수호성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3939</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110220026">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_SW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡 패왕의 장검</div>
+												<div class="small opacity-75">영웅 / 장검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 476 ~ 595</span><span class="mypage-chip">명중 150</span><span class="mypage-chip">치명타 50</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">수호성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3939</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110220018">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_SW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡 패왕의 장검</div>
+												<div class="small opacity-75">영웅 / 장검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 476 ~ 595</span><span class="mypage-chip">명중 150</span><span class="mypage-chip">치명타 50</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">수호성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3939</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110220025">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_SW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡 패왕의 장검</div>
+												<div class="small opacity-75">영웅 / 장검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 476 ~ 595</span><span class="mypage-chip">명중 150</span><span class="mypage-chip">치명타 50</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">수호성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3939</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110220017">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_DA_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 단검</div>
+												<div class="small opacity-75">영웅 / 단검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 438 ~ 563</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 200</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">살성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3896</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110320028">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_DA_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 기룡 패왕의 단검</div>
+												<div class="small opacity-75">영웅 / 단검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 438 ~ 563</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 200</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">살성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3896</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110320020">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_DA_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 단검</div>
+												<div class="small opacity-75">영웅 / 단검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 438 ~ 563</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 200</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">살성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3896</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110320027">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_DA_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">빛나는 응룡 패왕의 단검</div>
+												<div class="small opacity-75">영웅 / 단검 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 438 ~ 563</span><span class="mypage-chip">명중 50</span><span class="mypage-chip">치명타 200</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">살성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3896</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110320019">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_BW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡 패왕의 활</div>
+												<div class="small opacity-75">영웅 / 활 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 461 ~ 580</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">궁성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3884</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110420026">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_BW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">기룡 패왕의 활</div>
+												<div class="small opacity-75">영웅 / 활 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 461 ~ 580</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">궁성 / 마족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3884</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110420018">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_BW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡 패왕의 활</div>
+												<div class="small opacity-75">영웅 / 활 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 461 ~ 580</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">궁성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3884</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110420025">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="mypage-item-card p-3">
+								<div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+									<div class="flex-grow-1">
+										<div class="d-flex align-items-center gap-3 mb-2">
+											<img src="https://assets.playnccdn.com/static-aion2-gamedata/resources/Icon_WP_BW_0117_T05.png" alt="" width="48" height="48"
+												class="rounded-3 border border-light-subtle">
+											<div>
+												<div class="fw-semibold text-white">응룡 패왕의 활</div>
+												<div class="small opacity-75">영웅 / 활 / Lv.45</div>
+											</div>
+										</div>
+										<div class="d-flex flex-wrap gap-2 mb-2">
+											<span class="mypage-chip">공격력 461 ~ 580</span><span class="mypage-chip">명중 100</span><span class="mypage-chip">치명타 100</span><span class="mypage-chip">PVE 피해 증폭 5%</span>
+										</div>
+										<div class="small opacity-75">궁성 / 천족</div>
+									</div>
+									<div class="text-lg-end">
+										<div class="fw-semibold text-white mb-2">Power 3884</div>
+										<form method="post" action="/mypage/equipment"><input type="hidden" name="_csrf" value="B5z-MJ4WiqSX3YD4d0F8MzSGkB7K7Cn8Pte091amQGP2gqR2NanJB_10vJC67-WbFGxIAgy0vSeujhnRCu7QlDKWdVPA4JND"/>
+											<input type="hidden" name="slotCode" value="weapon">
+											<input type="hidden" name="itemId" value="110420017">
+											<input type="hidden" name="keyword" value="">
+											<button class="btn btn-light" type="submit">Equip This Item</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+	<button type="button" id="themeToggleButton" class="theme-toggle-button" aria-live="polite" aria-label="천족 테마로 전환" title="천족 테마로 전환">
+		<span class="theme-toggle-icon" data-theme-icon>😇</span>
+		<span class="theme-toggle-copy">
+			<span class="theme-toggle-kicker">NEXT</span>
+			<span class="theme-toggle-label" data-theme-label>천족</span>
+		</span>
+	</button>
+	<button type="button" id="angelAIButton" aria-controls="aiChat" aria-expanded="false" title="천족 AI 열기">
+		<span class="halo" aria-hidden="true">◯</span>
+		<span class="wing left" aria-hidden="true">🪽</span>
+		<span class="angel-label">AI</span>
+		<span class="wing right" aria-hidden="true">🪽</span>
+	</button>
+	<section id="aiChat" aria-hidden="true">
+		<div id="aiHeader">
+			<div class="ai-header-copy">
+				<span class="ai-header-kicker">A2C ASSISTANT</span>
+				<strong>천족 AI</strong>
+			</div>
+			<button type="button" id="aiCloseButton" class="ai-close-button" aria-label="채팅 닫기">×</button>
+		</div>
+		<div id="aiMessages">
+			<div class="ai-message ai-message-bot">안녕하세요. 아이온2 직업, 게시판 기능, 스킬트리 관련 질문을 도와드릴게요.</div>
+		</div>
+		<div id="aiInputBox">
+			<input type="text" id="aiInput" placeholder="천족 AI에게 질문하세요" maxlength="500">
+			<button type="button" id="aiSendButton">전송</button>
+		</div>
+	</section>
+	<script src="/bootstrap.min.js"></script>
+	
+	<script src="/theme-toggle.js"></script>
+	<script src="/ai-chat.js"></script>
+</body>
+
+</html>

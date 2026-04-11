@@ -1,0 +1,551 @@
+.guide-shell {
+	padding-top: 1.75rem;
+}
+
+.guide-header-card {
+	margin-bottom: 1.2rem;
+}
+
+.guide-layout {
+	display: grid;
+	grid-template-columns: minmax(240px, 0.82fr) minmax(0, 1.78fr);
+	gap: 1.2rem;
+	align-items: start;
+}
+
+.guide-sidebar,
+.guide-content-card {
+	padding: 1.35rem;
+}
+
+.guide-sidebar {
+	position: sticky;
+	top: 108px;
+}
+
+.guide-sidebar-head h2 {
+	margin: 0.6rem 0 0;
+	color: var(--theme-panel-heading);
+	font-size: 1.45rem;
+	font-weight: 800;
+}
+
+.guide-sidebar-head p {
+	margin: 0.55rem 0 0;
+	color: var(--theme-panel-muted);
+	line-height: 1.65;
+}
+
+.guide-sidebar-kicker,
+.guide-step-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.36rem 0.74rem;
+	border-radius: 999px;
+	background: var(--theme-kicker-bg);
+	border: 1px solid var(--theme-kicker-border);
+	color: var(--theme-kicker-text);
+	font-size: 0.76rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.guide-step-list {
+	display: grid;
+	gap: 0.75rem;
+	margin-top: 1.15rem;
+}
+
+.guide-step-button {
+	display: grid;
+	gap: 0.35rem;
+	padding: 1rem 1.05rem;
+	border-radius: 22px;
+	border: 1px solid var(--theme-secondary-border);
+	background: var(--theme-secondary-bg);
+	color: var(--theme-secondary-text);
+	box-shadow: 0 12px 24px rgba(15, 23, 36, 0.08);
+	transition:
+		transform 0.18s ease,
+		box-shadow 0.18s ease,
+		border-color 0.18s ease,
+		background 0.18s ease,
+		color 0.18s ease;
+}
+
+.guide-step-button:hover,
+.guide-step-button:focus-visible {
+	transform: translateY(-2px);
+	border-color: var(--theme-primary-end);
+	box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
+	color: var(--theme-secondary-text);
+}
+
+.guide-step-button:focus-visible {
+	outline: none;
+}
+
+.guide-step-button.is-active {
+	border-color: transparent;
+	background: linear-gradient(135deg, var(--theme-primary-start) 0%, var(--theme-primary-end) 100%);
+	color: var(--theme-primary-text);
+	box-shadow: var(--theme-primary-shadow);
+}
+
+.guide-step-button-number {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: fit-content;
+	padding: 0.28rem 0.56rem;
+	border-radius: 999px;
+	background: var(--theme-trade-chip-bg);
+	color: var(--theme-trade-chip-text);
+	font-size: 0.74rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+}
+
+.guide-step-button.is-active .guide-step-button-number {
+	background: rgba(255, 255, 255, 0.18);
+	color: inherit;
+}
+
+.guide-step-button-title {
+	font-size: 1rem;
+	font-weight: 800;
+	line-height: 1.35;
+}
+
+.guide-step-button-copy {
+	color: var(--theme-panel-muted);
+	font-size: 0.84rem;
+	line-height: 1.55;
+}
+
+.guide-step-button.is-active .guide-step-button-copy {
+	color: rgba(255, 255, 255, 0.86);
+}
+
+.guide-content-card {
+	min-height: 720px;
+}
+
+.guide-content-body {
+	display: grid;
+	gap: 1.2rem;
+}
+
+.guide-content-body.is-loading {
+	opacity: 0.72;
+}
+
+.guide-step-shell {
+	display: grid;
+	gap: 1.2rem;
+}
+
+.guide-step-header h2 {
+	margin: 0.7rem 0 0;
+	color: var(--theme-panel-heading);
+	font-size: clamp(1.8rem, 3vw, 2.4rem);
+	font-weight: 900;
+}
+
+.guide-step-header p {
+	margin: 0.7rem 0 0;
+	color: var(--theme-panel-muted);
+	line-height: 1.75;
+	font-size: 1rem;
+}
+
+.guide-step-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.guide-step-section {
+	padding: 1.15rem 1.2rem;
+	border-radius: 24px;
+	border: 1px solid var(--theme-panel-border);
+	background: var(--theme-panel-soft);
+}
+
+.guide-step-tip-card {
+	background: var(--theme-panel-highlight-bg);
+}
+
+.guide-step-section h3 {
+	margin: 0;
+	color: var(--theme-panel-heading);
+	font-size: 1.02rem;
+	font-weight: 800;
+}
+
+.guide-step-section p,
+.guide-step-section li,
+.guide-step-image-note,
+.guide-load-error {
+	color: var(--theme-panel-text);
+	line-height: 1.7;
+}
+
+.guide-step-section ul {
+	margin: 0.9rem 0 0;
+	padding-left: 1.1rem;
+	display: grid;
+	gap: 0.5rem;
+}
+
+.guide-step-image-card {
+	display: grid;
+	gap: 0.85rem;
+}
+
+.guide-step-image-placeholder {
+	display: grid;
+	place-items: center;
+	min-height: 260px;
+	border-radius: 26px;
+	border: 1px dashed var(--theme-secondary-border);
+	background:
+		radial-gradient(circle at 20% 20%, rgba(111, 211, 255, 0.12), transparent 28%),
+		radial-gradient(circle at 82% 24%, rgba(244, 197, 66, 0.14), transparent 24%),
+		var(--theme-panel-bg);
+	color: var(--theme-panel-muted);
+	font-size: 1rem;
+	font-weight: 900;
+	letter-spacing: 0.12em;
+}
+
+.guide-step-image-note {
+	margin: 0;
+	color: var(--theme-panel-muted);
+}
+
+.guide-load-error {
+	padding: 1.15rem 1.2rem;
+	border-radius: 20px;
+	border: 1px dashed var(--theme-panel-border);
+	background: var(--theme-panel-soft);
+}
+
+@media (max-width: 1199px) {
+	.guide-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.guide-sidebar {
+		position: static;
+	}
+}
+
+@media (max-width: 767px) {
+	.guide-sidebar,
+	.guide-content-card {
+		padding: 1.1rem;
+	}
+
+	.guide-step-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.guide-step-image-placeholder {
+		min-height: 220px;
+	}
+}
+.guide-step-main-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    border-radius: 24px;
+    background: var(--theme-panel-bg);
+    border: 1px solid var(--theme-panel-border);
+    color: var(--theme-panel-text);
+    box-shadow: var(--shadow-md);
+}
+
+.guide-step-image-wrap {
+    width: 100%;
+    max-height: 360px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 18px;
+    background: var(--theme-panel-soft);
+    border: 1px solid var(--theme-panel-border);
+    cursor: grab;
+    scroll-behavior: smooth;
+}
+
+.guide-step-image-wrap.dragging {
+    cursor: grabbing;
+}
+
+.guide-step-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.guide-step-download {
+    display: flex;
+    justify-content: center;
+}
+
+.guide-step-download-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 24px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--theme-primary-start) 0%, var(--theme-primary-end) 100%);
+    color: var(--theme-primary-text);
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: var(--theme-primary-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.guide-step-download-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+/* 종족 카드 */
+.guide-step-race-item {
+    text-align: center;
+    padding: 16px;
+    border-radius: 18px;
+    background: var(--theme-panel-soft);
+    border: 1px solid var(--theme-panel-border);
+}
+
+.guide-step-race-images {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.guide-step-race-item h3 {
+	margin: 0;
+	color: var(--theme-panel-heading);
+	font-size: 1.05rem;
+	font-weight: 800;
+}
+
+/* 맵 이미지 (절대 안잘림) */
+.guide-step-race-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    border: 1px solid var(--theme-panel-border);
+    background: var(--theme-panel-bg);
+}
+
+.guide-step-job-block {
+	display: grid;
+	gap: 1rem;
+	padding: 1.15rem 1.2rem;
+	border-radius: 24px;
+	border: 1px solid var(--theme-panel-border);
+	background: var(--theme-panel-soft);
+}
+
+.guide-step-job-block-title {
+	margin: 0;
+	color: var(--theme-panel-heading);
+	font-size: 1.12rem;
+	font-weight: 900;
+}
+
+.guide-step-job-row {
+	display: grid;
+	grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
+	gap: 1rem;
+	align-items: center;
+	padding: 1rem;
+	border-radius: 20px;
+	border: 1px solid var(--theme-panel-border);
+	background: var(--theme-panel-bg);
+}
+
+.guide-step-job-image-wrap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 160px;
+	padding: 0.8rem;
+	border-radius: 18px;
+	border: 1px solid var(--theme-panel-border);
+	background: var(--theme-panel-soft);
+}
+
+.guide-step-job-image {
+	display: block;
+	width: 100%;
+	height: auto;
+	max-height: 200px;
+	object-fit: contain;
+}
+
+.guide-step-job-content h4 {
+	margin: 0 0 0.5rem;
+	color: var(--theme-panel-heading);
+	font-size: 1.05rem;
+	font-weight: 800;
+}
+
+.guide-step-job-content p {
+	margin: 0;
+	color: var(--theme-panel-text);
+	line-height: 1.75;
+}
+
+.guide-step-job-tip h4 {
+	margin: 0 0 0.5rem;
+	color: var(--theme-panel-heading);
+	font-size: 1rem;
+	font-weight: 800;
+}
+
+.guide-step-job-tip p {
+	margin: 0;
+	color: var(--theme-panel-text);
+	line-height: 1.75;
+}
+
+.guide-step-media-stack,
+.aion-guide-banner {
+	display: grid;
+	gap: 1rem;
+}
+
+.aion-guide-card {
+	width: 100%;
+	max-width: none;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	color: inherit;
+	box-sizing: border-box;
+	display: grid;
+	gap: 1.2rem;
+}
+
+.aion-guide-top {
+	margin: 0;
+	display: grid;
+	gap: 0.7rem;
+}
+
+.aion-guide-step {
+	display: inline-flex;
+	align-items: center;
+	width: fit-content;
+	margin: 0;
+	padding: 0.36rem 0.74rem;
+	border-radius: 999px;
+	background: var(--theme-kicker-bg);
+	border: 1px solid var(--theme-kicker-border);
+	color: var(--theme-kicker-text);
+	font-size: 0.76rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.aion-guide-top h2 {
+	margin: 0;
+	color: var(--theme-panel-heading);
+	font-size: clamp(1.8rem, 3vw, 2.4rem);
+	font-weight: 900;
+}
+
+.aion-guide-top p {
+	margin: 0;
+	color: var(--theme-panel-muted);
+	font-size: 1rem;
+	line-height: 1.75;
+}
+
+.aion-guide-banner {
+	margin: 0;
+}
+
+.aion-guide-banner img {
+	display: block;
+	width: 100%;
+	height: auto;
+	max-height: 520px;
+	border-radius: 20px;
+	border: 1px solid var(--theme-panel-border);
+	object-fit: contain;
+	background: var(--theme-panel-soft);
+	box-shadow: var(--shadow-md);
+}
+
+.aion-guide-section {
+	margin: 0;
+	padding: 1.15rem 1.2rem;
+	border-radius: 24px;
+	background: var(--theme-panel-soft);
+	border: 1px solid var(--theme-panel-border);
+}
+
+.aion-guide-section h3 {
+	margin: 0;
+	color: var(--theme-panel-heading);
+	font-size: 1.02rem;
+	font-weight: 800;
+}
+
+.aion-guide-section ul {
+	margin: 0.9rem 0 0;
+	padding-left: 1.1rem;
+	display: grid;
+	gap: 0.5rem;
+}
+
+.aion-guide-section p,
+.aion-guide-section li {
+	color: var(--theme-panel-text);
+	line-height: 1.7;
+}
+
+.aion-guide-section li {
+	margin: 0;
+}
+
+.aion-guide-notice {
+	background: var(--theme-panel-highlight-bg);
+	border-color: var(--theme-panel-border);
+}
+
+@media (max-width: 991px) {
+	.guide-step-race-images,
+	.guide-step-job-row {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 767px) {
+	.guide-step-job-block {
+		padding: 1rem;
+	}
+
+	.guide-step-job-image-wrap {
+		min-height: 0;
+	}
+
+	.aion-guide-banner img {
+		max-height: 320px;
+	}
+}

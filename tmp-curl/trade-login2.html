@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="_csrf" content="PADfT_v5Q_HMCw17-pQvbuj3izY3bHLQjyaXy0Fmoz4K_KPZBTjtfsrOIcjhOD4ZnrkbXtqSpg8GW0r9uBKmqXMHlg1vy8K7">
+	<meta name="_csrf_header" content="X-CSRF-TOKEN">
+	<script>
+		(function () {
+			try {
+				var savedTheme = localStorage.getItem("a2c-faction-theme");
+				var theme = savedTheme === "elyos" ? "elyos" : "asmodian";
+				document.documentElement.setAttribute("data-theme", theme);
+			} catch (error) {
+				document.documentElement.setAttribute("data-theme", "asmodian");
+			}
+		})();
+	</script>
+	<link rel="stylesheet" type="text/css" href="/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/a2c.css">
+	
+	
+		<title>로그인 - A2C</title>
+		
+</head>
+
+<body class="asmodian">
+	<script>
+		(function () {
+			var theme = document.documentElement.getAttribute("data-theme") || "asmodian";
+			document.body.classList.remove("asmodian", "elyos");
+			document.body.classList.add(theme);
+		})();
+	</script>
+	<nav class="navbar navbar-expand-xl navbar-dark navbar-a2c">
+	<div class="container-xl">
+		<a class="navbar-brand brand-mark" href="/" aria-label="A2C 홈">
+			<img src="/images/a2c-logo.png" alt="A2C 로고" class="brand-logo">
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#a2cNavbar"
+			aria-controls="a2cNavbar" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="a2cNavbar">
+			<ul class="navbar-nav me-auto mb-2 mb-xl-0">
+				<li class="nav-item">
+					<a class="nav-link" href="/boards/free">자유게시판</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/boards/guild">길드원모집</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/boards/boss">보스공략</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/boards/highlight">하이라이트</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/skilltree">스킬트리</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/trade/items">거래게시판</a>
+				</li>
+			</ul>
+			<div class="nav-auth-group">
+				<a class="btn btn-auth btn-outline-light" href="/user/login">로그인</a>
+				<a class="btn btn-auth btn-outline-light" href="/user/signup">회원가입</a>
+				
+				
+				
+			</div>
+		</div>
+	</div>
+</nav>
+	<div class="auth-shell">
+	<div class="auth-card">
+		<div class="auth-copy">
+			<span class="section-kicker">A2C LOGIN</span>
+			<h1>로그인</h1>
+			<p>커뮤니티 글쓰기, 댓글, 추천 기능은 로그인 후 사용할 수 있습니다.</p>
+		</div>
+		<form action="/user/login" method="post" class="auth-form"><input type="hidden" name="_csrf" value="PADfT_v5Q_HMCw17-pQvbuj3izY3bHLQjyaXy0Fmoz4K_KPZBTjtfsrOIcjhOD4ZnrkbXtqSpg8GW0r9uBKmqXMHlg1vy8K7"/>
+			
+			
+			
+			<div class="form-group-stack">
+				<label for="username" class="form-label">사용자 ID</label>
+				<input type="text" name="username" id="username" class="form-control form-control-lg" placeholder="아이디를 입력하세요">
+			</div>
+			<div class="form-group-stack">
+				<label for="password" class="form-label">비밀번호</label>
+				<input type="password" name="password" id="password" class="form-control form-control-lg" placeholder="비밀번호를 입력하세요">
+			</div>
+			<button type="submit" class="btn btn-a2c-primary w-100">로그인</button>
+			<div class="auth-footer-text">
+				처음이라면 <a href="/user/signup">회원가입</a>부터 진행해 주세요.
+			</div>
+			<div class="auth-footer-text">
+				관리자 계정: <strong>admin</strong> / <strong>1234</strong>
+			</div>
+		</form>
+	</div>
+</div>
+	<button type="button" id="themeToggleButton" class="theme-toggle-button" aria-live="polite" aria-label="천족 테마로 전환" title="천족 테마로 전환">
+		<span class="theme-toggle-icon" data-theme-icon>😇</span>
+		<span class="theme-toggle-copy">
+			<span class="theme-toggle-kicker">NEXT</span>
+			<span class="theme-toggle-label" data-theme-label>천족</span>
+		</span>
+	</button>
+	<button type="button" id="angelAIButton" aria-controls="aiChat" aria-expanded="false" title="천족 AI 열기">
+		<span class="halo" aria-hidden="true">◯</span>
+		<span class="wing left" aria-hidden="true">🪽</span>
+		<span class="angel-label">AI</span>
+		<span class="wing right" aria-hidden="true">🪽</span>
+	</button>
+	<section id="aiChat" aria-hidden="true">
+		<div id="aiHeader">
+			<div class="ai-header-copy">
+				<span class="ai-header-kicker">A2C ASSISTANT</span>
+				<strong>천족 AI</strong>
+			</div>
+			<button type="button" id="aiCloseButton" class="ai-close-button" aria-label="채팅 닫기">×</button>
+		</div>
+		<div id="aiMessages">
+			<div class="ai-message ai-message-bot">안녕하세요. 아이온2 직업, 게시판 기능, 스킬트리 관련 질문을 도와드릴게요.</div>
+		</div>
+		<div id="aiInputBox">
+			<input type="text" id="aiInput" placeholder="천족 AI에게 질문하세요" maxlength="500">
+			<button type="button" id="aiSendButton">전송</button>
+		</div>
+	</section>
+	<script src="/bootstrap.min.js"></script>
+	
+	<script src="/theme-toggle.js"></script>
+	<script src="/ai-chat.js"></script>
+</body>
+
+</html>

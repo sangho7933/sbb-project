@@ -1,0 +1,26 @@
+<!-- guide step 파일들이 공통으로 쓰는 헤더/안내 카드/외부 링크 fragment 모음이다. -->
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <!-- 단계 제목과 설명을 step별로 같은 구조로 렌더링한다. -->
+    <th:block th:fragment="guideStepHeaderContent(eyebrowClass, stepLabel, title, description)">
+        <span th:class="${eyebrowClass}" th:text="${stepLabel}">STEP 1</span>
+        <h2 th:text="${title}">가이드 제목</h2>
+        <p th:text="${description}">가이드 설명</p>
+    </th:block>
+
+    <!-- 제목 레벨만 바꾸고 본문은 step별 fragment로 주입하는 공통 안내 카드이다. -->
+    <th:block th:fragment="guideInfoCardContent(title, headingLevel, contentFragment)">
+        <h3 th:if="${headingLevel == 'h3' and title != null and !#strings.isEmpty(title)}" th:text="${title}">TIP</h3>
+        <h4 th:if="${headingLevel == 'h4' and title != null and !#strings.isEmpty(title)}" th:text="${title}">TIP</h4>
+        <th:block th:replace="${contentFragment}"></th:block>
+    </th:block>
+
+    <!-- 외부 사이트 이동 버튼은 보안 속성과 스타일을 같은 형식으로 맞춘다. -->
+    <a th:fragment="guideExternalLinkButton(url, label)"
+        th:href="${url}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="guide-step-download-button"
+        th:text="${label}">
+        바로가기
+    </a>
+</th:block>

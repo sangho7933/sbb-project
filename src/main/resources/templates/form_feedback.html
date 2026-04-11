@@ -1,0 +1,5 @@
+<div th:fragment="formFeedbackFragment" class="form-feedback" th:if="${#fields.hasAnyErrors()}">
+	<ul class="form-feedback-list">
+		<li th:each="err : ${#fields.allErrors()}" th:text="${err}"></li>
+	</ul>
+</div>

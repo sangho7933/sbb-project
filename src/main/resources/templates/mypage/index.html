@@ -1,0 +1,374 @@
+<html layout:decorate="~{a2c_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<body>
+<div layout:fragment="content">
+	<link rel="stylesheet" th:href="@{/mypage-dashboard.css}">
+	<section class="mypage-dashboard-page py-5">
+		<div class="container-xl">
+			<div class="mypage-dashboard">
+				<header class="mypage-hero-card">
+					<div class="mypage-hero-copy">
+						<span class="mypage-kicker">마이페이지</span>
+						<h1 class="mypage-title">내 정보 종합 페이지</h1>
+						<p class="mypage-subtitle">
+							현재 착용 장비, 구매/판매 장비, 거래 기록, 활동 내역을 한 번에 확인하고 필요할 때 시뮬레이터로 바로 이동할 수 있습니다.
+						</p>
+						<div class="mypage-hero-highlights">
+							<div class="mypage-highlight-pill">
+								<span>대표 전투 스타일</span>
+								<strong th:text="${mypage.representativeLabel}">가더</strong>
+							</div>
+							<div class="mypage-highlight-pill">
+								<span>내 종족</span>
+								<strong th:text="${mypage.race}">마족</strong>
+							</div>
+							<div class="mypage-highlight-pill">
+								<span>활동 요약</span>
+								<strong th:text="${mypage.activityLabel}">글 0 · 댓글 0 · 거래 0</strong>
+							</div>
+						</div>
+					</div>
+					<div class="mypage-hero-side">
+						<div class="mypage-hero-profile">
+							<div class="mypage-hero-profile-row">
+								<span>닉네임</span>
+								<strong th:text="${mypage.username}">A2CUser</strong>
+							</div>
+							<div class="mypage-hero-profile-row">
+								<span>종족</span>
+								<strong th:text="${mypage.race}">마족</strong>
+							</div>
+							<div class="mypage-hero-profile-row">
+								<span>보유 골드</span>
+								<strong th:text="${#numbers.formatInteger(mypage.gold, 1, 'COMMA')} + 'G'">1,000G</strong>
+							</div>
+							<div class="mypage-hero-profile-row">
+								<span>저장 세팅</span>
+								<strong th:text="${mypage.presetCount} + '개'">1개</strong>
+							</div>
+						</div>
+						<div class="mypage-hero-actions">
+							<a class="mypage-secondary-button" th:href="@{/trade/items}">거래게시판</a>
+							<a class="mypage-primary-button" th:href="@{/simulator}">장비 시뮬레이터로 이동</a>
+						</div>
+					</div>
+				</header>
+
+				<div class="mypage-alert mypage-alert-success" th:if="${mypageMessage != null}" th:text="${mypageMessage}">
+					장비를 변경했습니다.
+				</div>
+				<div class="mypage-alert mypage-alert-error" th:if="${mypageError != null}" th:text="${mypageError}">
+					장비를 장착하지 못했습니다.
+				</div>
+
+				<section class="mypage-overview-grid">
+					<article class="mypage-overview-card">
+						<span class="mypage-overview-label">현재 착용 수</span>
+						<strong class="mypage-overview-value" th:text="${mypage.equippedCount} + '칸'">9칸</strong>
+						<p class="mypage-overview-copy">현재 저장된 장비 세팅 기준입니다.</p>
+					</article>
+					<article class="mypage-overview-card">
+						<span class="mypage-overview-label">거래 내역</span>
+						<strong class="mypage-overview-value" th:text="${mypage.activitySummary.transactionCount} + '건'">0건</strong>
+						<p class="mypage-overview-copy">구매와 판매 기록을 합산합니다.</p>
+					</article>
+					<article class="mypage-overview-card">
+						<span class="mypage-overview-label">최근 장비 저장</span>
+						<strong class="mypage-overview-value"
+							th:text="${mypage.lastEquipmentUpdatedAt != null ? #temporals.format(mypage.lastEquipmentUpdatedAt, 'MM-dd HH:mm') : '기록 없음'}">기록 없음</strong>
+						<p class="mypage-overview-copy">마지막으로 갱신된 장비 시각입니다.</p>
+					</article>
+					<article class="mypage-overview-card">
+						<span class="mypage-overview-label">최근 동기화</span>
+						<strong class="mypage-overview-value"
+							th:text="${mypage.lastSyncedAt != null ? #temporals.format(mypage.lastSyncedAt, 'MM-dd HH:mm') : '기록 없음'}">기록 없음</strong>
+						<p class="mypage-overview-copy">아이템 DB 최신 동기화 시각입니다.</p>
+					</article>
+				</section>
+
+				<div class="mypage-main-grid">
+					<section class="mypage-panel">
+						<div class="mypage-panel-head">
+							<div>
+								<span class="mypage-kicker">프로필</span>
+								<h2>내 기본 정보</h2>
+							</div>
+						</div>
+						<div class="mypage-info-list">
+							<div class="mypage-info-row">
+								<span>아이디</span>
+								<strong th:text="${mypage.username}">A2CUser</strong>
+							</div>
+							<div class="mypage-info-row">
+								<span>이메일</span>
+								<strong th:text="${mypage.email}">user@example.com</strong>
+							</div>
+							<div class="mypage-info-row">
+								<span>종족</span>
+								<strong th:text="${mypage.race}">마족</strong>
+							</div>
+							<div class="mypage-info-row">
+								<span>대표 전투 스타일</span>
+								<strong th:text="${mypage.representativeLabel}">가더</strong>
+							</div>
+							<div class="mypage-info-row">
+								<span>활동 상태</span>
+								<strong th:text="${mypage.activityLabel}">글 0 · 댓글 0 · 거래 0</strong>
+							</div>
+						</div>
+					</section>
+
+					<section class="mypage-panel">
+						<div class="mypage-panel-head">
+							<div>
+								<span class="mypage-kicker">활동</span>
+								<h2>활동 정보</h2>
+							</div>
+						</div>
+						<div class="mypage-activity-cards">
+							<article class="mypage-mini-card">
+								<span>내가 쓴 글</span>
+								<strong th:text="${mypage.activitySummary.postCount} + '개'">0개</strong>
+							</article>
+							<article class="mypage-mini-card">
+								<span>내가 쓴 댓글</span>
+								<strong th:text="${mypage.activitySummary.commentCount} + '개'">0개</strong>
+							</article>
+							<article class="mypage-mini-card">
+								<span>거래 내역</span>
+								<strong th:text="${mypage.activitySummary.transactionCount} + '건'">0건</strong>
+							</article>
+						</div>
+					</section>
+				</div>
+
+				<section class="mypage-panel">
+					<div class="mypage-panel-head">
+						<div>
+							<span class="mypage-kicker">장비</span>
+							<h2>현재 착용 중인 장비</h2>
+						</div>
+						<a class="mypage-secondary-button" th:href="@{/simulator}">시뮬레이터에서 장비 변경</a>
+					</div>
+					<div class="mypage-card-list" th:if="${!#lists.isEmpty(mypage.equippedItems)}">
+						<article class="mypage-list-card mypage-equipped-card" th:each="equip : ${mypage.equippedItems}" th:if="${equip != null}">
+							<div class="mypage-equipped-main">
+								<div class="mypage-equipped-thumb">
+									<img th:if="${!#strings.isEmpty(equip.icon)}" th:src="${equip.icon}" th:alt="${equip.itemName}">
+									<div class="mypage-gear-thumb-placeholder" th:if="${#strings.isEmpty(equip.icon)}" th:text="${equip.slotLabel}">
+										무기
+									</div>
+								</div>
+								<div>
+									<span class="mypage-list-title" th:text="${equip.slotLabel}">무기</span>
+									<strong th:text="${equip.itemName}">기본 가더</strong>
+									<p class="mypage-list-copy" th:text="${equip.optionSummary}">공격력 +5 / 명중 +2</p>
+								</div>
+							</div>
+							<div class="mypage-list-meta">
+								<span th:text="${equip.gradeName}">일반</span>
+								<strong th:text="|P ${#numbers.formatDecimal(equip.powerScore, 1, 0)}|">P 0</strong>
+							</div>
+						</article>
+					</div>
+					<div class="mypage-empty-state" th:if="${#lists.isEmpty(mypage.equippedItems)}">
+						현재 착용 중인 장비가 없습니다.
+					</div>
+				</section>
+
+				<section class="mypage-panel mypage-gear-vault-panel" id="owned-gear">
+					<div class="mypage-panel-head">
+						<div>
+							<span class="mypage-kicker">장비 관리</span>
+							<h2>내 장비함</h2>
+							<p class="mypage-panel-copy">
+								기본 장비와 거래소에서 구매한 장비를 슬롯별로 모았습니다. 여기서 바로 장착하고 시뮬레이터에도 같은 상태로 이어집니다.
+							</p>
+						</div>
+					</div>
+					<div class="mypage-slot-section-list" th:if="${!#lists.isEmpty(mypage.ownedGearSections)}">
+						<article class="mypage-slot-section" th:each="slotSection : ${mypage.ownedGearSections}" th:if="${slotSection != null}">
+							<div class="mypage-slot-section-head">
+								<div>
+									<div class="mypage-slot-section-meta">
+										<span class="mypage-slot-section-title" th:text="${slotSection.slotLabel}">무기</span>
+										<span class="mypage-slot-section-count" th:text="${slotSection.itemCount} + '개 보유'">2개 보유</span>
+									</div>
+									<p class="mypage-slot-section-current"
+										th:text="${slotSection.equippedItemName != null ? '현재 장착: ' + slotSection.equippedItemName : '현재 장착: 없음'}">
+										현재 장착: 기본 검
+									</p>
+								</div>
+							</div>
+							<div class="mypage-gear-grid">
+								<article class="mypage-gear-card"
+									th:each="gear : ${slotSection.items}"
+									th:if="${gear != null}"
+									th:classappend="${gear.equipped} ? ' is-equipped'">
+									<div class="mypage-gear-thumb-wrap">
+										<div class="mypage-gear-thumb">
+											<img th:if="${!#strings.isEmpty(gear.icon)}" th:src="${gear.icon}" th:alt="${gear.itemName}">
+											<div class="mypage-gear-thumb-placeholder" th:if="${#strings.isEmpty(gear.icon)}" th:text="${gear.slotLabel}">
+												무기
+											</div>
+										</div>
+									</div>
+									<div class="mypage-gear-body">
+										<div class="mypage-gear-badges">
+											<span class="mypage-gear-badge mypage-gear-badge-active" th:if="${gear.equipped}">장착 중</span>
+											<span class="mypage-gear-badge" th:text="${gear.sourceLabel}">구매</span>
+										</div>
+										<div class="mypage-gear-topline">
+											<span class="mypage-gear-slot" th:text="${gear.slotLabel}">무기</span>
+											<span class="mypage-gear-grade" th:text="${gear.gradeName}">영웅</span>
+										</div>
+										<strong class="mypage-gear-name" th:text="${gear.itemName}">빛나는 검</strong>
+										<div class="mypage-gear-power">
+											<span>P</span>
+											<strong th:text="${#numbers.formatDecimal(gear.powerScore, 1, 0)}">339</strong>
+										</div>
+										<ul class="mypage-gear-stats">
+											<li th:each="stat : ${gear.stats}" th:if="${stat != null}">
+												<span th:text="${stat.label}">공격력</span>
+												<strong th:text="${stat.value}">+12</strong>
+											</li>
+										</ul>
+										<div class="mypage-gear-footer">
+											<div class="mypage-gear-gold">
+												<span>골드</span>
+												<strong th:text="${gear.goldLabel}">1,200G</strong>
+											</div>
+											<span class="mypage-gear-active-text" th:if="${gear.equipped}">현재 장착 중</span>
+											<form class="mypage-gear-form" th:if="${!gear.equipped}" th:action="@{/mypage/equip}" method="post">
+												<input type="hidden" name="itemId" th:value="${gear.itemId}">
+												<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+												<button class="mypage-gear-action" type="submit">장착</button>
+											</form>
+										</div>
+									</div>
+								</article>
+							</div>
+						</article>
+					</div>
+					<div class="mypage-empty-state" th:if="${#lists.isEmpty(mypage.ownedGearSections)}">
+						보유 장비가 없습니다.
+					</div>
+				</section>
+
+				<div class="mypage-main-grid">
+					<section class="mypage-panel">
+						<div class="mypage-panel-head">
+							<div>
+								<span class="mypage-kicker">구매</span>
+								<h2>내가 구매한 장비</h2>
+							</div>
+						</div>
+						<div class="mypage-card-list" th:if="${!#lists.isEmpty(mypage.purchaseItems)}">
+							<article class="mypage-list-card" th:each="purchase : ${mypage.purchaseItems}" th:if="${purchase != null}">
+								<div>
+									<span class="mypage-list-title" th:text="${purchase.categoryLabel}">무기</span>
+									<strong th:text="${purchase.itemName}">빛나는 검</strong>
+									<p class="mypage-list-copy"
+										th:text="${purchase.occurredAt != null ? #temporals.format(purchase.occurredAt, 'yyyy-MM-dd HH:mm') : '구매 시각 없음'}">
+										2026-04-06 12:30
+									</p>
+								</div>
+								<div class="mypage-list-meta">
+									<span th:text="${purchase.status}">구매완료</span>
+									<strong th:text="${purchase.price != null ? #numbers.formatInteger(purchase.price, 1, 'COMMA') + 'G' : '-'}">1,000G</strong>
+								</div>
+							</article>
+						</div>
+						<div class="mypage-empty-state" th:if="${#lists.isEmpty(mypage.purchaseItems)}">
+							아직 구매한 장비가 없습니다.
+						</div>
+					</section>
+
+					<section class="mypage-panel">
+						<div class="mypage-panel-head">
+							<div>
+								<span class="mypage-kicker">판매</span>
+								<h2>내가 판매한 장비</h2>
+							</div>
+						</div>
+						<div class="mypage-card-list" th:if="${!#lists.isEmpty(mypage.saleItems)}">
+							<article class="mypage-list-card" th:each="sale : ${mypage.saleItems}" th:if="${sale != null}">
+								<div>
+									<span class="mypage-list-title" th:text="${sale.categoryLabel}">방어구</span>
+									<strong th:text="${sale.itemName}">빛나는 갑구</strong>
+									<p class="mypage-list-copy"
+										th:text="${sale.occurredAt != null ? #temporals.format(sale.occurredAt, 'yyyy-MM-dd HH:mm') : '판매 진행 중'}">
+										판매 진행 중
+									</p>
+								</div>
+								<div class="mypage-list-meta">
+									<span th:text="${sale.status}">판매완료</span>
+									<strong th:text="${sale.price != null ? #numbers.formatInteger(sale.price, 1, 'COMMA') + 'G' : '-'}">1,000G</strong>
+								</div>
+							</article>
+						</div>
+						<div class="mypage-empty-state" th:if="${#lists.isEmpty(mypage.saleItems)}">
+							판매한 장비가 없습니다.
+						</div>
+					</section>
+				</div>
+
+				<div class="mypage-main-grid">
+					<section class="mypage-panel">
+						<div class="mypage-panel-head">
+							<div>
+								<span class="mypage-kicker">게시글</span>
+								<h2>내가 쓴 글</h2>
+							</div>
+						</div>
+						<div class="mypage-card-list" th:if="${!#lists.isEmpty(mypage.recentPosts)}">
+							<a class="mypage-list-card mypage-link-card" th:each="post : ${mypage.recentPosts}"
+   th:if="${post != null}"
+   th:href="${post.url != null ? post.url : '#'}">
+								<div>
+									<span class="mypage-list-title" th:text="${post.sectionLabel}">게시판 글</span>
+									<strong th:text="${post.title}">글 제목</strong>
+									<p class="mypage-list-copy" th:text="${post.detail}">자유게시판</p>
+								</div>
+								<div class="mypage-list-meta">
+									<span th:text="${post.occurredAt != null ? #temporals.format(post.occurredAt, 'MM-dd HH:mm') : '-'}">04-06 13:20</span>
+								</div>
+							</a>
+						</div>
+						<div class="mypage-empty-state" th:if="${#lists.isEmpty(mypage.recentPosts)}">
+							작성한 글이 없습니다.
+						</div>
+					</section>
+
+					<section class="mypage-panel">
+						<div class="mypage-panel-head">
+							<div>
+								<span class="mypage-kicker">댓글</span>
+								<h2>내가 쓴 댓글</h2>
+							</div>
+						</div>
+						<div class="mypage-card-list" th:if="${!#lists.isEmpty(mypage.recentComments)}">
+							<a class="mypage-list-card mypage-link-card" th:each="comment : ${mypage.recentComments}"
+   th:if="${comment != null}"
+   th:href="${comment.url != null ? comment.url : '#'}">
+								<div>
+									<span class="mypage-list-title" th:text="${comment.sectionLabel}">게시판 댓글</span>
+									<strong th:text="${comment.title}">댓글 내용</strong>
+									<p class="mypage-list-copy" th:text="${comment.detail}">원문 제목</p>
+								</div>
+								<div class="mypage-list-meta">
+									<span th:text="${comment.occurredAt != null ? #temporals.format(comment.occurredAt, 'MM-dd HH:mm') : '-'}">04-06 13:20</span>
+								</div>
+							</a>
+						</div>
+						<div class="mypage-empty-state" th:if="${#lists.isEmpty(mypage.recentComments)}">
+							작성한 댓글이 없습니다.
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+</body>
+</html>

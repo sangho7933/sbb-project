@@ -1,0 +1,86 @@
+<html layout:decorate="~{a2c_layout}">
+<div layout:fragment="content" class="board-shell trade-market-shell">
+	<div class="container-xl">
+		<div class="detail-breadcrumb">
+			<a th:href="@{/}">A2C</a>
+			<span>/</span>
+			<a th:href="@{/trade/items}">거래게시판</a>
+		</div>
+
+		<div class="trade-flash success" th:if="${successMessage != null}" th:text="${successMessage}"></div>
+		<div class="trade-flash error" th:if="${errorMessage != null}" th:text="${errorMessage}"></div>
+
+		<div class="trade-summary-row">
+			<span class="trade-balance-badge" th:if="${currentUser != null}"
+				th:text="|보유 골드 ${#numbers.formatInteger(currentUser.gold, 1, 'COMMA')}G|">보유 골드 0G</span>
+		</div>
+
+		<section class="trade-detail-grid">
+			<article class="panel-surface trade-detail-media">
+				<img th:if="${tradeItem.imageUrl != null and !#strings.isEmpty(tradeItem.imageUrl)}"
+					th:src="${tradeItem.imageUrl}" th:alt="${tradeItem.title}">
+				<div class="trade-card-placeholder trade-detail-placeholder"
+					th:unless="${tradeItem.imageUrl != null and !#strings.isEmpty(tradeItem.imageUrl)}">이미지 없음</div>
+			</article>
+
+			<article class="panel-surface trade-detail-card">
+				<div class="trade-card-chip-row">
+					<span class="trade-status-badge" th:classappend="${tradeItem.soldOut ? ' sold' : ''}"
+						th:text="${tradeItem.soldOut ? '판매완료' : '판매중'}">판매중</span>
+					<span class="trade-category-chip"
+						th:text="${tradeItem.category != null and !#strings.isEmpty(tradeItem.category) ? tradeItem.category : '미분류'}">미분류</span>
+				</div>
+
+				<h1 class="trade-detail-title" th:text="${tradeItem.title}">거래 상품</h1>
+				<p class="trade-detail-price"
+					th:text="${tradeItem.price != null ? #numbers.formatInteger(tradeItem.price, 1, 'COMMA') + 'G' : '가격 미정'}">0G</p>
+
+				<dl class="trade-detail-info">
+					<div>
+						<dt>아이템</dt>
+						<dd th:text="${tradeItem.subCategory != null and !#strings.isEmpty(tradeItem.subCategory) ? tradeItem.subCategory : tradeItem.title}">아이템</dd>
+					</div>
+					<div>
+						<dt>추가 옵션</dt>
+						<dd th:text="${tradeItem.options != null and !#strings.isEmpty(tradeItem.options) ? tradeItem.options : '추가 옵션이 없습니다.'}">추가 옵션이 없습니다.</dd>
+					</div>
+					<div>
+						<dt>판매자</dt>
+						<dd th:text="${tradeItem.seller != null ? tradeItem.seller.username : '알 수 없음'}">알 수 없음</dd>
+					</div>
+					<div>
+						<dt>연락처</dt>
+						<dd th:text="${tradeItem.seller != null and tradeItem.seller.email != null and !#strings.isEmpty(tradeItem.seller.email) ? tradeItem.seller.email : '연락처가 없습니다.'}">연락처가 없습니다.</dd>
+					</div>
+				</dl>
+
+				<div class="trade-detail-actions">
+					<p class="trade-inline-hint" th:if="${tradeItem.soldOut}">이미 판매가 완료된 거래글입니다.</p>
+					<p class="trade-inline-hint" th:if="${currentUser == null}">로그인 후 구매할 수 있습니다.</p>
+					<p class="trade-inline-hint" th:if="${isOwner}">본인 상품은 구매할 수 없습니다.</p>
+					<p class="trade-inline-hint"
+						th:if="${currentUser != null and tradeItem.price != null and currentUser.gold < tradeItem.price and !isOwner and !tradeItem.soldOut}">골드가 부족합니다.</p>
+
+					<a class="btn btn-a2c-secondary" th:href="@{/trade/items}">목록으로</a>
+					<a class="btn btn-a2c-primary" th:if="${currentUser == null and !tradeItem.soldOut}" th:href="@{/user/login}">로그인</a>
+					<form th:if="${canPurchase and currentUser != null and tradeItem.price != null and currentUser.gold >= tradeItem.price}"
+						th:action="@{|/trade/items/${tradeItem.id}/purchase|}" method="post">
+						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+						<button type="submit" class="btn btn-a2c-primary">구매하기</button>
+					</form>
+					<form th:if="${adminMode and !tradeItem.hidden}"
+						th:action="@{|/admin/trade-items/${tradeItem.id}/hide|}" method="post"
+						onsubmit="return confirm('이 거래글을 숨김 처리하시겠습니까?');">
+						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+						<input type="hidden" name="redirect" th:value="@{/trade/items}">
+						<button type="submit" class="btn btn-warning">관리자 숨김</button>
+					</form>
+					<button type="button" class="btn btn-a2c-secondary"
+						th:if="${currentUser != null and tradeItem.price != null and currentUser.gold < tradeItem.price and !isOwner and !tradeItem.soldOut}" disabled>골드 부족</button>
+					<button type="button" class="btn btn-a2c-secondary" th:if="${tradeItem.soldOut}" disabled>판매완료</button>
+				</div>
+			</article>
+		</section>
+	</div>
+</div>
+</html>

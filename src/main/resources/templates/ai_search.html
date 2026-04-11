@@ -1,0 +1,73 @@
+<html layout:decorate="~{a2c_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<div layout:fragment="content" class="board-shell ai-search-shell">
+	<div class="container-xl">
+		<section class="board-header-card ai-search-hero">
+			<div>
+				<span class="section-kicker">A2C SEARCH</span>
+				<h1 class="section-title">AI 검색/추천</h1>
+				<p class="board-copy">입력하신 내용과 관련된 페이지를 추천합니다.</p>
+			</div>
+		</section>
+
+		<section class="panel-surface ai-search-panel">
+			<form class="ai-search-form" th:action="@{/ai/search}" method="get">
+				<label for="aiSearchQuery" class="form-label">찾고 싶은 내용을 입력해 보세요</label>
+				<div class="ai-search-form-row">
+					<input id="aiSearchQuery" type="text" name="q" class="form-control form-control-lg"
+						th:value="${searchQuery}" placeholder="예: 뉴비 뭐부터 해야함, 마도, 자유게시판, 장비 세팅">
+					<button type="submit" class="btn btn-a2c-primary">검색</button>
+				</div>
+			</form>
+
+			<div class="ai-search-meta" th:if="${searchResult != null and searchResult.hasMatchedKeywords()}">
+				<span class="board-post-chip" th:text="${searchResult.priorityLabel()}">직업 키워드</span>
+				<span class="ai-search-keywords" th:text="|감지 키워드: ${searchResult.matchedKeywordSummary()}|">
+					감지 키워드
+				</span>
+			</div>
+
+			<div class="ai-search-examples">
+				<a th:each="example : ${examples}" class="trade-category-chip" th:href="@{/ai/search(q=${example})}"
+					th:text="${example}">뉴비 뭐부터 해야함</a>
+			</div>
+		</section>
+
+		<section class="panel-surface ai-search-empty" th:if="${searchQuery == null or #strings.isEmpty(searchQuery)}">
+			<span class="section-kicker">TRY KEYWORDS</span>
+			<h2>검색어를 입력해 주세요.</h2>
+			<p>예: 뉴비, 마도, 자유, 장비, 보스</p>
+		</section>
+
+		<section th:if="${searchResult != null and searchResult.hasRecommendations()}">
+			<div class="section-heading-row">
+				<div>
+					<span class="section-kicker">RECOMMENDATION</span>
+					<h2 class="section-title">관련 페이지 추천</h2>
+				</div>
+			</div>
+			<p class="board-copy ai-search-copy">입력하신 내용과 관련된 페이지를 추천합니다.</p>
+
+			<div class="ai-search-grid">
+				<a th:each="item : ${searchResult.recommendations()}" class="panel-surface ai-search-card"
+					th:href="${item.url()}">
+					<div class="ai-search-card-head">
+						<span class="highlight-card-label" th:text="${item.categoryLabel()}">직업</span>
+						<span class="trade-category-chip muted" th:if="${item.loginRequired()}">로그인 필요</span>
+					</div>
+					<h3 th:text="${item.title()}">추천 페이지</h3>
+					<p th:text="${item.description()}">관련 설명</p>
+					<span class="ai-search-card-link">바로 보기</span>
+				</a>
+			</div>
+		</section>
+
+		<section class="panel-surface ai-search-empty"
+			th:if="${searchQuery != null and !#strings.isEmpty(searchQuery) and (searchResult == null or !searchResult.hasRecommendations())}">
+			<span class="section-kicker">NO MATCH</span>
+			<h2>일치하는 결과가 없습니다.</h2>
+			<p th:text="${emptyMessage}">일치하는 결과가 없습니다. 예: 뉴비, 마도, 자유, 장비, 보스</p>
+		</section>
+	</div>
+</div>
+</html>

@@ -1,0 +1,84 @@
+<html layout:decorate="~{a2c_layout}">
+<div layout:fragment="content" class="board-shell">
+	<div class="container-xl">
+		<section class="board-header-card">
+			<div>
+				<span class="section-kicker">스킬트리 게시판</span>
+				<h1 class="section-title">
+					<span th:text="${currentJob.icon}">⚔</span>
+					<span th:text="|${currentJob.label} 스킬트리|">검성 스킬트리</span>
+				</h1>
+				<p class="board-copy" th:text="${currentJob.description}"></p>
+			</div>
+			<div class="board-header-actions">
+				<a class="btn btn-a2c-primary" th:if="${#authorization.expression('isAuthenticated()')}"
+					th:href="@{/skilltree/write(job=${currentJob.slug},returnUrl=${'/skilltree/' + currentJob.slug})}">새 글 작성</a>
+				<a class="btn btn-a2c-secondary" th:if="${#authorization.expression('isAnonymous()')}" th:href="@{/user/login}">로그인 후 글쓰기</a>
+			</div>
+		</section>
+
+		<div class="skilltree-job-tab-row">
+			<a th:each="job : ${skillTreeJobs}" class="skilltree-job-tab"
+				th:classappend="' ' + ${job.cssClass} + (${currentJob == job} ? ' active' : '')"
+				th:href="@{|/skilltree/${job.slug}|}">
+				<span th:text="${job.icon}">⚔</span>
+				<span th:text="${job.label}">검성</span>
+			</a>
+		</div>
+
+		<div class="board-toolbar">
+			<form class="board-search" th:action="@{|/skilltree/${currentJob.slug}|}" method="get" id="searchForm">
+				<input type="hidden" id="page" name="page" th:value="${paging.number}">
+				<input type="text" id="search_kw" name="kw" class="form-control" th:value="${kw}" placeholder="제목, 내용, 작성자 검색">
+				<button class="btn btn-a2c-primary" type="submit">검색</button>
+			</form>
+		</div>
+
+		<div class="board-list-stack" th:if="${!paging.isEmpty()}">
+			<a th:each="post, loop : ${paging}" class="board-post-card"
+				th:href="@{|/skilltree/${post.job.slug}/posts/${post.id}|}">
+				<div class="board-post-top">
+					<span class="board-post-index" th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></span>
+					<div class="board-post-top-right">
+						<span class="board-post-chip" th:text="|${post.job.icon} ${post.job.label}|">검성</span>
+					</div>
+				</div>
+				<h3 th:text="${post.subject}"></h3>
+				<p th:text="${#strings.length(post.content) > 100 ? #strings.substring(post.content, 0, 100) + '...' : post.content}"></p>
+				<div class="board-post-meta">
+					<span th:text="${post.author != null ? post.author.username : '익명'}"></span>
+					<span th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+					<span th:text="${'댓글 ' + post.commentCount}"></span>
+					<span th:text="${'조회 ' + post.viewCount}"></span>
+				</div>
+			</a>
+		</div>
+		<div class="empty-board-message" th:if="${paging.isEmpty()}">아직 등록된 스킬트리 글이 없습니다.</div>
+
+		<div class="pagination-shell" th:if="${!paging.isEmpty()}">
+			<ul class="pagination justify-content-center">
+				<li class="page-item" th:classappend="${!paging.hasPrevious()} ? 'disabled'">
+					<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number - 1}">이전</a>
+				</li>
+				<li class="page-item" th:each="pageNo : ${#numbers.sequence(0, paging.totalPages - 1)}"
+					th:if="${pageNo >= paging.number - 3 and pageNo <= paging.number + 3}"
+					th:classappend="${pageNo == paging.number} ? 'active'">
+					<a class="page-link" href="javascript:void(0)" th:data-page="${pageNo}" th:text="${pageNo + 1}"></a>
+				</li>
+				<li class="page-item" th:classappend="${!paging.hasNext()} ? 'disabled'">
+					<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number + 1}">다음</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script layout:fragment="script" type="text/javascript">
+	const pageLinks = document.querySelectorAll(".page-link[data-page]");
+	pageLinks.forEach((element) => {
+		element.addEventListener("click", function () {
+			document.getElementById("page").value = this.dataset.page;
+			document.getElementById("searchForm").submit();
+		});
+	});
+</script>
+</html>

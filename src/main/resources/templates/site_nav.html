@@ -1,0 +1,117 @@
+<nav th:fragment="siteNavFragment" class="navbar navbar-expand-xl navbar-dark navbar-a2c">
+	<div class="container-xl navbar-a2c-shell">
+		<a class="navbar-brand brand-mark" th:href="@{/}" aria-label="A2C 홈">
+			<img th:src="@{/images/a2c-logo.png}" alt="A2C 로고" class="brand-logo">
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#a2cNavbar"
+			aria-controls="a2cNavbar" aria-expanded="false" aria-label="메뉴 열기">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="a2cNavbar">
+			<div class="navbar-a2c-main">
+				<div class="nav-top-bar">
+					<ul class="nav-menu-row nav-menu-row-primary">
+						<li class="nav-shortcut-item">
+							<a class="nav-shortcut" th:classappend="${activeBoardCode == 'free'} ? ' active'" th:href="@{/boards/free}">
+								<span class="nav-shortcut-icon" aria-hidden="true">&#127968;</span>
+								<span class="nav-shortcut-label">자유</span>
+								<span class="nav-shortcut-tooltip-copy">자유게시판</span>
+							</a>
+						</li>
+						<li class="nav-shortcut-item">
+							<a class="nav-shortcut" th:classappend="${activeBoardCode == 'guild'} ? ' active'" th:href="@{/boards/guild}">
+								<span class="nav-shortcut-icon" aria-hidden="true">&#128737;</span>
+								<span class="nav-shortcut-label">길드</span>
+								<span class="nav-shortcut-tooltip-copy">길드원모집</span>
+							</a>
+						</li>
+						<li class="nav-shortcut-item">
+							<a class="nav-shortcut" th:classappend="${activeBoardCode == 'boss'} ? ' active'" th:href="@{/boards/boss}">
+								<span class="nav-shortcut-icon" aria-hidden="true">&#9876;</span>
+								<span class="nav-shortcut-label">보스</span>
+								<span class="nav-shortcut-tooltip-copy">보스공략</span>
+							</a>
+						</li>
+						<li class="nav-shortcut-item">
+							<a class="nav-shortcut" th:classappend="${activeBoardCode == 'highlight'} ? ' active'" th:href="@{/boards/highlight}">
+								<span class="nav-shortcut-icon" aria-hidden="true">&#11088;</span>
+								<span class="nav-shortcut-label">하이라이트</span>
+								<span class="nav-shortcut-tooltip-copy">하이라이트</span>
+							</a>
+						</li>
+						<li class="nav-shortcut-item">
+							<a class="nav-shortcut" th:classappend="${activeNav == 'skilltree'} ? ' active'" th:href="@{/skilltree}">
+								<span class="nav-shortcut-icon" aria-hidden="true">&#10024;</span>
+								<span class="nav-shortcut-label">스킬</span>
+								<span class="nav-shortcut-tooltip-copy">스킬트리</span>
+							</a>
+						</li>
+						<li class="nav-shortcut-item">
+							<a class="nav-shortcut" id="guideNavLink" th:classappend="${activeNav == 'guide'} ? ' active'" th:href="@{/guide(step=1)}">
+								<span class="nav-shortcut-icon" aria-hidden="true">&#129517;</span>
+								<span class="nav-shortcut-label">뉴비</span>
+								<span class="nav-shortcut-tooltip-copy">뉴비가이드</span>
+							</a>
+						</li>
+					</ul>
+					<div class="nav-right-stack">
+						<div class="nav-auth-group">
+							<a class="btn btn-auth btn-outline-light" th:if="${#authorization.expression('isAnonymous()')}" th:href="@{/user/login}">
+								로그인
+							</a>
+							<span class="nav-user-badge" th:if="${#authorization.expression('isAuthenticated()')}"
+								th:text="${currentSiteUser != null ? currentSiteUser.username + ' | ' + #numbers.formatInteger(currentSiteUser.gold, 1, 'COMMA') + 'G | 오늘 접속자 ' + #numbers.formatInteger(todayLoginUserCount, 1, 'COMMA') + '명' : #authentication.name + ' | 오늘 접속자 ' + #numbers.formatInteger(todayLoginUserCount, 1, 'COMMA') + '명'}">
+								username
+							</span>
+							<form th:if="${#authorization.expression('isAuthenticated()')}" th:action="@{/user/logout}" method="post" style="display:inline;">
+								<button type="submit" class="btn btn-auth btn-light">
+									로그아웃
+								</button>
+							</form>
+						</div>
+						<ul class="nav-menu-row nav-menu-row-authenticated" th:if="${#authorization.expression('isAuthenticated()')}">
+							<li class="nav-shortcut-item">
+								<a class="nav-shortcut" th:classappend="${activeNav == 'mypage'} ? ' active'" th:href="@{/mypage}">
+									<span class="nav-shortcut-icon" aria-hidden="true">&#128100;</span>
+									<span class="nav-shortcut-label">마이페이지</span>
+									<span class="nav-shortcut-tooltip-copy">마이페이지</span>
+								</a>
+							</li>
+							<li class="nav-shortcut-item">
+								<a class="nav-shortcut" th:classappend="${activeNav == 'simulator'} ? ' active'" th:href="@{/simulator}">
+									<span class="nav-shortcut-icon" aria-hidden="true">&#129514;</span>
+									<span class="nav-shortcut-label">시뮬레이션</span>
+									<span class="nav-shortcut-tooltip-copy">시뮬레이터</span>
+								</a>
+							</li>
+							<li class="nav-shortcut-item">
+								<a class="nav-shortcut" th:classappend="${activeNav == 'trade'} ? ' active'" th:href="@{/trade/items}">
+									<span class="nav-shortcut-icon" aria-hidden="true">&#128176;</span>
+									<span class="nav-shortcut-label">거래</span>
+									<span class="nav-shortcut-tooltip-copy">거래게시판</span>
+								</a>
+							</li>
+							<li class="nav-shortcut-item" th:if="${adminUser == true and adminMode != true}">
+								<form th:action="@{/admin/mode/enable}" method="post">
+									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+									<button type="submit" class="nav-shortcut nav-shortcut-button">
+										<span class="nav-shortcut-icon" aria-hidden="true">&#9881;</span>
+										<span class="nav-shortcut-label">관리자 모드</span>
+										<span class="nav-shortcut-tooltip-copy">관리자 모드 활성화</span>
+									</button>
+								</form>
+							</li>
+							<li class="nav-shortcut-item" th:if="${adminUser == true and adminMode == true}">
+								<a class="nav-shortcut" th:href="@{/admin}">
+									<span class="nav-shortcut-icon" aria-hidden="true">&#9881;</span>
+									<span class="nav-shortcut-label">관리자 페이지</span>
+									<span class="nav-shortcut-tooltip-copy">관리자 페이지</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>

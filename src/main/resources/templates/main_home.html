@@ -1,0 +1,325 @@
+<html layout:decorate="~{a2c_layout}">
+<div layout:fragment="content">
+	<section class="hero-showcase">
+		<div class="hero-backdrop"></div>
+		<div class="container-xl hero-shell">
+			<div class="hero-intro">
+
+    <!-- 왼쪽 -->
+    <div class="hero-side hero-left" aria-hidden="true">
+        <img src="/images/angel.png" alt="" class="hero-side-img">
+    </div>
+
+    <!-- 가운데 -->
+    <div class="hero-center">
+    <img th:src="@{/images/a2c-logo.png}" alt="A2C 로고" class="hero-logo">
+    <img th:src="@{/images/od-title.png}" alt="아이온2 커뮤니티" class="hero-title-img hero-title-glow">
+    <p class="hero-summary hero-summary-compact">직업 소개 영상</p>
+</div>
+
+    <!-- 오른쪽 -->
+    <div class="hero-side hero-right" aria-hidden="true">
+        <img src="/images/devil.png" alt="" class="hero-side-img">
+    </div>
+
+</div>
+			<div class="hero-player-panel hero-player-panel-wide">
+				<button type="button" class="carousel-arrow" data-video-prev aria-label="이전 영상">&lt;</button>
+				<div class="player-stage">
+					<div id="featuredPlayer"></div>
+				</div>
+				<button type="button" class="carousel-arrow" data-video-next aria-label="다음 영상">&gt;</button>
+			</div>
+			<div class="video-track" id="videoTrack">
+				<button type="button" th:each="video, stat : ${featuredVideos}" class="video-card"
+					th:classappend="${stat.index == 0} ? ' active'"
+					th:data-index="${stat.index}"
+					th:data-slot="${video.slotLabel}"
+					th:data-title="${video.title}"
+					th:data-summary="${video.summary}"
+					th:data-video-id="${video.youtubeId}">
+					<span class="video-card-order" th:text="${video.slotLabel}">01</span>
+					<strong th:text="${video.title}">마도성</strong>
+					<span th:text="${video.summary}"></span>
+				</button>
+			</div>
+		</div>
+	</section>
+
+	<section class="board-overview-section">
+		<div class="container-xl">
+			<div class="section-heading-row">
+				<div>
+					<span class="section-kicker">COMMUNITY BOARDS</span>
+					<h2 class="section-title">커뮤니티 게시판</h2>
+				</div>
+			</div>
+			<div class="board-overview-grid">
+				<article class="board-preview-card">
+					<div class="board-preview-head">
+						<h3>자유게시판</h3>
+						<a th:href="@{/boards/free}">바로가기</a>
+					</div>
+					<p class="board-preview-copy">자유로운 대화와 정보 공유를 위한 기본 게시판입니다.</p>
+					<div class="board-preview-list" th:if="${!#lists.isEmpty(freeBoardPosts)}">
+						<a th:each="post : ${freeBoardPosts}" class="board-preview-item"
+							th:href="@{|/boards/${post.category.code}/posts/${post.id}|}">
+							<span th:text="${post.subject}"></span>
+							<small th:text="${post.viewCount} + ' 조회'"></small>
+						</a>
+					</div>
+					<div class="empty-board-message" th:if="${#lists.isEmpty(freeBoardPosts)}">아직 등록된 글이 없습니다.</div>
+				</article>
+
+				<article class="board-preview-card">
+					<div class="board-preview-head">
+						<h3>길드원모집</h3>
+						<a th:href="@{/boards/guild}">바로가기</a>
+					</div>
+					<p class="board-preview-copy">길드 홍보와 파티 모집 글을 올리는 공간입니다.</p>
+					<div class="board-preview-list" th:if="${!#lists.isEmpty(guildRecruitmentPosts)}">
+						<a th:each="post : ${guildRecruitmentPosts}" class="board-preview-item"
+							th:href="@{|/boards/${post.category.code}/posts/${post.id}|}">
+							<span th:text="${post.subject}"></span>
+							<small th:text="${post.viewCount} + ' 조회'"></small>
+						</a>
+					</div>
+					<div class="empty-board-message" th:if="${#lists.isEmpty(guildRecruitmentPosts)}">모집 글이 아직 없습니다.</div>
+				</article>
+
+				<article class="board-preview-card">
+					<div class="board-preview-head">
+						<h3>보스공략</h3>
+						<a th:href="@{/boards/boss}">바로가기</a>
+					</div>
+					<p class="board-preview-copy">보스 패턴과 공략 팁을 정리하는 게시판입니다.</p>
+					<div class="board-preview-list" th:if="${!#lists.isEmpty(bossGuidePosts)}">
+						<a th:each="post : ${bossGuidePosts}" class="board-preview-item"
+							th:href="@{|/boards/${post.category.code}/posts/${post.id}|}">
+							<span th:text="${post.subject}"></span>
+							<small th:text="${post.viewCount} + ' 조회'"></small>
+						</a>
+					</div>
+					<div class="empty-board-message" th:if="${#lists.isEmpty(bossGuidePosts)}">공략 글이 아직 없습니다.</div>
+				</article>
+
+				<article class="board-preview-card board-preview-card-highlight">
+					<div class="board-preview-head">
+						<h3>하이라이트</h3>
+						<a th:href="@{/boards/highlight}">바로가기</a>
+					</div>
+					<p class="board-preview-copy">하이라이트 장면과 멋진 플레이를 공유하는 게시판입니다.</p>
+					<div class="board-preview-list" th:if="${!#lists.isEmpty(highlightPosts)}">
+						<a th:each="post : ${highlightPosts}" class="board-preview-item"
+							th:href="@{|/boards/${post.category.code}/posts/${post.id}|}">
+							<span th:text="${post.subject}"></span>
+							<small th:text="${post.viewCount} + ' 조회'"></small>
+						</a>
+					</div>
+					<div class="empty-board-message" th:if="${#lists.isEmpty(highlightPosts)}">하이라이트 글이 아직 없습니다.</div>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="highlight-showcase-section" id="newbie-guide">
+		<div class="container-xl">
+			<div class="section-heading-row">
+				<div>
+					<span class="section-kicker">NEWBIE GUIDE</span>
+					<h2 class="section-title">
+						처음 들어오면 여기부터
+					</h2>
+				</div>
+				<a class="section-link" th:href="@{/simulator}">
+					시뮬레이터로 이동
+				</a>
+			</div>
+			<div class="highlight-grid">
+				<a class="highlight-card" th:href="@{/boards/free}">
+					<span class="highlight-card-label">
+						자유게시판
+					</span>
+					<h3>
+						커뮤니티 분위기부터 보기
+					</h3>
+					<p>
+						초반 질문, 거래 시세, 직업 선택 고민처럼 가볍게 물어보기 좋은 기본 게시판입니다.
+					</p>
+					<div class="highlight-card-meta">
+						<span>
+							🏠 자유
+						</span>
+						<span>
+							바로가기
+						</span>
+					</div>
+				</a>
+				<a class="highlight-card" th:href="@{/boards/boss}">
+					<span class="highlight-card-label">
+						보스공략
+					</span>
+					<h3>
+						막히는 구간은 공략부터 확인
+					</h3>
+					<p>
+						보스 패턴과 동선 정리 글을 먼저 보면 장비 준비 순서와 파티 플레이 흐름을 빠르게 익힐 수 있습니다.
+					</p>
+					<div class="highlight-card-meta">
+						<span>
+							⚔ 보스
+						</span>
+						<span>
+							바로가기
+						</span>
+					</div>
+				</a>
+				<a class="highlight-card" th:href="@{/skilltree}">
+					<span class="highlight-card-label">
+						스킬트리
+					</span>
+					<h3>
+						직업별 세팅 감 잡기
+					</h3>
+					<p>
+						직업별 스킬트리와 운용 팁을 보고 내 플레이 스타일에 맞는 방향을 잡을 수 있습니다.
+					</p>
+					<div class="highlight-card-meta">
+						<span>
+							✨ 스킬
+						</span>
+						<span>
+							바로가기
+						</span>
+					</div>
+				</a>
+				<a class="highlight-card" th:href="@{/trade/items}">
+					<span class="highlight-card-label">
+						거래게시판
+					</span>
+					<h3>
+						장비 시세와 구매 동선 체크
+					</h3>
+					<p>
+						거래소에서 자주 올라오는 아이템을 보면서 초반 목표 장비와 필요한 골드 흐름을 가볍게 확인해 보세요.
+					</p>
+					<div class="highlight-card-meta">
+						<span>
+							💰 거래
+						</span>
+						<span>
+							바로가기
+						</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="skilltree-spotlight-section">
+		<div class="container-xl">
+			<div class="section-heading-row">
+				<div>
+					<span class="section-kicker">SKILLTREE HUB</span>
+					<h2 class="section-title">직업별 스킬트리 허브</h2>
+				</div>
+				<a class="section-link" th:href="@{/skilltree}">스킬트리 보러가기</a>
+			</div>
+			<div class="skilltree-spotlight-layout">
+				<article class="panel-surface skilltree-spotlight-card">
+					<p class="board-preview-copy">원하는 직업을 누르면 해당 직업 스킬트리 글만 모아서 볼 수 있고, 댓글과 답글로 운영법도 바로 주고받을 수 있습니다.</p>
+					<div class="skilltree-pill-grid">
+						<a th:each="job : ${skillTreeJobs}" class="skilltree-pill"
+							th:classappend="' ' + ${job.cssClass}"
+							th:href="@{|/skilltree/${job.slug}|}">
+							<span th:text="${job.icon}">⚔</span>
+							<strong th:text="${job.label}">검성</strong>
+							<small th:text="|${skillTreePostCounts[job.label]}개 글|">0개 글</small>
+						</a>
+					</div>
+				</article>
+
+				<article class="panel-surface skilltree-preview-card">
+					<div class="board-preview-head">
+						<h3>최근 스킬트리 글</h3>
+						<a th:href="@{/skilltree}">허브 이동</a>
+					</div>
+					<div class="board-preview-list" th:if="${!#lists.isEmpty(recentSkillTreePosts)}">
+						<a th:each="post : ${recentSkillTreePosts}" class="board-preview-item board-preview-item-stack"
+							th:href="@{|/skilltree/${post.job.slug}/posts/${post.id}|}">
+							<div class="board-preview-inline-meta">
+								<span class="board-post-chip" th:text="|${post.job.icon} ${post.job.label}|">검성</span>
+								<small th:text="${#temporals.format(post.createDate, 'MM-dd HH:mm')}">04-01 12:30</small>
+							</div>
+							<span th:text="${post.subject}">스킬트리 글 제목</span>
+							<small th:text="${post.author != null ? post.author.username : '익명'}">작성자</small>
+						</a>
+					</div>
+					<div class="empty-board-message" th:if="${#lists.isEmpty(recentSkillTreePosts)}">아직 공유된 스킬트리가 없습니다.</div>
+				</article>
+			</div>
+		</div>
+	</section>
+</div>
+<script layout:fragment="script" type="text/javascript">
+	const videoCards = Array.from(document.querySelectorAll(".video-card"));
+	if (videoCards.length > 0) {
+		const track = document.getElementById("videoTrack");
+		const prevButton = document.querySelector("[data-video-prev]");
+		const nextButton = document.querySelector("[data-video-next]");
+		let currentIndex = 0;
+		let player = null;
+
+		const highlightCard = (index) => {
+			currentIndex = (index + videoCards.length) % videoCards.length;
+			videoCards.forEach((card, cardIndex) => {
+				card.classList.toggle("active", cardIndex === currentIndex);
+			});
+			const activeCard = videoCards[currentIndex];
+			activeCard.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+			if (player && typeof player.loadVideoById === "function") {
+				player.loadVideoById(activeCard.dataset.videoId);
+			}
+		};
+
+		window.onYouTubeIframeAPIReady = function () {
+			player = new YT.Player("featuredPlayer", {
+				videoId: videoCards[0].dataset.videoId,
+				playerVars: {
+					autoplay: 1,
+					controls: 1,
+					rel: 0,
+					playsinline: 1,
+					modestbranding: 1
+				},
+				events: {
+					onReady: function () {
+						highlightCard(0);
+					},
+					onStateChange: function (event) {
+						if (event.data === YT.PlayerState.ENDED) {
+							highlightCard(currentIndex + 1);
+						}
+					}
+				}
+			});
+		};
+
+		const apiScript = document.createElement("script");
+		apiScript.src = "https://www.youtube.com/iframe_api";
+		document.head.appendChild(apiScript);
+
+		videoCards.forEach((card, index) => {
+			card.addEventListener("click", () => highlightCard(index));
+		});
+
+		prevButton.addEventListener("click", () => highlightCard(currentIndex - 1));
+		nextButton.addEventListener("click", () => highlightCard(currentIndex + 1));
+		track.addEventListener("wheel", (event) => {
+			if (Math.abs(event.deltaX) < Math.abs(event.deltaY)) {
+				track.scrollLeft += event.deltaY;
+			}
+		}, { passive: true });
+	}
+</script>
+</html>

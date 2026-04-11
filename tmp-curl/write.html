@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="_csrf" content="plYuzFYM0Tzh7nW4sXv-oU2QXM6pfPsB1vZAa-rrR_ZREPujwmcc_2Q95wnM3BSL01bKmSvzcfbLHs0s4pd2W9LefsRpIM6R">
+	<meta name="_csrf_header" content="X-CSRF-TOKEN">
+	<script>
+		(function () {
+			try {
+				var savedTheme = localStorage.getItem("a2c-faction-theme");
+				var theme = savedTheme === "elyos" ? "elyos" : "asmodian";
+				document.documentElement.setAttribute("data-theme", theme);
+			} catch (error) {
+				document.documentElement.setAttribute("data-theme", "asmodian");
+			}
+		})();
+	</script>
+	<link rel="stylesheet" type="text/css" href="/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/a2c.css">
+	
+	
+		<title>스킬트리 글쓰기 - A2C</title>
+		
+</head>
+
+<body class="asmodian">
+	<script>
+		(function () {
+			var theme = document.documentElement.getAttribute("data-theme") || "asmodian";
+			document.body.classList.remove("asmodian", "elyos");
+			document.body.classList.add(theme);
+		})();
+	</script>
+	<nav class="navbar navbar-expand-xl navbar-dark navbar-a2c">
+	<div class="container-xl">
+		<a class="navbar-brand brand-mark" href="/" aria-label="A2C 홈">
+			<img src="/images/a2c-logo.png" alt="A2C 로고" class="brand-logo">
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#a2cNavbar"
+			aria-controls="a2cNavbar" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="a2cNavbar">
+			<ul class="navbar-nav me-auto mb-2 mb-xl-0">
+				<li class="nav-item">
+					<a class="nav-link" href="/boards/free">자유게시판</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/boards/guild">길드원모집</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/boards/boss">보스공략</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/boards/highlight">하이라이트</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link  active" href="/skilltree">스킬트리</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/trade/items">거래게시판</a>
+				</li>
+			</ul>
+			<div class="nav-auth-group">
+				
+				
+				<span class="nav-user-badge">관리자</span>
+				<span class="nav-user-badge">admin | 1,000G</span>
+				<form action="/user/logout" 
+      method="post" 
+      style="display:inline;"><input type="hidden" name="_csrf" value="plYuzFYM0Tzh7nW4sXv-oU2QXM6pfPsB1vZAa-rrR_ZREPujwmcc_2Q95wnM3BSL01bKmSvzcfbLHs0s4pd2W9LefsRpIM6R"/>
+    <input type="hidden" name="_csrf" value="plYuzFYM0Tzh7nW4sXv-oU2QXM6pfPsB1vZAa-rrR_ZREPujwmcc_2Q95wnM3BSL01bKmSvzcfbLHs0s4pd2W9LefsRpIM6R" />
+    <button type="submit" class="btn btn-auth btn-light">로그아웃</button>
+</form>
+			</div>
+		</div>
+	</div>
+</nav>
+	<div class="board-shell">
+	<div class="container board-form-shell">
+		<div class="panel-surface form-panel">
+			<div class="form-panel-head">
+				<span class="section-kicker">SKILLTREE</span>
+				<h1>스킬트리 글 작성</h1>
+			</div>
+			<form action="/skilltree/write" method="post"
+				data-return-url="/skilltree" class="board-form-stack skilltree-post-form"><input type="hidden" name="_csrf" value="plYuzFYM0Tzh7nW4sXv-oU2QXM6pfPsB1vZAa-rrR_ZREPujwmcc_2Q95wnM3BSL01bKmSvzcfbLHs0s4pd2W9LefsRpIM6R"/>
+				<input type="hidden" name="_csrf" value="plYuzFYM0Tzh7nW4sXv-oU2QXM6pfPsB1vZAa-rrR_ZREPujwmcc_2Q95wnM3BSL01bKmSvzcfbLHs0s4pd2W9LefsRpIM6R" />
+				<input type="hidden" name="returnUrl" value="/skilltree" />
+				
+				<div class="form-group-stack">
+					<label for="job" class="form-label">직업</label>
+					<select class="form-control" id="job" name="job">
+						<option value="">직업을 선택하세요</option>
+						<option value="검성">⚔ 검성</option>
+						<option value="수호성">🛡 수호성</option>
+						<option value="궁성">🏹 궁성</option>
+						<option value="살성">🗡 살성</option>
+						<option value="마도성">🔥 마도성</option>
+						<option value="정령성">🌪 정령성</option>
+						<option value="치유성">💚 치유성</option>
+						<option value="호법성">✨ 호법성</option>
+					</select>
+				</div>
+				<div class="form-group-stack">
+					<label for="subject" class="form-label">제목</label>
+					<input type="text" class="form-control form-control-lg" placeholder="스킬트리 제목을 입력하세요" id="subject" name="subject" value="">
+				</div>
+				<div class="form-group-stack">
+					<label for="content" class="form-label">내용</label>
+					<textarea class="form-control" rows="14" placeholder="스킬트리, 운영 방식, 추천 포인트를 적어주세요" id="content" name="content"></textarea>
+				</div>
+				<div class="form-action-row">
+					<button type="submit" class="btn btn-a2c-primary">저장하기</button>
+					<a class="btn btn-a2c-secondary"
+						href="/skilltree">목록으로</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+	<button type="button" id="themeToggleButton" class="theme-toggle-button" aria-live="polite" aria-label="천족 테마로 전환" title="천족 테마로 전환">
+		<span class="theme-toggle-icon" data-theme-icon>😇</span>
+		<span class="theme-toggle-copy">
+			<span class="theme-toggle-kicker">NEXT</span>
+			<span class="theme-toggle-label" data-theme-label>천족</span>
+		</span>
+	</button>
+	<button type="button" id="angelAIButton" aria-controls="aiChat" aria-expanded="false" title="천족 AI 열기">
+		<span class="halo" aria-hidden="true">◯</span>
+		<span class="wing left" aria-hidden="true">🪽</span>
+		<span class="angel-label">AI</span>
+		<span class="wing right" aria-hidden="true">🪽</span>
+	</button>
+	<section id="aiChat" aria-hidden="true">
+		<div id="aiHeader">
+			<div class="ai-header-copy">
+				<span class="ai-header-kicker">A2C ASSISTANT</span>
+				<strong>천족 AI</strong>
+			</div>
+			<button type="button" id="aiCloseButton" class="ai-close-button" aria-label="채팅 닫기">×</button>
+		</div>
+		<div id="aiMessages">
+			<div class="ai-message ai-message-bot">안녕하세요. 아이온2 직업, 게시판 기능, 스킬트리 관련 질문을 도와드릴게요.</div>
+		</div>
+		<div id="aiInputBox">
+			<input type="text" id="aiInput" placeholder="천족 AI에게 질문하세요" maxlength="500">
+			<button type="button" id="aiSendButton">전송</button>
+		</div>
+	</section>
+	<script src="/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	(() => {
+		const form = document.querySelector(".skilltree-post-form");
+		if (!form) {
+			return;
+		}
+		const returnUrl = form.dataset.returnUrl;
+		if (!returnUrl) {
+			return;
+		}
+		const skipKey = "skilltreePostFormBackSkip";
+
+		form.addEventListener("submit", () => {
+			sessionStorage.setItem(skipKey, JSON.stringify({
+				path: window.location.pathname + window.location.search,
+				returnUrl: returnUrl
+			}));
+		});
+
+		window.addEventListener("pageshow", (event) => {
+			const raw = sessionStorage.getItem(skipKey);
+			if (!raw) {
+				return;
+			}
+			const navigation = performance.getEntriesByType("navigation");
+			const isBackForward = event.persisted || (navigation.length > 0 && navigation[0].type === "back_forward");
+			if (!isBackForward) {
+				return;
+			}
+			try {
+				const saved = JSON.parse(raw);
+				if (saved.path === window.location.pathname + window.location.search && saved.returnUrl) {
+					sessionStorage.removeItem(skipKey);
+					window.location.replace(saved.returnUrl);
+				}
+			} catch (error) {
+				sessionStorage.removeItem(skipKey);
+			}
+		});
+	})();
+</script>
+	<script src="/theme-toggle.js"></script>
+	<script src="/ai-chat.js"></script>
+</body>
+
+</html>

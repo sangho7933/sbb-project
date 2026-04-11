@@ -1,0 +1,81 @@
+<html layout:decorate="~{a2c_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" th:href="@{/guide.css}">
+</head>
+<div layout:fragment="content" class="board-shell guide-shell">
+	<div class="container-xl">
+		<section class="board-header-card guide-header-card">
+			<div>
+				<span class="section-kicker">NEWBIE GUIDE</span>
+				<h1 class="section-title">뉴비 가이드</h1>
+				<p class="board-copy">
+					설치부터 45레벨 이후 운영까지, 처음 시작하는 유저가 바로 따라가기 쉽게 단계별로 정리한 가이드입니다.
+				</p>
+			</div>
+		</section>
+
+		<section id="guidePage"
+			class="guide-layout"
+			th:data-step-base-url="@{/guide/steps}"
+			th:data-initial-step="${selectedStep}">
+			<aside class="panel-surface guide-sidebar">
+				<div class="guide-sidebar-head">
+					<span class="guide-sidebar-kicker">STEP MENU</span>
+					<h2>단계별 진행</h2>
+					<p>왼쪽 단계를 누르면 오른쪽에 해당 가이드가 바로 표시됩니다.</p>
+				</div>
+
+				<nav class="guide-step-list" aria-label="뉴비 가이드 단계">
+					<a th:each="step : ${guideSteps}"
+						class="guide-step-button"
+						th:classappend="${selectedStep == step.number} ? ' is-active'"
+						th:href="@{/guide(step=${step.number})}"
+						th:attr="data-guide-step=${step.number}, aria-current=${selectedStep == step.number ? 'page' : null}">
+						<span class="guide-step-button-number" th:text="|STEP ${step.number}|">STEP 1</span>
+						<strong class="guide-step-button-title" th:text="${step.title}">설치</strong>
+						<span class="guide-step-button-copy" th:text="${step.subtitle}">게임 설치와 계정 준비</span>
+					</a>
+				</nav>
+			</aside>
+
+			<section class="panel-surface guide-content-card">
+				<div id="guideStepContent" class="guide-content-body" data-role="guide-content" aria-live="polite">
+					<th:block th:switch="${selectedStep}">
+						<th:block th:case="1">
+							<th:block th:replace="~{guide/step1 :: guideStepContent}"></th:block>
+						</th:block>
+						<th:block th:case="2">
+							<th:block th:replace="~{guide/step2 :: guideStepContent}"></th:block>
+						</th:block>
+						<th:block th:case="3">
+							<th:block th:replace="~{guide/step3 :: guideStepContent}"></th:block>
+						</th:block>
+						<th:block th:case="4">
+							<th:block th:replace="~{guide/step4 :: guideStepContent}"></th:block>
+						</th:block>
+						<th:block th:case="5">
+							<th:block th:replace="~{guide/step5 :: guideStepContent}"></th:block>
+						</th:block>
+						<th:block th:case="6">
+							<th:block th:replace="~{guide/step6 :: guideStepContent}"></th:block>
+						</th:block>
+						<th:block th:case="7">
+							<th:block th:replace="~{guide/step7 :: guideStepContent}"></th:block>
+						</th:block>
+						<th:block th:case="8">
+							<th:block th:replace="~{guide/step8 :: guideStepContent}"></th:block>
+						</th:block>
+						<th:block th:case="*">
+							<th:block th:replace="~{guide/step1 :: guideStepContent}"></th:block>
+						</th:block>
+					</th:block>
+				</div>
+			</section>
+		</section>
+	</div>
+</div>
+<th:block layout:fragment="script">
+	<script th:src="@{/guide.js}"></script>
+</th:block>
+</html>

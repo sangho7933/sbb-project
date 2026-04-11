@@ -1,0 +1,57 @@
+<th:block th:fragment="guideStepContent">
+    <article class="guide-step-shell">
+        <header class="guide-step-header"
+            th:insert="~{guide/fragments :: guideStepHeaderContent(eyebrowClass='guide-step-eyebrow', stepLabel='STEP 1', title='설치', description='가장 먼저 게임을 실행할 수 있는 기본 환경을 준비하는 단계입니다.')}">
+        </header>
+
+        <section class="guide-step-main-card">
+            <div class="guide-step-image-wrap" id="guideImageWrap">
+                <img src="/images/다운로드.png" alt="설치 가이드 이미지" class="guide-step-image" id="guideImage">
+            </div>
+
+            <div class="guide-step-section">
+                <h3>설명</h3>
+                <p>
+                    공식 다운로드 페이지에서 게임을 설치한 뒤,
+                    계정을 생성하고 로그인하면 다음 단계를 진행할 수 있습니다.
+                </p>
+            </div>
+
+            <div class="guide-step-download">
+                <th:block
+                    th:replace="~{guide/fragments :: guideExternalLinkButton(url='https://aion2.plaync.com/ko-kr/download/index', label='다운로드 사이트 바로가기')}">
+                </th:block>
+            </div>
+        </section>
+    </article>
+
+    <script>
+        (function () {
+            const wrap = document.getElementById('guideImageWrap');
+            if (!wrap) return;
+
+            let isDown = false;
+            let startY = 0;
+            let startScrollTop = 0;
+
+            wrap.addEventListener('mousedown', function (e) {
+                isDown = true;
+                wrap.classList.add('dragging');
+                startY = e.pageY;
+                startScrollTop = wrap.scrollTop;
+            });
+
+            window.addEventListener('mouseup', function () {
+                isDown = false;
+                wrap.classList.remove('dragging');
+            });
+
+            wrap.addEventListener('mousemove', function (e) {
+                if (!isDown) return;
+                e.preventDefault();
+                const moveY = e.pageY - startY;
+                wrap.scrollTop = startScrollTop - moveY;
+            });
+        })();
+    </script>
+</th:block>

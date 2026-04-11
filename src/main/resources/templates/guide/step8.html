@@ -1,0 +1,104 @@
+<th:block th:fragment="guideStepContent">
+    <article class="aion-guide-card guide-step-shell">
+        <header class="aion-guide-top guide-step-header"
+            th:insert="~{guide/fragments :: guideStepHeaderContent(eyebrowClass='aion-guide-step guide-step-eyebrow', stepLabel='STEP 8', title='전투력 상승 루트', description='1200 → 1600까지 빠르게 성장하는 핵심 방법 정리')}">
+        </header>
+
+        <!-- 핵심 요약 -->
+        <section class="aion-guide-section guide-step-section aion-guide-notice guide-step-tip-card"
+            th:insert="~{guide/fragments :: guideInfoCardContent(title='', headingLevel='h3', contentFragment=~{guide/step8 :: step8CoreSummaryContent})}">
+        </section>
+
+        <!-- 방법 1 -->
+        <section class="aion-guide-section guide-step-section">
+            <h3>1. 던전 (원정)</h3>
+            <ul>
+                <li>전투력 상승의 핵심은 장비 파밍</li>
+                <li>정복 크라오 동굴 → 목걸이, 투구</li>
+                <li>정복 드라웁니르 → 하의, 신발</li>
+                <li>부족하면 탐험 드라웁니르로 유일 장비 확보</li>
+            </ul>
+        </section>
+
+        <div class="aion-guide-banner guide-step-media-stack">
+            <img src="/images/원정2.png" alt="던전 이미지">
+        </div>
+
+        <!-- 방법 2 -->
+        <section class="aion-guide-section guide-step-section">
+            <h3>2. 내실 (탐험 + 지역 퀘스트)</h3>
+            <ul>
+                <li>물음표 → 봉인 던전 / 주둔지</li>
+                <li>초록 별 → 지역 퀘스트</li>
+                <li>데바니온 포인트 1당 전투력 +1</li>
+                <li>흔적 수집은 후순위</li>
+            </ul>
+        </section>
+
+        <div class="aion-guide-banner guide-step-media-stack">
+            <img src="/images/내실1.png" alt="내실 이미지">
+            <img src="/images/내실2.png" alt="내실 이미지2">
+        </div>
+
+        <!-- 방법 3 -->
+        <section class="aion-guide-section guide-step-section">
+            <h3>3. 강화 & 마석</h3>
+            <ul>
+                <li>+10강까지는 100% 성공</li>
+                <li>강화 시 전투력 +1~+2 증가</li>
+                <li>마석/영석 각인 시 +1~+4 증가</li>
+                <li>전부위 각인 시 큰 전투력 상승 가능</li>
+            </ul>
+        </section>
+
+        <div class="aion-guide-banner guide-step-media-stack">
+            <img src="/images/강화1.png" alt="강화 이미지">
+            <img src="/images/강화2.png" alt="강화 이미지">
+        </div>
+
+        <!-- 방법 4 -->
+        <section class="aion-guide-section guide-step-section">
+            <h3>4. 슈고 페스타</h3>
+            <ul>
+                <li>매시간 15분, 45분 진행</li>
+                <li>유일 장비 획득 가능</li>
+                <li>데바니온 결정 구매 가능</li>
+            </ul>
+        </section>
+
+        <div class="aion-guide-banner guide-step-media-stack">
+            <img src="/images/슈고.png" alt="슈고 페스타 이미지">
+        </div>
+
+        <!-- 방법 5 -->
+        <section class="aion-guide-section guide-step-section">
+            <h3>5. 추가 콘텐츠</h3>
+            <ul>
+                <li>악몽 → 아리엘 결정 획득</li>
+                <li>각성전 / 토벌전 → 재료 획득</li>
+                <li>어비스 상점 → 장비 or 스킬 선택</li>
+            </ul>
+        </section>
+
+        <!-- 최종 요약 -->
+        <section class="aion-guide-section guide-step-section aion-guide-notice guide-step-tip-card"
+            th:insert="~{guide/fragments :: guideInfoCardContent(title='핵심 요약', headingLevel='h3', contentFragment=~{guide/step8 :: step8SummaryContent})}">
+        </section>
+    </article>
+</th:block>
+<!-- 제목 없는 요약 카드에 넣는 step 8 핵심 본문이다. -->
+<th:block th:fragment="step8CoreSummaryContent">
+    <ul>
+        <li>메인 퀘스트 완료 후 유일 장비 강화만으로 약 1200 도달</li>
+        <li>이후 목표는 1600 이상 전투력</li>
+        <li>장비 + 내실 + 강화 + 콘텐츠 병행이 핵심</li>
+    </ul>
+</th:block>
+<!-- 공용 안내 카드에 주입할 step 8 최종 요약 본문이다. -->
+<th:block th:fragment="step8SummaryContent">
+    <ul>
+        <li>장비 파밍 → 내실 → 강화 순으로 진행</li>
+        <li>던전 + 내실 병행이 가장 빠른 성장 루트</li>
+        <li>1600 전투력까지는 꾸준히 올릴 수 있음</li>
+    </ul>
+</th:block>
