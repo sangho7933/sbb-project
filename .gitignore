@@ -35,3 +35,24 @@ out/
 
 ### VS Code ###
 .vscode/
+# local data
+data/
+tmp-curl/
+
+# logs
+*.log
+
+# cookies
+cookies.txt
+trade-cookies.txt
+
+# test html
+login-page.html
+mypage-live.html
+mypage-page.html
+trade-form-page.html
+trade-list-page.html
+trade-login-page.html
+
+# sensitive
+src/main/resources/application.properties
