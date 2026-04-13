@@ -142,9 +142,24 @@ public class TradeItemService {
 
 	@Transactional
 	public void hideByAdmin(Integer itemId) {
-		TradeItem tradeItem = this.tradeItemRepository.findById(itemId)
-				.orElseThrow(() -> new DataNotFoundException("trade item not found"));
+		TradeItem tradeItem = getTradeItemEntity(itemId);
 		tradeItem.markHidden();
+	}
+
+	@Transactional
+	public void deleteByAdmin(Integer itemId) {
+		TradeItem tradeItem = getTradeItemEntity(itemId);
+		this.tradeTransactionRepository.deleteByItem_Id(tradeItem.getId());
+		this.tradeItemRepository.delete(tradeItem);
+	}
+
+	@Transactional
+	public void deleteBySeller(Integer itemId, SiteUser seller) {
+		TradeItem tradeItem = getTradeItemEntity(itemId);
+		validateOwner(tradeItem, seller);
+		validateSellerDeletionAllowed(tradeItem);
+		this.tradeTransactionRepository.deleteByItem_Id(tradeItem.getId());
+		this.tradeItemRepository.delete(tradeItem);
 	}
 
 	public List<TradeTransaction> getMyPurchases(SiteUser user) {
@@ -210,6 +225,23 @@ public class TradeItemService {
 		if (buyerUser.getGold() < tradeItem.getPrice()) {
 			throw new IllegalStateException("골드가 부족합니다. 현재 보유 골드를 확인해 주세요.");
 		}
+	}
+
+	private void validateOwner(TradeItem tradeItem, SiteUser user) {
+		if (tradeItem.getSeller() == null || !tradeItem.getSeller().getUserId().equals(user.getId())) {
+			throw new IllegalStateException("본인 거래글만 삭제할 수 있습니다.");
+		}
+	}
+
+	private void validateSellerDeletionAllowed(TradeItem tradeItem) {
+		if (tradeItem.isSoldOut()) {
+			throw new IllegalStateException("판매 완료된 거래글은 삭제할 수 없습니다.");
+		}
+	}
+
+	private TradeItem getTradeItemEntity(Integer itemId) {
+		return this.tradeItemRepository.findById(itemId)
+				.orElseThrow(() -> new DataNotFoundException("trade item not found"));
 	}
 
 	private String normalize(String value) {

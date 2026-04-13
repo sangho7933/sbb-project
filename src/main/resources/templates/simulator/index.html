@@ -15,9 +15,9 @@
 				<div class="mypage-panel mypage-hero">
 					<div>
 						<span class="mypage-kicker">SIMULATOR</span>
-						<h1 class="mypage-title">&#xC7A5;&#xBE44; &#xC2DC;&#xBBAC;&#xB808;&#xC774;&#xD130;</h1>
+						<h1 class="mypage-title">장비 시뮬레이터</h1>
 						<p class="mypage-subtitle">
-							&#xC7A5;&#xBE44; &#xC774;&#xB984;&#xACFC; &#xC2A4;&#xD0EF; &#xBCC0;&#xD654;&#xB97C; &#xC9C1;&#xC811; &#xBE44;&#xAD50;&#xD574;&#xBCF4;&#xC138;&#xC694;. &#xAD6C;&#xB9E4; &#xB9AC;&#xC2A4;&#xD2B8;&#xC640; &#xC804;&#xCCB4; &#xB9AC;&#xC2A4;&#xD2B8;&#xB97C; &#xAE30;&#xC900;&#xC73C;&#xB85C; &#xD074;&#xB9AD; &#xB610;&#xB294; &#xB4DC;&#xB798;&#xADF8;&#xB85C; &#xC138;&#xD305;&#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.
+							장비 이름과 스탯 변화를 직접 비교해보세요. 구매 리스트와 전체 리스트를 기준으로 클릭 또는 드래그로 세팅할 수 있습니다.
 						</p>
 					</div>
 					<div class="mypage-hero-badges" data-role="hero-badges"></div>
@@ -26,7 +26,7 @@
 				<div class="mypage-status" data-role="status-message"></div>
 
 				<noscript>
-					<div class="alert alert-warning mt-3">&#xC7A5;&#xBE44; &#xC2DC;&#xBBAC;&#xB808;&#xC774;&#xD130;&#xB294; JavaScript&#xAC00; &#xD544;&#xC694;&#xD569;&#xB2C8;&#xB2E4;.</div>
+					<div class="alert alert-warning mt-3">장비 시뮬레이터는 JavaScript가 필요합니다.</div>
 				</noscript>
 
 				<div class="mypage-grid">
@@ -34,25 +34,25 @@
 						<div class="mypage-panel-head">
 							<div>
 								<span class="mypage-kicker">ITEMS</span>
-								<h2>&#xC544;&#xC774;&#xD15C; &#xBAA9;&#xB85D;</h2>
+								<h2>아이템 목록</h2>
 							</div>
-							<button type="button" class="mypage-ghost-button" data-role="sync-button" data-action="sync-catalog" hidden>DB &#xB3D9;&#xAE30;&#xD654;</button>
+							<button type="button" class="mypage-ghost-button" data-role="sync-button" data-action="sync-catalog" hidden>DB 동기화</button>
 						</div>
 
 						<div class="mypage-main-tabs">
-							<button type="button" class="mypage-tab-button is-active" data-action="toggle-tab" data-owned="false">&#xC804;&#xCCB4; &#xC544;&#xC774;&#xD15C;</button>
-							<button type="button" class="mypage-tab-button" data-action="toggle-tab" data-owned="true">&#xBCF4;&#xC720; &#xC544;&#xC774;&#xD15C;</button>
+							<button type="button" class="mypage-tab-button is-active" data-action="toggle-tab" data-owned="false">전체 아이템</button>
+							<button type="button" class="mypage-tab-button" data-action="toggle-tab" data-owned="true">보유 아이템</button>
 						</div>
 
 						<div class="mypage-slot-tabs" data-role="slot-tabs"></div>
 
 						<form class="mypage-search" data-role="search-form">
-							<input type="search" name="keyword" data-role="keyword-input" placeholder="&#xC544;&#xC774;&#xD15C; &#xAC80;&#xC0C9;">
-							<button type="submit">&#xAC80;&#xC0C9;</button>
+							<input type="search" name="keyword" data-role="keyword-input" placeholder="아이템 검색">
+							<button type="submit">검색</button>
 						</form>
 
 						<div class="mypage-list-summary">
-							<strong data-role="list-title">&#xC804;&#xCCB4; &#xC544;&#xC774;&#xD15C;</strong>
+							<strong data-role="list-title">전체 아이템</strong>
 							<span data-role="list-meta"></span>
 						</div>
 
@@ -63,13 +63,13 @@
 						<div class="mypage-panel-head">
 							<div>
 								<span class="mypage-kicker">LOADOUT</span>
-								<h2>&#xD604;&#xC7AC; &#xC7A5;&#xCC29; &#xC2AC;&#xB86F;</h2>
-								<p class="mypage-item-sub">&#xC544;&#xC774;&#xD15C; &#xCE74;&#xB4DC;&#xB97C; &#xD074;&#xB9AD;&#xD558;&#xAC70;&#xB098; &#xB4DC;&#xB798;&#xADF8;&#xD574;&#xC11C; &#xC6D0;&#xD558;&#xB294; &#xC2AC;&#xB86F;&#xC5D0; &#xC7A5;&#xCC29;&#xD574;&#xBCF4;&#xC138;&#xC694;.</p>
+								<h2>현재 장착 슬롯</h2>
+								<p class="mypage-item-sub">아이템 카드를 클릭하거나 드래그해서 원하는 슬롯에 장착해보세요.</p>
 							</div>
 							<div class="mypage-inline-actions">
-								<a class="mypage-ghost-button" th:href="@{/mypage}">&#xB9C8;&#xC774;&#xD398;&#xC774;&#xC9C0;</a>
-								<button type="button" class="mypage-ghost-button" data-action="load-saved">&#xC800;&#xC7A5; &#xC138;&#xD305; &#xBD88;&#xB7EC;&#xC624;&#xAE30;</button>
-								<button type="button" class="mypage-ghost-button" data-action="clear-all">&#xC804;&#xCCB4; &#xCD08;&#xAE30;&#xD654;</button>
+								<a class="mypage-ghost-button" th:href="@{/mypage}">마이페이지</a>
+								<button type="button" class="mypage-ghost-button" data-action="load-saved">저장 세팅 불러오기</button>
+								<button type="button" class="mypage-ghost-button" data-action="clear-all">전체 초기화</button>
 							</div>
 						</div>
 
@@ -78,7 +78,7 @@
 						<div class="mypage-selected-preview" data-role="selected-item"></div>
 
 						<div class="mypage-primary-actions">
-							<button type="button" class="mypage-primary-button" data-action="equip-selected" disabled>&#xC7A5;&#xCC29;&#xD558;&#xAE30;</button>
+							<button type="button" class="mypage-primary-button" data-action="equip-selected" disabled>장착하기</button>
 						</div>
 					</section>
 
@@ -86,13 +86,18 @@
 						<div class="mypage-panel-head">
 							<div>
 								<span class="mypage-kicker">RESULT</span>
-								<h2>&#xC2A4;&#xD0EF; &#xACB0;&#xACFC;</h2>
+								<h2>스탯 결과</h2>
 							</div>
 						</div>
 
 						<div class="mypage-stat-grid" data-role="stats-grid"></div>
 
-						<button type="button" class="mypage-primary-button mypage-recommend-button" data-action="request-growth">&#xC131;&#xC7A5; &#xCD94;&#xCC9C; &#xBC1B;&#xAE30;</button>
+						<button type="button" class="mypage-primary-button mypage-recommend-button" data-action="request-growth">성장 추천 받기</button>
+
+						<div class="mypage-battle-entry">
+							<button type="button" class="mypage-ghost-button mypage-battle-button" data-action="open-battle-modal">AI 가상 전투</button>
+							<p class="mypage-battle-note">현재 장비 기준으로 도전 가능한 성장 목표형 AI와 모의 전투를 진행합니다.</p>
+						</div>
 					</aside>
 				</div>
 
@@ -112,6 +117,54 @@
 						<div class="mypage-modal-footer">
 							<div class="mypage-modal-actions">
 								<button type="button" class="mypage-primary-button mypage-modal-primary-button" data-action="close-recommend-modal">닫기</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="mypage-modal" data-role="battle-modal" hidden aria-hidden="true">
+					<div class="mypage-modal-overlay" data-action="close-battle-modal"></div>
+					<div class="mypage-modal-dialog mypage-battle-dialog" data-role="battle-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="battleModalTitle" tabindex="-1">
+						<button type="button" class="mypage-modal-close" data-action="close-battle-modal" aria-label="닫기">&times;</button>
+						<div class="mypage-modal-head">
+							<div>
+								<span class="mypage-kicker">AI BATTLE</span>
+								<h2 id="battleModalTitle">AI 가상 전투</h2>
+								<p class="mypage-item-sub">현재 시뮬레이션 스탯을 기준으로 조금 더 강한 성장 목표형 AI를 생성합니다.</p>
+							</div>
+						</div>
+
+						<div class="mypage-modal-content mypage-battle-content">
+							<section class="mypage-battle-stage">
+								<article class="mypage-battle-card mypage-battle-card-player" data-role="battle-player"></article>
+								<div class="mypage-battle-vs" aria-hidden="true">
+									<span>VS</span>
+								</div>
+								<article class="mypage-battle-card mypage-battle-card-opponent" data-role="battle-opponent"></article>
+							</section>
+
+							<section class="mypage-battle-panel">
+								<div class="mypage-battle-panel-head">
+									<strong>전투 진행</strong>
+									<span>한 줄 연출</span>
+								</div>
+								<div class="mypage-battle-progress" data-role="battle-progress"></div>
+							</section>
+
+							<section class="mypage-battle-panel">
+								<div class="mypage-battle-panel-head">
+									<strong>결과 분석</strong>
+									<span>성장 방향 안내</span>
+								</div>
+								<div class="mypage-battle-analysis" data-role="battle-analysis"></div>
+							</section>
+						</div>
+
+						<div class="mypage-modal-footer mypage-battle-footer">
+							<div class="mypage-modal-actions">
+								<button type="button" class="mypage-primary-button mypage-modal-primary-button" data-action="start-battle">전투 시작</button>
+								<button type="button" class="mypage-ghost-button" data-action="regenerate-battle-opponent">다시 생성</button>
+								<button type="button" class="mypage-ghost-button" data-action="close-battle-modal">닫기</button>
 							</div>
 						</div>
 					</div>

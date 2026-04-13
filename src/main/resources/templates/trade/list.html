@@ -97,10 +97,16 @@
 							</div>
 							<div class="trade-card-actions">
 								<a class="btn btn-a2c-secondary btn-sm" th:href="@{|/trade/items/${item.id}|}">상세보기</a>
+								<form th:if="${currentUser != null and item.seller != null and currentUser.id == item.seller.userId and !item.soldOut}"
+									th:action="@{|/trade/items/${item.id}/delete|}" method="post"
+									onsubmit="return confirm('이 상품을 삭제하시겠습니까?');">
+									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+									<input type="hidden" name="redirect"
+										th:value="@{/trade/items(page=${paging.number}, category=${selectedCategory}, kw=${kw}, status=${status}, sort=${sort}, mine=${mine})}">
+									<button type="submit" class="btn btn-danger btn-sm">삭제</button>
+								</form>
 								<button type="button" class="btn btn-a2c-secondary btn-sm" th:if="${item.soldOut}" disabled>판매완료</button>
 								<a class="btn btn-a2c-primary btn-sm" th:if="${currentUser == null and !item.soldOut}" th:href="@{/user/login}">로그인 후 구매</a>
-								<button type="button" class="btn btn-a2c-secondary btn-sm"
-									th:if="${currentUser != null and item.seller != null and currentUser.id == item.seller.userId and !item.soldOut}" disabled>내 상품</button>
 								<button type="button" class="btn btn-a2c-secondary btn-sm"
 									th:if="${currentUser != null and item.price != null and currentUser.id != (item.seller != null ? item.seller.userId : -1) and currentUser.gold < item.price and !item.soldOut}" disabled>골드 부족</button>
 								<form th:if="${currentUser != null and item.price != null and item.seller != null and currentUser.id != item.seller.userId and currentUser.gold >= item.price and !item.soldOut}"

@@ -12,6 +12,8 @@
 	--mypage-secondary-text: var(--theme-secondary-text, #f8ecff);
 	--mypage-primary-text: var(--theme-primary-text, #fff7ff);
 	--mypage-primary-bg: linear-gradient(135deg, var(--theme-primary-start, #7a42e6) 0%, var(--theme-primary-end, #d55673) 100%);
+	--mypage-quick-nav-width: 148px;
+	--mypage-quick-nav-bg: linear-gradient(160deg, var(--theme-panel-soft, rgba(255, 255, 255, 0.05)) 0%, rgba(255, 255, 255, 0.02) 100%);
 }
 
 .mypage-dashboard-page {
@@ -19,9 +21,113 @@
 	color: var(--mypage-body-text);
 }
 
+.mypage-dashboard-shell {
+	display: flex;
+	align-items: flex-start;
+	gap: 1.5rem;
+}
+
 .mypage-dashboard {
+	flex: 1 1 auto;
+	min-width: 0;
 	display: grid;
 	gap: 1.5rem;
+}
+
+.mypage-section-stack {
+	display: grid;
+	gap: 1.5rem;
+}
+
+.mypage-scroll-section,
+.mypage-scroll-anchor {
+	scroll-margin-top: 1.5rem;
+}
+
+.mypage-scroll-section,
+.mypage-main-grid,
+.mypage-section-stack {
+	border-radius: 30px;
+}
+
+.mypage-scroll-section,
+.mypage-panel,
+.mypage-main-grid,
+.mypage-section-stack {
+	transition: box-shadow 0.22s ease;
+}
+
+.mypage-scroll-section.is-targeted,
+.mypage-panel.is-targeted,
+.mypage-main-grid.is-targeted,
+.mypage-section-stack.is-targeted {
+	box-shadow:
+		0 0 0 1px rgba(245, 198, 106, 0.24),
+		0 0 0 12px rgba(245, 198, 106, 0.06);
+}
+
+.mypage-scroll-anchor {
+	height: 0;
+}
+
+.mypage-quick-nav {
+	position: sticky;
+	top: 1rem;
+	align-self: start;
+	flex: 0 0 var(--mypage-quick-nav-width);
+	display: grid;
+	gap: 0.45rem;
+	width: 100%;
+	max-width: var(--mypage-quick-nav-width);
+	max-height: calc(100vh - 2rem);
+	padding: 0.7rem;
+	border: 1px solid var(--mypage-panel-line);
+	border-radius: 24px;
+	background: var(--mypage-quick-nav-bg), var(--mypage-panel-bg);
+	box-shadow: 0 18px 34px rgba(4, 8, 22, 0.28);
+	backdrop-filter: blur(16px);
+	overflow-y: auto;
+	scrollbar-width: none;
+}
+
+.mypage-quick-nav-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-start;
+	width: 100%;
+	min-height: 42px;
+	padding: 0.72rem 0.8rem;
+	border: 1px solid transparent;
+	border-radius: 14px;
+	background: var(--theme-panel-soft, rgba(255, 255, 255, 0.05));
+	color: var(--mypage-soft-text);
+	font-size: 0.81rem;
+	font-weight: 700;
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.mypage-quick-nav::-webkit-scrollbar {
+	display: none;
+}
+
+.mypage-quick-nav-link:hover,
+.mypage-quick-nav-link:focus-visible {
+	transform: translateY(-1px);
+	border-color: var(--mypage-panel-line-strong);
+	background: var(--mypage-secondary-bg);
+	color: var(--mypage-secondary-text);
+	box-shadow: 0 12px 24px rgba(3, 5, 15, 0.18);
+	outline: none;
+}
+
+.mypage-quick-nav-link.is-active {
+	border-color: var(--theme-primary-end, rgba(245, 198, 106, 0.34));
+	background: var(--mypage-panel-highlight);
+	color: var(--mypage-heading);
+	box-shadow: 0 14px 28px rgba(3, 5, 15, 0.22);
 }
 
 .mypage-hero-card,
@@ -682,6 +788,10 @@
 }
 
 @media (max-width: 1199px) {
+	.mypage-dashboard-shell {
+		flex-direction: column;
+	}
+
 	.mypage-hero-card,
 	.mypage-main-grid,
 	.mypage-activity-cards {
@@ -690,6 +800,16 @@
 
 	.mypage-overview-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.mypage-quick-nav {
+		width: min(100%, 188px);
+		max-height: none;
+		padding: 0.6rem;
+	}
+
+	.mypage-quick-nav-link {
+		min-width: 0;
 	}
 }
 
@@ -775,6 +895,27 @@
 		width: 100%;
 		text-align: left;
 	}
+
+	.mypage-quick-nav {
+		width: min(100%, 176px);
+		border-radius: 20px;
+	}
+
+	.mypage-quick-nav-link {
+		min-height: 40px;
+		padding-inline: 0.7rem;
+		font-size: 0.78rem;
+		min-width: 0;
+	}
+
+	.mypage-scroll-section.is-targeted,
+	.mypage-panel.is-targeted,
+	.mypage-main-grid.is-targeted,
+	.mypage-section-stack.is-targeted {
+		box-shadow:
+			0 0 0 1px rgba(245, 198, 106, 0.22),
+			0 0 0 8px rgba(245, 198, 106, 0.05);
+	}
 }
 
 @media (max-width: 480px) {
@@ -801,5 +942,15 @@
 
 	.mypage-gear-card {
 		padding: 0.9rem;
+	}
+
+	.mypage-quick-nav {
+		width: min(100%, 168px);
+		padding: 0.5rem;
+	}
+
+	.mypage-quick-nav-link {
+		min-width: 0;
+		font-size: 0.76rem;
 	}
 }

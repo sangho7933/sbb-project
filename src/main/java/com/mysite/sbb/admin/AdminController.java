@@ -78,6 +78,7 @@ public class AdminController {
 			model.addAttribute("dashboardStats", this.adminDashboardService.getDashboardStats());
 			model.addAttribute("userPageData", this.userService.getAdminList(
 					dashboardRequest.userPage(), PAGE_SIZE, dashboardRequest.keyword()));
+			model.addAttribute("suspendedUsers", this.userService.getSuspendedUsers());
 			model.addAttribute("postPageData", this.boardPostService.getAdminList(
 					dashboardRequest.postPage(), PAGE_SIZE, dashboardRequest.keyword()));
 			model.addAttribute("commentPageData", this.boardCommentService.getAdminList(
@@ -115,6 +116,51 @@ public class AdminController {
 		model.addAttribute("purchaseHistory", purchaseHistory);
 		model.addAttribute("salesHistory", salesHistory);
 		return "admin/user_detail";
+	}
+
+	@PostMapping("/users/{id}/suspend/{days}")
+	public String suspendUser(
+			@PathVariable("id") Long id,
+			@PathVariable("days") int days,
+			Authentication authentication,
+			HttpSession session,
+			@RequestParam(value = "redirect", defaultValue = "") String redirect,
+			@RequestParam(value = "kw", defaultValue = "") String kw,
+			@RequestParam(value = "userPage", defaultValue = "0") int userPage,
+			@RequestParam(value = "postPage", defaultValue = "0") int postPage,
+			@RequestParam(value = "commentPage", defaultValue = "0") int commentPage,
+			@RequestParam(value = "tradePage", defaultValue = "0") int tradePage,
+			RedirectAttributes redirectAttributes) {
+		DashboardRequest dashboardRequest = sanitizeDashboardRequest(kw, userPage, postPage, commentPage, tradePage);
+		requireAdminMode(authentication, session);
+		try {
+			SiteUser suspendedUser = this.userService.suspendUser(id, days);
+			redirectAttributes.addFlashAttribute("successMessage",
+					suspendedUser.getUsername() + "님을 " + days + "일 정지했습니다.");
+		} catch (IllegalStateException exception) {
+			redirectAttributes.addFlashAttribute("errorMessage", exception.getMessage());
+		}
+		return resolveAdminRedirect(redirect, buildDashboardUrl(dashboardRequest));
+	}
+
+	@PostMapping("/users/{id}/release")
+	public String releaseUserSuspension(
+			@PathVariable("id") Long id,
+			Authentication authentication,
+			HttpSession session,
+			@RequestParam(value = "redirect", defaultValue = "") String redirect,
+			@RequestParam(value = "kw", defaultValue = "") String kw,
+			@RequestParam(value = "userPage", defaultValue = "0") int userPage,
+			@RequestParam(value = "postPage", defaultValue = "0") int postPage,
+			@RequestParam(value = "commentPage", defaultValue = "0") int commentPage,
+			@RequestParam(value = "tradePage", defaultValue = "0") int tradePage,
+			RedirectAttributes redirectAttributes) {
+		DashboardRequest dashboardRequest = sanitizeDashboardRequest(kw, userPage, postPage, commentPage, tradePage);
+		requireAdminMode(authentication, session);
+		SiteUser releasedUser = this.userService.releaseSuspension(id);
+		redirectAttributes.addFlashAttribute("successMessage",
+				releasedUser.getUsername() + "님의 정지를 해제했습니다.");
+		return resolveAdminRedirect(redirect, buildDashboardUrl(dashboardRequest));
 	}
 
 	@PostMapping("/posts/{id}/delete")
@@ -233,6 +279,31 @@ public class AdminController {
 				redirect,
 				() -> {
 					this.tradeItemService.hideByAdmin(id);
+					return buildDashboardUrl(dashboardRequest);
+				});
+	}
+
+	@PostMapping("/trade-items/{id}/delete")
+	public String deleteTradeItem(
+			@PathVariable("id") Integer id,
+			Authentication authentication,
+			HttpSession session,
+			@RequestParam(value = "redirect", defaultValue = "") String redirect,
+			@RequestParam(value = "kw", defaultValue = "") String kw,
+			@RequestParam(value = "userPage", defaultValue = "0") int userPage,
+			@RequestParam(value = "postPage", defaultValue = "0") int postPage,
+			@RequestParam(value = "commentPage", defaultValue = "0") int commentPage,
+			@RequestParam(value = "tradePage", defaultValue = "0") int tradePage,
+			RedirectAttributes redirectAttributes) {
+		DashboardRequest dashboardRequest = sanitizeDashboardRequest(kw, userPage, postPage, commentPage, tradePage);
+		return handleAdminAction(
+				authentication,
+				session,
+				redirectAttributes,
+				"거래글을 삭제했습니다.",
+				redirect,
+				() -> {
+					this.tradeItemService.deleteByAdmin(id);
 					return buildDashboardUrl(dashboardRequest);
 				});
 	}

@@ -7,11 +7,17 @@
 			<p>커뮤니티 글쓰기, 댓글, 추천 기능은 로그인 후 사용할 수 있습니다.</p>
 		</div>
 		<form th:action="@{/user/login}" method="post" class="auth-form">
-			<input type="hidden" name="redirect" th:if="${param.redirect}" th:value="${param.redirect}" />
-			<div th:if="${param.expired}" class="auth-alert">
+			<input type="hidden" name="redirect" th:if="${param.redirect != null}" th:value="${param.redirect}" />
+			<div th:if="${param.expired != null}" class="auth-alert">
 				세션이 만료되어 다시 로그인해 주세요.
 			</div>
-			<div th:if="${param.error}" class="auth-alert">
+			<div th:if="${param.error != null and loginErrorMessage != null and !#strings.isEmpty(loginErrorMessage)}"
+				 class="auth-alert"
+				 th:text="${loginErrorMessage}">
+				사용자 ID 또는 비밀번호를 확인해 주세요.
+			</div>
+			<div th:if="${param.error != null and (loginErrorMessage == null or #strings.isEmpty(loginErrorMessage))}"
+				 class="auth-alert">
 				사용자 ID 또는 비밀번호를 확인해 주세요.
 			</div>
 			<div class="form-group-stack">

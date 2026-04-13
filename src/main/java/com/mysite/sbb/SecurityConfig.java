@@ -21,12 +21,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CsrfException;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -57,6 +59,7 @@ public class SecurityConfig {
             HttpSecurity http,
             RequestCache requestCache,
             AuthenticationSuccessHandler authenticationSuccessHandler,
+            AuthenticationFailureHandler authenticationFailureHandler,
             AccessDeniedHandler accessDeniedHandler) throws Exception {
 
         http
@@ -91,7 +94,7 @@ public class SecurityConfig {
                 .loginPage("/user/login")
                 .loginProcessingUrl("/user/login")
                 .successHandler(authenticationSuccessHandler)
-                .failureUrl("/user/login?error")
+                .failureHandler(authenticationFailureHandler)
             )
             .logout(logout -> logout
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
@@ -140,6 +143,25 @@ public class SecurityConfig {
         handler.setRequestCache(requestCache);
         handler.setDefaultTargetUrl("/");
         return handler;
+    }
+
+    @Bean
+    AuthenticationFailureHandler authenticationFailureHandler() {
+        return (request, response, exception) -> {
+            UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/user/login")
+                .queryParam("error", "1");
+
+            String redirectTarget = sanitizeLocalRedirect(request.getParameter("redirect"));
+            if (redirectTarget != null) {
+                builder.queryParam("redirect", redirectTarget);
+            }
+
+            if (exception instanceof LockedException && StringUtils.hasText(exception.getMessage())) {
+                builder.queryParam("message", exception.getMessage());
+            }
+
+            response.sendRedirect(builder.build().encode().toUriString());
+        };
     }
 
     @Bean

@@ -12,6 +12,8 @@ public interface TradeTransactionRepository extends JpaRepository<TradeTransacti
 
 	List<TradeTransaction> findByBuyer_UserId(Long userId);
 
+	void deleteByItem_Id(Integer itemId);
+
 	@Query("""
 			select tradeTransaction
 			from TradeTransaction tradeTransaction

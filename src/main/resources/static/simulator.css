@@ -743,6 +743,31 @@
 	margin-top: 1rem;
 }
 
+.mypage-battle-entry {
+	display: grid;
+	gap: 0.55rem;
+	margin-top: 0.8rem;
+}
+
+.mypage-battle-button {
+	width: 100%;
+	justify-content: center;
+	padding: 0.95rem 1rem;
+	border-radius: 18px;
+	background:
+		linear-gradient(135deg, rgba(117, 201, 255, 0.12), rgba(244, 197, 66, 0.08)),
+		var(--mypage-secondary-bg);
+	color: var(--mypage-heading);
+	box-shadow: 0 14px 28px rgba(5, 11, 26, 0.18);
+}
+
+.mypage-battle-note {
+	margin: 0;
+	font-size: 0.84rem;
+	line-height: 1.6;
+	color: var(--mypage-text-soft);
+}
+
 .mypage-recommend-card,
 .mypage-vault-card {
 	padding: 0.95rem;
@@ -1218,6 +1243,10 @@ body.has-simulator-modal {
 	display: none;
 }
 
+.mypage-battle-footer {
+	display: block;
+}
+
 .mypage-modal-actions {
 	display: flex;
 	flex-wrap: wrap;
@@ -1228,6 +1257,207 @@ body.has-simulator-modal {
 .mypage-modal-primary-button {
 	width: auto;
 	min-width: 7rem;
+}
+
+.mypage-battle-dialog {
+	width: min(980px, 100%);
+}
+
+.mypage-battle-content {
+	gap: 1rem;
+}
+
+.mypage-battle-stage {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+	align-items: stretch;
+	gap: 1rem;
+}
+
+.mypage-battle-card,
+.mypage-battle-panel {
+	display: grid;
+	gap: 0.85rem;
+	padding: 1rem;
+	border-radius: 24px;
+	border: 1px solid var(--mypage-line);
+	background: var(--mypage-modal-card-bg);
+}
+
+.mypage-battle-vs {
+	display: grid;
+	place-items: center;
+	min-width: 70px;
+}
+
+.mypage-battle-vs span {
+	display: grid;
+	place-items: center;
+	width: 66px;
+	height: 66px;
+	border-radius: 999px;
+	border: 1px solid var(--mypage-line-strong);
+	background: var(--mypage-modal-center-bg);
+	color: var(--mypage-heading);
+	font-size: 1.18rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+}
+
+.mypage-battle-card-head,
+.mypage-battle-result-row,
+.mypage-battle-panel-head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 0.8rem;
+}
+
+.mypage-battle-card-name {
+	display: block;
+	margin-top: 0.35rem;
+	font-size: 1.18rem;
+	color: var(--mypage-heading);
+}
+
+.mypage-battle-card-sub,
+.mypage-battle-card-status-label,
+.mypage-battle-panel-head span,
+.mypage-battle-result-label,
+.mypage-battle-result-text,
+.mypage-battle-recommend-copy {
+	color: var(--mypage-text-soft);
+}
+
+.mypage-battle-card-power {
+	color: var(--mypage-gold);
+	font-size: 1.2rem;
+	font-weight: 800;
+	white-space: nowrap;
+}
+
+.mypage-battle-card-status-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.85rem 0.95rem;
+	border-radius: 18px;
+	border: 1px solid var(--mypage-line);
+	background: rgba(255, 255, 255, 0.03);
+}
+
+.mypage-battle-card-status {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.35rem 0.7rem;
+	border-radius: 999px;
+	background: rgba(117, 201, 255, 0.12);
+	color: var(--mypage-heading);
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.mypage-battle-card-stats,
+.mypage-battle-analysis-stack {
+	display: grid;
+	gap: 0.7rem;
+}
+
+.mypage-battle-stat-row,
+.mypage-battle-compare-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.78rem 0.9rem;
+	border-radius: 16px;
+	border: 1px solid var(--mypage-line);
+	background: rgba(255, 255, 255, 0.028);
+}
+
+.mypage-battle-stat-row strong,
+.mypage-battle-compare-row strong,
+.mypage-battle-panel-head strong,
+.mypage-battle-recommend-title {
+	color: var(--mypage-heading);
+}
+
+.mypage-battle-card-hint,
+.mypage-battle-summary,
+.mypage-battle-recommend-box {
+	padding: 0.9rem 1rem;
+	border-radius: 18px;
+	border: 1px solid var(--mypage-line);
+	background: rgba(255, 255, 255, 0.03);
+}
+
+.mypage-battle-progress {
+	min-height: 84px;
+	display: grid;
+	align-items: center;
+}
+
+.mypage-battle-progress-line {
+	padding: 1rem 1.05rem;
+	border-radius: 20px;
+	border: 1px solid var(--mypage-line);
+	background: var(--mypage-modal-center-bg);
+	color: var(--mypage-heading);
+	font-size: 1.02rem;
+	font-weight: 700;
+	line-height: 1.7;
+}
+
+.mypage-battle-progress-line.is-running {
+	box-shadow: 0 14px 26px rgba(0, 0, 0, 0.16);
+}
+
+.mypage-battle-result-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.38rem 0.82rem;
+	border-radius: 999px;
+	font-size: 0.84rem;
+	font-weight: 800;
+}
+
+.mypage-battle-result-badge.is-win {
+	background: rgba(73, 218, 163, 0.16);
+	color: #7ff1bf;
+}
+
+.mypage-battle-result-badge.is-loss {
+	background: rgba(255, 125, 125, 0.14);
+	color: #ffb0b0;
+}
+
+.mypage-battle-result-badge.is-close {
+	background: rgba(244, 197, 66, 0.18);
+	color: #ffd983;
+}
+
+.mypage-battle-compare-list {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.7rem;
+}
+
+.mypage-battle-compare-row strong.is-ahead {
+	color: #8decc3;
+}
+
+.mypage-battle-compare-row strong.is-behind {
+	color: #ffb0b0;
+}
+
+.mypage-battle-compare-row strong.is-even {
+	color: #cfe0f1;
+}
+
+.mypage-battle-link-button {
+	width: auto;
+	justify-self: flex-start;
 }
 
 .mypage-empty-state {
@@ -1555,6 +1785,31 @@ body.has-simulator-modal {
 
 	.mypage-growth-detail-grid {
 		grid-template-columns: 1fr;
+	}
+
+	.mypage-battle-stage,
+	.mypage-battle-compare-list {
+		grid-template-columns: 1fr;
+	}
+
+	.mypage-battle-vs {
+		min-width: 0;
+	}
+
+	.mypage-battle-card-head,
+	.mypage-battle-result-row,
+	.mypage-battle-panel-head,
+	.mypage-battle-card-status-row {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.mypage-battle-footer .mypage-modal-actions {
+		width: 100%;
+	}
+
+	.mypage-battle-footer .mypage-modal-actions > * {
+		width: 100%;
 	}
 
 	.mypage-modal {

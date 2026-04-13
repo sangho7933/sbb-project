@@ -1,6 +1,8 @@
 package com.mysite.sbb.user;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -15,6 +17,8 @@ public interface UserRepository extends JpaRepository<SiteUser, Long> {
 	Optional<SiteUser> findByUsername(String username);
 
 	Page<SiteUser> findByUsernameContainingIgnoreCase(String username, Pageable pageable);
+
+	List<SiteUser> findBySuspendedUntilAfterOrderBySuspendedUntilAsc(LocalDateTime suspendedUntil);
 
 	@Query("""
 			select count(u)

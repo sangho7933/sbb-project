@@ -3,6 +3,8 @@
  */
 package com.mysite.sbb.user;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -101,6 +103,28 @@ public class UserService {
 		return this.userRepository.updateBlankRace(UserRace.defaultRace().getLabel());
 	}
 
+	@Transactional
+	public SiteUser suspendUser(Long userId, int days) {
+		validateSuspensionDays(days);
+		SiteUser siteUser = getUser(userId);
+		validateSuspendable(siteUser);
+		siteUser.setSuspensionDays(days);
+		siteUser.setSuspendedUntil(LocalDateTime.now().plusDays(days));
+		return this.userRepository.save(siteUser);
+	}
+
+	public List<SiteUser> getSuspendedUsers() {
+		return this.userRepository.findBySuspendedUntilAfterOrderBySuspendedUntilAsc(LocalDateTime.now());
+	}
+
+	@Transactional
+	public SiteUser releaseSuspension(Long userId) {
+		SiteUser siteUser = getUser(userId);
+		siteUser.setSuspendedUntil(null);
+		siteUser.setSuspensionDays(null);
+		return this.userRepository.save(siteUser);
+	}
+
 	// 입력 종족 값은 생성/보정 흐름 모두 같은 해석 규칙을 사용한다.
 	private UserRace resolveRace(String race) {
 		return UserRace.from(race);
@@ -137,6 +161,18 @@ public class UserService {
 	private void applyMissingRace(SiteUser siteUser) {
 		if (siteUser.getRace() == null || siteUser.getRace().isBlank()) {
 			siteUser.setRace(UserRace.defaultRace().getLabel());
+		}
+	}
+
+	private void validateSuspensionDays(int days) {
+		if (days != 1 && days != 7) {
+			throw new IllegalStateException("지원하지 않는 정지 기간입니다.");
+		}
+	}
+
+	private void validateSuspendable(SiteUser siteUser) {
+		if ("admin".equalsIgnoreCase(siteUser.getUsername())) {
+			throw new IllegalStateException("관리자 계정은 정지할 수 없습니다.");
 		}
 	}
 }

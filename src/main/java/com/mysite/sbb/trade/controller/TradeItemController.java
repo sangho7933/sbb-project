@@ -95,6 +95,23 @@ public class TradeItemController {
 		return tradeItemDetailRedirect(id);
 	}
 
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/{id}/delete")
+	public String delete(@PathVariable("id") Integer id,
+			@RequestParam(value = "redirect", defaultValue = "") String redirect,
+			Principal principal,
+			RedirectAttributes redirectAttributes) {
+		SiteUser currentUser = requireCurrentUser(principal);
+		try {
+			this.tradeItemService.deleteBySeller(id, currentUser);
+			redirectAttributes.addFlashAttribute("successMessage", "상품을 삭제했습니다.");
+			return resolveTradeRedirect(redirect, "/trade/items?mine=true");
+		} catch (IllegalStateException exception) {
+			redirectAttributes.addFlashAttribute("errorMessage", exception.getMessage());
+			return tradeItemDetailRedirect(id);
+		}
+	}
+
 	@GetMapping("/purchases")
 	public String purchases(Model model, Principal principal) {
 		if (isAnonymous(principal)) {
@@ -179,6 +196,18 @@ public class TradeItemController {
 
 	private String tradeItemDetailRedirect(Integer id) {
 		return "redirect:/trade/items/" + id;
+	}
+
+	private String resolveTradeRedirect(String redirect, String fallbackPath) {
+		String localRedirect = sanitizeLocalRedirect(redirect);
+		return "redirect:" + (localRedirect != null ? localRedirect : fallbackPath);
+	}
+
+	private String sanitizeLocalRedirect(String redirect) {
+		if (redirect == null || redirect.isBlank() || !redirect.startsWith("/") || redirect.startsWith("//")) {
+			return null;
+		}
+		return redirect;
 	}
 
 	private String redirectToLogin() {

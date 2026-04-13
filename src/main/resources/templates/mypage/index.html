@@ -5,7 +5,16 @@
 	<link rel="stylesheet" th:href="@{/mypage-dashboard.css}">
 	<section class="mypage-dashboard-page py-5">
 		<div class="container-xl">
-			<div class="mypage-dashboard">
+			<div class="mypage-dashboard-shell" id="mypage-top">
+				<nav class="mypage-quick-nav" aria-label="마이페이지 퀵 이동" data-mypage-quick-nav>
+					<a class="mypage-quick-nav-link is-active" href="#mypage-top" data-scroll-target="mypage-top">🔝 맨 위</a>
+					<a class="mypage-quick-nav-link" href="#equipment-section" data-scroll-target="equipment-section">⚔️ 장비</a>
+					<a class="mypage-quick-nav-link" href="#owned-gear" data-scroll-target="owned-gear">🧰 장비 관리</a>
+					<a class="mypage-quick-nav-link" href="#trade-section" data-scroll-target="trade-section">🛒 거래</a>
+					<a class="mypage-quick-nav-link" href="#posts-section" data-scroll-target="posts-section">📝 게시글</a>
+					<a class="mypage-quick-nav-link" href="#comments-section" data-scroll-target="comments-section">💬 댓글</a>
+				</nav>
+				<div class="mypage-dashboard">
 				<header class="mypage-hero-card">
 					<div class="mypage-hero-copy">
 						<span class="mypage-kicker">마이페이지</span>
@@ -142,7 +151,8 @@
 					</section>
 				</div>
 
-				<section class="mypage-panel">
+				<div class="mypage-section-stack mypage-scroll-section" id="equipment-section">
+					<section class="mypage-panel">
 					<div class="mypage-panel-head">
 						<div>
 							<span class="mypage-kicker">장비</span>
@@ -253,9 +263,10 @@
 					<div class="mypage-empty-state" th:if="${#lists.isEmpty(mypage.ownedGearSections)}">
 						보유 장비가 없습니다.
 					</div>
-				</section>
+					</section>
+				</div>
 
-				<div class="mypage-main-grid">
+				<div class="mypage-main-grid mypage-scroll-section" id="trade-section">
 					<section class="mypage-panel">
 						<div class="mypage-panel-head">
 							<div>
@@ -321,6 +332,7 @@
 								<h2>내가 쓴 글</h2>
 							</div>
 						</div>
+						<div class="mypage-scroll-anchor" id="posts-section"></div>
 						<div class="mypage-card-list" th:if="${!#lists.isEmpty(mypage.recentPosts)}">
 							<a class="mypage-list-card mypage-link-card" th:each="post : ${mypage.recentPosts}"
    th:if="${post != null}"
@@ -347,6 +359,7 @@
 								<h2>내가 쓴 댓글</h2>
 							</div>
 						</div>
+						<div class="mypage-scroll-anchor" id="comments-section"></div>
 						<div class="mypage-card-list" th:if="${!#lists.isEmpty(mypage.recentComments)}">
 							<a class="mypage-list-card mypage-link-card" th:each="comment : ${mypage.recentComments}"
    th:if="${comment != null}"
@@ -366,9 +379,13 @@
 						</div>
 					</section>
 				</div>
+				</div>
 			</div>
 		</div>
 	</section>
 </div>
+<th:block layout:fragment="script">
+	<script th:src="@{/mypage-dashboard.js}"></script>
+</th:block>
 </body>
 </html>

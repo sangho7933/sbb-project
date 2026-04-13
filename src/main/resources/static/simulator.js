@@ -79,11 +79,14 @@
 		activeRecommendationIndex: 0,
 		showRecommendations: false,
 		isRecommendationModalOpen: false,
+		battle: emptyBattleState(),
 		draggingItemId: null,
 		isCatalogLoading: false,
 		isSimulationLoading: false,
 		isRecommendationLoading: false
 	};
+	let battleNarrationTimer = 0;
+	let battleSequenceToken = 0;
 
 	root.addEventListener("click", function (event) {
 		const actionTarget = event.target.closest("[data-action]");
@@ -181,11 +184,32 @@
 		}
 
 		if (action === "request-growth") {
-			state.showRecommendations = true;
-			state.activeRecommendationIndex = 0;
-			state.isRecommendationLoading = true;
-			openRecommendationModal();
-			await loadRecommendations();
+			await openGrowthRecommendations();
+			return;
+		}
+
+		if (action === "open-battle-modal") {
+			openBattleModal();
+			return;
+		}
+
+		if (action === "close-battle-modal") {
+			closeBattleModal();
+			return;
+		}
+
+		if (action === "regenerate-battle-opponent") {
+			regenerateBattleOpponent();
+			return;
+		}
+
+		if (action === "start-battle") {
+			startBattle();
+			return;
+		}
+
+		if (action === "show-battle-recommendations") {
+			await openGrowthRecommendations({ closeBattleFirst: true });
 			return;
 		}
 
@@ -208,6 +232,19 @@
 			state.activeRecommendationIndex = clampRecommendationIndex(Number(target.dataset.index));
 			render();
 		}
+	}
+
+	async function openGrowthRecommendations(options) {
+		const config = options || {};
+		if (config.closeBattleFirst) {
+			closeBattleModal();
+		}
+
+		state.showRecommendations = true;
+		state.activeRecommendationIndex = 0;
+		state.isRecommendationLoading = true;
+		openRecommendationModal();
+		await loadRecommendations();
 	}
 
 	async function loadDashboard() {
@@ -398,7 +435,16 @@
 	}
 
 	function handleGlobalKeydown(event) {
-		if (event.key === "Escape" && state.isRecommendationModalOpen) {
+		if (event.key !== "Escape") {
+			return;
+		}
+
+		if (state.battle.isModalOpen) {
+			closeBattleModal();
+			return;
+		}
+
+		if (state.isRecommendationModalOpen) {
 			closeRecommendationModal();
 		}
 	}
@@ -406,18 +452,112 @@
 	function openRecommendationModal() {
 		state.isRecommendationModalOpen = true;
 		render();
-
-		window.setTimeout(function () {
-			const dialog = root.querySelector(".mypage-modal-dialog");
-			if (dialog && state.isRecommendationModalOpen) {
-				dialog.focus();
-			}
-		}, 0);
+		focusModalDialog('[data-role="recommend-modal"] .mypage-modal-dialog', function () {
+			return state.isRecommendationModalOpen;
+		});
 	}
 
 	function closeRecommendationModal() {
 		state.isRecommendationModalOpen = false;
 		render();
+	}
+
+	function openBattleModal() {
+		resetBattleState(true);
+		state.isRecommendationModalOpen = false;
+		state.battle.opponent = buildBattleOpponent();
+		state.battle.progressMessage = "성장 목표형 AI를 생성했습니다. 전투 시작을 눌러 보세요.";
+		render();
+		focusModalDialog('[data-role="battle-modal-dialog"]', function () {
+			return state.battle.isModalOpen;
+		});
+	}
+
+	function closeBattleModal() {
+		resetBattleState(false);
+		render();
+	}
+
+	function regenerateBattleOpponent() {
+		if (state.battle.isRunning) {
+			return;
+		}
+
+		resetBattleState(true);
+		state.battle.opponent = buildBattleOpponent();
+		state.battle.progressMessage = "새로운 AI 상대를 생성했습니다. 다시 전투를 시작할 수 있습니다.";
+		render();
+	}
+
+	function startBattle() {
+		if (!state.battle.isModalOpen || state.battle.isRunning) {
+			return;
+		}
+
+		if (!state.battle.opponent) {
+			state.battle.opponent = buildBattleOpponent();
+		}
+
+		stopBattleSequence();
+		state.battle.isRunning = true;
+		state.battle.resultText = "";
+		state.battle.analysis = null;
+		state.battle.roundsPlayed += 1;
+		render();
+
+		const resolution = resolveBattleOutcome(getPlayerBattleProfile(), state.battle.opponent);
+		runBattleNarration(buildBattleNarration(state.battle.opponent, resolution), resolution);
+	}
+
+	function runBattleNarration(lines, resolution) {
+		const sequenceToken = ++battleSequenceToken;
+		let index = 0;
+
+		function advance() {
+			if (sequenceToken !== battleSequenceToken) {
+				return;
+			}
+
+			if (index < lines.length) {
+				state.battle.progressMessage = lines[index];
+				index += 1;
+				render();
+				battleNarrationTimer = window.setTimeout(advance, index === lines.length ? 820 : 760);
+				return;
+			}
+
+			battleNarrationTimer = 0;
+			state.battle.isRunning = false;
+			state.battle.resultText = resolution.resultText;
+			state.battle.progressMessage = "결과: " + resolution.resultText;
+			state.battle.analysis = buildBattleAnalysis(resolution);
+			render();
+		}
+
+		advance();
+	}
+
+	function resetBattleState(keepModalOpen) {
+		stopBattleSequence();
+		state.battle = emptyBattleState();
+		state.battle.isModalOpen = !!keepModalOpen;
+	}
+
+	function stopBattleSequence() {
+		battleSequenceToken += 1;
+		if (battleNarrationTimer) {
+			window.clearTimeout(battleNarrationTimer);
+			battleNarrationTimer = 0;
+		}
+	}
+
+	function focusModalDialog(selector, isOpen) {
+		window.setTimeout(function () {
+			const dialog = root.querySelector(selector);
+			if (dialog && isOpen()) {
+				dialog.focus();
+			}
+		}, 0);
 	}
 
 	function showNextRecommendation() {
@@ -447,6 +587,7 @@
 		renderUserSummary();
 		renderStats();
 		renderRecommendations();
+		renderBattleModal();
 		renderPurchaseVault();
 		updateActionButtons();
 	}
@@ -1081,7 +1222,495 @@
 	function syncRecommendationModalState(modal) {
 		modal.hidden = !state.isRecommendationModalOpen;
 		modal.setAttribute("aria-hidden", state.isRecommendationModalOpen ? "false" : "true");
-		document.body.classList.toggle("has-simulator-modal", state.isRecommendationModalOpen);
+		syncBodyModalState();
+	}
+
+	function syncBattleModalState(modal) {
+		modal.hidden = !state.battle.isModalOpen;
+		modal.setAttribute("aria-hidden", state.battle.isModalOpen ? "false" : "true");
+		syncBodyModalState();
+	}
+
+	function syncBodyModalState() {
+		document.body.classList.toggle("has-simulator-modal", state.isRecommendationModalOpen || state.battle.isModalOpen);
+	}
+
+	function renderBattleModal() {
+		const modal = root.querySelector('[data-role="battle-modal"]');
+		if (!modal) {
+			return;
+		}
+
+		syncBattleModalState(modal);
+
+		const playerRoot = modal.querySelector('[data-role="battle-player"]');
+		const opponentRoot = modal.querySelector('[data-role="battle-opponent"]');
+		const progressRoot = modal.querySelector('[data-role="battle-progress"]');
+		const analysisRoot = modal.querySelector('[data-role="battle-analysis"]');
+		const startButton = modal.querySelector('[data-action="start-battle"]');
+		const regenerateButton = modal.querySelector('[data-action="regenerate-battle-opponent"]');
+		const playerProfile = getPlayerBattleProfile();
+
+		if (playerRoot) {
+			playerRoot.innerHTML = renderBattleSideCard(playerProfile, {
+				kicker: "PLAYER",
+				subtitle: (playerProfile.race || "기본 종족") + " / 현재 시뮬레이션",
+				statusLabel: "상태",
+				statusText: "현재 세팅 기준"
+			});
+		}
+
+		if (opponentRoot) {
+			opponentRoot.innerHTML = state.battle.opponent
+				? renderBattleSideCard(state.battle.opponent, {
+					kicker: "AI ENEMY",
+					subtitle: state.battle.opponent.typeLabel,
+					statusLabel: "상태",
+					statusText: state.battle.opponent.statusText
+				})
+				: renderEmptyState("AI 상대를 생성하면 이 영역에 전투 목표가 표시됩니다.");
+		}
+
+		if (progressRoot) {
+			progressRoot.innerHTML = renderBattleProgress();
+		}
+
+		if (analysisRoot) {
+			analysisRoot.innerHTML = renderBattleAnalysisContent();
+		}
+
+		if (startButton) {
+			startButton.disabled = state.battle.isRunning || !state.battle.opponent;
+			startButton.textContent = state.battle.isRunning
+				? "전투 진행 중..."
+				: (state.battle.analysis ? "다시 전투 시작" : "전투 시작");
+		}
+
+		if (regenerateButton) {
+			regenerateButton.disabled = state.battle.isRunning;
+		}
+	}
+
+	function renderBattleSideCard(profile, options) {
+		const config = options || {};
+		const statRows = [
+			renderBattleStatRow("공격", formatAttack(profile.attackMin, profile.attackMax)),
+			renderBattleStatRow("방어", formatNumber(profile.defense)),
+			renderBattleStatRow("체력", formatNumber(profile.health)),
+			renderBattleStatRow("명중", formatNumber(profile.accuracy))
+		].join("");
+
+		const hintLine = profile.hintText
+			? "<div class=\"mypage-battle-card-hint\">" + escapeHtml(profile.hintText) + "</div>"
+			: "";
+
+		return "<div class=\"mypage-battle-card-head\">"
+			+ "<div>"
+			+ "<span class=\"mypage-kicker\">" + escapeHtml(config.kicker || "BATTLE") + "</span>"
+			+ "<strong class=\"mypage-battle-card-name\">" + escapeHtml(profile.displayName) + "</strong>"
+			+ "<div class=\"mypage-battle-card-sub\">" + escapeHtml(config.subtitle || "") + "</div>"
+			+ "</div>"
+			+ "<div class=\"mypage-battle-card-power\">P " + formatNumber(profile.powerDisplay) + "</div>"
+			+ "</div>"
+			+ "<div class=\"mypage-battle-card-status-row\">"
+			+ "<span class=\"mypage-battle-card-status-label\">" + escapeHtml(config.statusLabel || "상태") + "</span>"
+			+ "<span class=\"mypage-battle-card-status\">" + escapeHtml(config.statusText || "") + "</span>"
+			+ "</div>"
+			+ "<div class=\"mypage-battle-card-stats\">"
+			+ statRows
+			+ "</div>"
+			+ hintLine;
+	}
+
+	function renderBattleStatRow(label, value) {
+		return "<div class=\"mypage-battle-stat-row\">"
+			+ "<span>" + escapeHtml(label) + "</span>"
+			+ "<strong>" + escapeHtml(value) + "</strong>"
+			+ "</div>";
+	}
+
+	function renderBattleProgress() {
+		if (!state.battle.progressMessage) {
+			return renderEmptyState("AI 상대를 생성하면 전투 진행 문구가 이곳에 순차적으로 표시됩니다.");
+		}
+
+		return "<div class=\"mypage-battle-progress-line" + (state.battle.isRunning ? " is-running" : "") + "\">"
+			+ escapeHtml(state.battle.progressMessage)
+			+ "</div>";
+	}
+
+	function renderBattleAnalysisContent() {
+		if (!state.battle.analysis) {
+			return renderEmptyState("전투가 끝나면 승패와 함께 부족한 지점, 성장 방향, 추천 장비 연결을 보여드립니다.");
+		}
+
+		const analysis = state.battle.analysis;
+		const comparisonRows = analysis.comparisons.map(function (item) {
+			return "<div class=\"mypage-battle-compare-row\">"
+				+ "<span>" + escapeHtml(item.label) + "</span>"
+				+ "<strong class=\"is-" + escapeHtml(item.tone) + "\">" + escapeHtml(item.verdict) + "</strong>"
+				+ "</div>";
+		}).join("");
+		const recommendationLine = analysis.recommendationHeadline
+			? "<div class=\"mypage-battle-recommend-copy\">" + escapeHtml(analysis.recommendationHeadline) + "</div>"
+			: "";
+
+		return "<div class=\"mypage-battle-analysis-stack\">"
+			+ "<div class=\"mypage-battle-result-row\">"
+			+ "<span class=\"mypage-battle-result-label\">결과</span>"
+			+ "<strong class=\"mypage-battle-result-badge is-" + escapeHtml(analysis.resultTone) + "\">" + escapeHtml(analysis.resultKind) + "</strong>"
+			+ "<span class=\"mypage-battle-result-text\">" + escapeHtml(analysis.resultText) + "</span>"
+			+ "</div>"
+			+ "<div class=\"mypage-battle-compare-list\">"
+			+ comparisonRows
+			+ "</div>"
+			+ "<div class=\"mypage-battle-summary\">"
+			+ escapeHtml(analysis.summary)
+			+ "</div>"
+			+ "<div class=\"mypage-battle-recommend-box\">"
+			+ "<div class=\"mypage-battle-recommend-title\">추천 연결</div>"
+			+ "<div class=\"mypage-battle-recommend-copy\">" + escapeHtml(analysis.recommendationText) + "</div>"
+			+ recommendationLine
+			+ "<button type=\"button\" class=\"mypage-ghost-button mypage-battle-link-button\" data-action=\"show-battle-recommendations\">추천 장비 보기</button>"
+			+ "</div>"
+			+ "</div>";
+	}
+
+	function getPlayerBattleProfile() {
+		const user = state.dashboard && state.dashboard.user ? state.dashboard.user : {};
+		const statSnapshot = buildBattleStatSnapshot(state.simulation ? state.simulation.totalStats : emptyStats(), 320);
+		const weakness = resolveBattleWeakness(statSnapshot);
+
+		return Object.assign({}, statSnapshot, {
+			displayName: user.username || "도전자",
+			race: user.race || "기본 종족",
+			hintText: "현재 약점 포인트: " + weakness.label
+		});
+	}
+
+	function buildBattleOpponent() {
+		const player = getPlayerBattleProfile();
+		const recommendation = getPrimaryRecommendation();
+		const weakness = resolveBattleWeakness(player);
+		const typeKey = selectBattleType(weakness, recommendation);
+		const profile = battleProfileFor(typeKey);
+		const multiplier = randomBetween(1.05, 1.15);
+		const statScale = 1 + ((multiplier - 1) * 0.55);
+		const basePower = Math.max(player.powerForCalc, 320);
+		const attackAverage = Math.round(player.attackAverage * profile.attack * statScale * randomBetween(0.99, 1.04));
+		const attackSpread = Math.max(12, Math.round(attackAverage * 0.06));
+		const slotHint = recommendation && recommendation.slotLabel
+			? recommendation.slotLabel + " 보강이 특히 중요합니다."
+			: weakness.label + " 대응형 AI입니다.";
+
+		return {
+			typeKey: typeKey,
+			typeLabel: profile.label,
+			displayName: profile.namePrefix + "-" + String(randomInt(8, 31)).padStart(2, "0"),
+			powerDisplay: Math.round(Math.max(player.powerDisplay || 0, basePower * 0.88) * multiplier),
+			powerForCalc: basePower * multiplier,
+			attackAverage: attackAverage,
+			attackMin: Math.max(0, attackAverage - attackSpread),
+			attackMax: attackAverage + attackSpread,
+			defense: Math.round(player.defense * profile.defense * statScale * randomBetween(0.99, 1.04)),
+			health: Math.round(player.health * profile.health * statScale * randomBetween(1.00, 1.05)),
+			accuracy: Math.round(player.accuracy * profile.accuracy * statScale * randomBetween(0.99, 1.04)),
+			critical: Math.round(player.critical * profile.critical * statScale * randomBetween(0.99, 1.04)),
+			statusText: "도전 가능한 상대",
+			hintText: profile.nature + " / " + slotHint
+		};
+	}
+
+	function buildBattleStatSnapshot(stats, fallbackPower) {
+		const numericPower = Number(stats && stats.powerScore || 0);
+		const powerForCalc = Math.max(numericPower, fallbackPower || 0);
+		const attackMin = Number(stats && stats.totalAttackMin || 0);
+		const attackMax = Number(stats && stats.totalAttackMax || 0);
+		const attackAverage = averageRange(attackMin, attackMax) || Math.max(120, Math.round(powerForCalc * 0.28));
+		const defense = Number(stats && stats.totalDefense || 0) || Math.max(90, Math.round(powerForCalc * 0.22));
+		const health = Number(stats && stats.totalHealth || 0) || Math.max(500, Math.round(powerForCalc * 1.08));
+		const accuracy = Number(stats && stats.totalAccuracy || 0) || Math.max(70, Math.round(powerForCalc * 0.11));
+		const critical = Number(stats && stats.totalCritical || 0) || Math.max(45, Math.round(powerForCalc * 0.08));
+
+		return {
+			powerDisplay: Math.round(numericPower),
+			powerForCalc: powerForCalc,
+			attackMin: attackMin || Math.max(0, Math.round(attackAverage * 0.94)),
+			attackMax: attackMax || Math.round(attackAverage * 1.06),
+			attackAverage: attackAverage,
+			defense: defense,
+			health: health,
+			accuracy: accuracy,
+			critical: critical
+		};
+	}
+
+	function resolveBattleWeakness(profile) {
+		const basePower = Math.max(profile.powerForCalc, 1);
+		const ratios = [
+			{ key: "attack", label: "공격", score: profile.attackAverage / (basePower * 0.28) },
+			{ key: "defense", label: "방어", score: profile.defense / (basePower * 0.22) },
+			{ key: "health", label: "체력", score: profile.health / (basePower * 1.08) },
+			{ key: "accuracy", label: "명중", score: profile.accuracy / (basePower * 0.11) },
+			{ key: "critical", label: "치명", score: profile.critical / (basePower * 0.08) }
+		];
+
+		ratios.sort(function (a, b) {
+			return a.score - b.score;
+		});
+
+		return ratios[0];
+	}
+
+	function selectBattleType(weakness, recommendation) {
+		const slotCode = recommendation && recommendation.slotCode ? recommendation.slotCode : "";
+		if (slotCode === "weapon") {
+			return "defense";
+		}
+		if (["guarder", "helmet", "shoulder", "armor", "gloves", "pants", "boots"].indexOf(slotCode) !== -1) {
+			return "pressure";
+		}
+		if (["ring", "earring", "necklace"].indexOf(slotCode) !== -1) {
+			return weakness.key === "attack" ? "defense" : "agile";
+		}
+
+		if (weakness.key === "attack") {
+			return "defense";
+		}
+		if (weakness.key === "accuracy" || weakness.key === "critical") {
+			return "agile";
+		}
+		if (weakness.key === "defense" || weakness.key === "health") {
+			return "pressure";
+		}
+		return "balance";
+	}
+
+	function battleProfileFor(typeKey) {
+		const profiles = {
+			attack: {
+				label: "공격형 AI",
+				namePrefix: "Ares",
+				nature: "짧은 교전에서 화력을 끌어올립니다.",
+				attack: 1.15,
+				defense: 1.05,
+				health: 1.08,
+				accuracy: 1.08,
+				critical: 1.12
+			},
+			defense: {
+				label: "방어형 AI",
+				namePrefix: "Raven",
+				nature: "방어 우위를 바탕으로 빈틈을 기다립니다.",
+				attack: 1.07,
+				defense: 1.16,
+				health: 1.13,
+				accuracy: 1.05,
+				critical: 1.05
+			},
+			balance: {
+				label: "균형형 AI",
+				namePrefix: "Nova",
+				nature: "공방 밸런스를 유지하며 압박합니다.",
+				attack: 1.10,
+				defense: 1.10,
+				health: 1.10,
+				accuracy: 1.08,
+				critical: 1.08
+			},
+			agile: {
+				label: "민첩형 AI",
+				namePrefix: "Shadow",
+				nature: "정확도와 속도로 흐름을 흔듭니다.",
+				attack: 1.09,
+				defense: 1.04,
+				health: 1.07,
+				accuracy: 1.16,
+				critical: 1.13
+			},
+			pressure: {
+				label: "압박형 AI",
+				namePrefix: "Delta",
+				nature: "지속 압박으로 약점을 드러내게 합니다.",
+				attack: 1.13,
+				defense: 1.08,
+				health: 1.12,
+				accuracy: 1.10,
+				critical: 1.08
+			}
+		};
+
+		return profiles[typeKey] || profiles.balance;
+	}
+
+	function resolveBattleOutcome(player, opponent) {
+		const playerInitiative = Math.random() >= 0.46;
+		const playerScore = calculateBattleScore(player) * randomBetween(0.97, 1.04) * (playerInitiative ? 1.02 : 0.99);
+		const opponentScore = calculateBattleScore(opponent) * randomBetween(0.98, 1.05);
+		const didPlayerWin = playerScore >= opponentScore;
+		const marginRatio = Math.abs(playerScore - opponentScore) / Math.max(playerScore, opponentScore, 1);
+		const isClose = marginRatio < 0.05;
+
+		return {
+			player: player,
+			opponent: opponent,
+			playerInitiative: playerInitiative,
+			didPlayerWin: didPlayerWin,
+			isClose: isClose,
+			resultKind: isClose ? "박빙" : (didPlayerWin ? "승리" : "패배"),
+			resultTone: isClose ? "close" : (didPlayerWin ? "win" : "loss"),
+			resultText: isClose
+				? (didPlayerWin ? "박빙 끝에 승리" : "박빙 끝에 패배")
+				: (didPlayerWin ? "승리" : "패배"),
+			weakness: resolveBattleWeakness(player),
+			recommendation: getPrimaryRecommendation()
+		};
+	}
+
+	function calculateBattleScore(profile) {
+		return (profile.attackAverage * 0.3)
+			+ (profile.defense * 0.24)
+			+ (profile.health * 0.18)
+			+ (profile.accuracy * 0.14)
+			+ (profile.critical * 0.08)
+			+ (profile.powerForCalc * 0.06);
+	}
+
+	function buildBattleNarration(opponent, resolution) {
+		const openingLine = resolution.playerInitiative
+			? "내가 먼저 움직인다"
+			: opponent.displayName + "가 먼저 압박해 온다";
+		const counterLine = resolution.playerInitiative
+			? opponent.displayName + "가 바로 반격한다"
+			: "내가 호흡을 가다듬고 응수한다";
+		const pressureLine = battleNarrationLineForType(opponent);
+		const momentumLine = resolution.didPlayerWin
+			? "내가 다시 몰아붙인다"
+			: opponent.displayName + "의 압박이 더 거세진다";
+		const finishLine = resolution.didPlayerWin
+			? opponent.displayName + "가 흔들리기 시작한다"
+			: "마지막 공방에서 내가 버티며 기회를 노린다";
+
+		return [
+			"전투가 시작된다",
+			openingLine,
+			counterLine,
+			"치열한 공방이 이어진다",
+			pressureLine,
+			"잠시 거리를 벌리며 자세를 가다듬는다",
+			momentumLine,
+			finishLine,
+			"승부가 결정된다"
+		];
+	}
+
+	function battleNarrationLineForType(opponent) {
+		if (opponent.typeKey === "attack") {
+			return opponent.displayName + "가 강한 공격 흐름을 만든다";
+		}
+		if (opponent.typeKey === "defense") {
+			return opponent.displayName + "가 견고한 자세로 템포를 끊는다";
+		}
+		if (opponent.typeKey === "agile") {
+			return opponent.displayName + "가 빠르게 측면을 파고든다";
+		}
+		if (opponent.typeKey === "pressure") {
+			return opponent.displayName + "가 거리를 좁히며 압박한다";
+		}
+		return opponent.displayName + "가 균형 있게 공방을 조율한다";
+	}
+
+	function buildBattleAnalysis(resolution) {
+		const comparisons = [
+			buildBattleComparison("공격력", resolution.player.attackAverage, resolution.opponent.attackAverage),
+			buildBattleComparison("방어력", resolution.player.defense, resolution.opponent.defense),
+			buildBattleComparison("체력", resolution.player.health, resolution.opponent.health)
+		];
+		const summary = buildBattleSummary(resolution);
+		const recommendationHeadline = resolution.recommendation && resolution.recommendation.headline
+			? resolution.recommendation.headline
+			: "";
+		const recommendationText = resolution.recommendation && resolution.recommendation.slotLabel
+			? resolution.recommendation.slotLabel + " 부위를 먼저 보강하면 다음 전투의 안정감이 좋아집니다."
+			: "성장 추천 결과를 열어 현재 가장 효율 좋은 보강 부위를 확인해 보세요.";
+
+		return {
+			resultKind: resolution.resultKind,
+			resultTone: resolution.resultTone,
+			resultText: resolution.resultText,
+			comparisons: comparisons,
+			summary: summary,
+			recommendationText: recommendationText,
+			recommendationHeadline: recommendationHeadline
+		};
+	}
+
+	function buildBattleComparison(label, playerValue, opponentValue) {
+		const baseline = Math.max(playerValue, opponentValue, 1);
+		const gapRatio = Math.abs(playerValue - opponentValue) / baseline;
+		if (gapRatio < 0.06) {
+			return { label: label, verdict: "비슷", tone: "even" };
+		}
+		if (playerValue > opponentValue) {
+			return { label: label, verdict: "내가 우세", tone: "ahead" };
+		}
+		return { label: label, verdict: "상대 우세", tone: "behind" };
+	}
+
+	function buildBattleSummary(resolution) {
+		const weakness = resolution.weakness;
+		const weaknessMessages = {
+			attack: "공격력은 아직 상위 목표를 밀어붙이기에는 조금 부족합니다.",
+			defense: "방어력이 낮아 상대의 압박이 들어오면 흐름을 오래 버티기 어렵습니다.",
+			health: "체력 여유가 적어 장기전으로 갈수록 불리해지는 구조입니다.",
+			accuracy: "명중 안정성이 부족해 선공을 잡아도 흐름이 끊기기 쉽습니다.",
+			critical: "마무리 화력이 아쉬워 결정적인 순간의 압박이 부족합니다."
+		};
+		const baseMessage = weaknessMessages[weakness.key] || "현재 스탯 밸런스를 조금만 다듬어도 승률이 더 안정될 수 있습니다.";
+
+		if (resolution.didPlayerWin && resolution.isClose) {
+			return "이번 전투는 버텨냈지만 " + baseMessage.replace("부족합니다.", "부족한 편입니다.");
+		}
+		if (resolution.didPlayerWin) {
+			return "이번 세팅으로도 승리할 수 있지만 " + baseMessage;
+		}
+		if (resolution.isClose) {
+			return "패배하긴 했지만 차이는 크지 않았습니다. " + baseMessage;
+		}
+		return baseMessage + " 일부 장비 보강 시 승률 향상이 예상됩니다.";
+	}
+
+	function getPrimaryRecommendation() {
+		return state.recommendations && state.recommendations.length ? state.recommendations[0] : null;
+	}
+
+	function emptyBattleState() {
+		return {
+			isModalOpen: false,
+			isRunning: false,
+			opponent: null,
+			progressMessage: "",
+			resultText: "",
+			analysis: null,
+			roundsPlayed: 0
+		};
+	}
+
+	function averageRange(min, max) {
+		const numericMin = Number(min || 0);
+		const numericMax = Number(max || 0);
+		if (!numericMin && !numericMax) {
+			return 0;
+		}
+		return (numericMin + numericMax) / 2;
+	}
+
+	function randomBetween(min, max) {
+		return min + (Math.random() * (max - min));
+	}
+
+	function randomInt(min, max) {
+		return Math.floor(randomBetween(min, max + 1));
 	}
 
 	function renderRecommendationStepCard(priority, index) {

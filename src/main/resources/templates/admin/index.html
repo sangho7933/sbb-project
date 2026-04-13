@@ -1,6 +1,17 @@
 <html layout:decorate="~{a2c_layout}">
 <div layout:fragment="content" class="board-shell">
+	<link rel="stylesheet" th:href="@{/admin-dashboard.css}">
 	<div class="container-xl">
+		<div class="admin-dashboard-shell" id="admin-top" th:classappend="${adminModeActive} ? ' has-quick-nav'">
+			<nav class="admin-quick-nav" aria-label="관리자 페이지 퀵 이동" data-admin-quick-nav th:if="${adminModeActive}">
+				<a class="admin-quick-nav-link is-active" href="#admin-top" data-scroll-target="admin-top">🔝 맨 위</a>
+				<a class="admin-quick-nav-link" href="#admin-overview-section" data-scroll-target="admin-overview-section">📊 운영 현황</a>
+				<a class="admin-quick-nav-link" href="#admin-users-section" data-scroll-target="admin-users-section">👥 회원</a>
+				<a class="admin-quick-nav-link" href="#admin-posts-section" data-scroll-target="admin-posts-section">📝 게시글</a>
+				<a class="admin-quick-nav-link" href="#admin-comments-section" data-scroll-target="admin-comments-section">💬 댓글</a>
+				<a class="admin-quick-nav-link" href="#admin-trades-section" data-scroll-target="admin-trades-section">🛒 거래</a>
+			</nav>
+			<div class="admin-dashboard-content">
 		<section class="board-header-card">
 			<div>
 				<span class="section-kicker">관리</span>
@@ -22,6 +33,7 @@
 		</section>
 
 		<div class="trade-flash success" th:if="${successMessage != null}" th:text="${successMessage}"></div>
+		<div class="trade-flash error" th:if="${errorMessage != null}" th:text="${errorMessage}"></div>
 
 		<section class="panel-surface mb-4" th:unless="${adminModeActive}">
 			<div class="section-heading-row">
@@ -41,7 +53,7 @@
 			
 			<!-- 목록 섹션마다 상태 badge, 관리 form, 페이지네이션을 같은 규칙으로 재사용한다. -->
 
-			<section class="panel-surface admin-dashboard-panel mb-4">
+			<section class="panel-surface admin-dashboard-panel admin-scroll-section mb-4" id="admin-overview-section">
 			
 				<div class="section-heading-row admin-dashboard-heading">
 					<div>
@@ -159,7 +171,7 @@
 				</div>
 			</section>
 
-			<section class="panel-surface mb-4">
+			<section class="panel-surface admin-scroll-section mb-4" id="admin-users-section">
 				<div class="section-heading-row">
 					<div>
 					
@@ -196,7 +208,26 @@
 								</td>
 								<td th:text="${member.email}">admin@example.com</td>
 								<td th:text="${#numbers.formatInteger(member.gold, 1, 'COMMA') + 'G'}">1,000G</td>
-								<td th:text="${member.race}">-</td>
+								<td>
+									<div th:text="${member.race}">-</div>
+									<div class="mt-2">
+										<th:block
+											th:replace="~{::adminStatusBadge(label=${member.suspensionLabel}, badgeClass=${member.suspended ? 'text-bg-danger' : 'text-bg-success'})}">
+										</th:block>
+									</div>
+									<div class="small text-body-secondary mt-1" th:if="${member.suspended and member.suspendedUntil != null}"
+										th:text="${#temporals.format(member.suspendedUntil, 'MM-dd HH:mm') + '까지'}">
+										04-13 18:00까지
+									</div>
+									<div class="d-flex flex-wrap gap-2 mt-2" th:if="${member.username != 'admin'}">
+										<th:block
+											th:replace="~{::adminActionForm(actionUrl=|/admin/users/${member.id}/suspend/1|, confirmMessage='이 회원을 1일 정지하시겠습니까?', buttonLabel='1일 정지', buttonClass='btn btn-outline-warning btn-sm', kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})}">
+										</th:block>
+										<th:block
+											th:replace="~{::adminActionForm(actionUrl=|/admin/users/${member.id}/suspend/7|, confirmMessage='이 회원을 7일 정지하시겠습니까?', buttonLabel='7일 정지', buttonClass='btn btn-danger btn-sm', kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})}">
+										</th:block>
+									</div>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -204,9 +235,47 @@
 				<th:block th:if="${userPageData.totalPages > 1}"
 					th:replace="~{::adminPagination(hasPrevious=${userPageData.hasPrevious()}, previousUrl=@{/admin(kw=${kw}, userPage=${userPageData.number - 1}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})}, currentPage=${userPageData.number + 1}, totalPages=${userPageData.totalPages}, hasNext=${userPageData.hasNext()}, nextUrl=@{/admin(kw=${kw}, userPage=${userPageData.number + 1}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})})}">
 				</th:block>
+				<div class="mt-4 pt-3 border-top border-secondary-subtle">
+					<div class="section-heading-row mb-3">
+						<div>
+							<span class="section-kicker">정지 현황</span>
+							<h3 class="h5 mb-0">정지된 아이디</h3>
+						</div>
+						<span th:text="|총 ${#lists.size(suspendedUsers)}명|">총 0명</span>
+					</div>
+					<div class="table-responsive admin-table-wrap" th:if="${!#lists.isEmpty(suspendedUsers)}">
+						<table class="table table-dark table-striped align-middle table-sm mb-0">
+							<thead>
+								<tr>
+									<th>아이디</th>
+									<th>정지 기간</th>
+									<th>종료 시각</th>
+									<th>관리</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="suspendedUser : ${suspendedUsers}">
+									<td>
+										<a th:href="@{|/admin/users/${suspendedUser.id}|}" th:text="${suspendedUser.username}">user</a>
+									</td>
+									<td th:text="${suspendedUser.suspensionLabel}">1일 정지</td>
+									<td th:text="${suspendedUser.suspendedUntil != null ? #temporals.format(suspendedUser.suspendedUntil, 'yyyy-MM-dd HH:mm') : '-'}">2026-04-13 18:00</td>
+									<td>
+										<th:block
+											th:replace="~{::adminActionForm(actionUrl=|/admin/users/${suspendedUser.id}/release|, confirmMessage='이 회원의 정지를 해제하시겠습니까?', buttonLabel='해제', buttonClass='btn btn-outline-light btn-sm', kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})}">
+										</th:block>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="small text-body-secondary" th:if="${#lists.isEmpty(suspendedUsers)}">
+						현재 정지 중인 회원이 없습니다.
+					</div>
+				</div>
 			</section>
 
-			<section class="panel-surface mb-4">
+			<section class="panel-surface admin-scroll-section mb-4" id="admin-posts-section">
 				<div class="section-heading-row">
 					<div>
 						<span class="section-kicker">게시글</span>
@@ -253,7 +322,7 @@
 				</th:block>
 			</section>
 
-			<section class="panel-surface mb-4">
+			<section class="panel-surface admin-scroll-section mb-4" id="admin-comments-section">
 				<div class="section-heading-row">
 					<div>
 						<span class="section-kicker">댓글</span>
@@ -308,7 +377,7 @@
 				</th:block>
 			</section>
 
-			<section class="panel-surface">
+			<section class="panel-surface admin-scroll-section" id="admin-trades-section">
 				<div class="section-heading-row">
 					<div>
 						<span class="section-kicker">거래</span>
@@ -348,9 +417,14 @@
 									</th:block>
 								</td>
 								<td>
-									<th:block th:if="${!item.hidden}"
-										th:replace="~{::adminActionForm(actionUrl=|/admin/trade-items/${item.id}/hide|, confirmMessage='이 거래글을 숨김 처리하시겠습니까?', buttonLabel='숨김', buttonClass='btn btn-warning btn-sm', kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})}">
-									</th:block>
+									<div class="d-flex flex-wrap gap-2">
+										<th:block th:if="${!item.hidden}"
+											th:replace="~{::adminActionForm(actionUrl=|/admin/trade-items/${item.id}/hide|, confirmMessage='이 거래글을 숨김 처리하시겠습니까?', buttonLabel='숨김', buttonClass='btn btn-warning btn-sm', kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})}">
+										</th:block>
+										<th:block
+											th:replace="~{::adminActionForm(actionUrl=|/admin/trade-items/${item.id}/delete|, confirmMessage='이 거래글을 삭제하시겠습니까?', buttonLabel='삭제', buttonClass='btn btn-danger btn-sm', kw=${kw}, userPage=${userPageData.number}, postPage=${postPageData.number}, commentPage=${commentPageData.number}, tradePage=${tradePageData.number})}">
+										</th:block>
+									</div>
 								</td>
 							</tr>
 						</tbody>
@@ -361,6 +435,8 @@
 				</th:block>
 			</section>
 		</th:block>
+			</div>
+		</div>
 	</div>
 </div>
 <!-- 목록 상태 표시는 라벨과 badge 클래스만 바꿔 재사용한다. -->
@@ -391,6 +467,7 @@
 </form>
 <th:block layout:fragment="script">
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+	<script th:src="@{/admin-dashboard.js}"></script>
 	<script type="text/javascript" th:inline="javascript">
 		(function () {
 			const dashboardStats = /*[[${dashboardStats}]]*/ null;

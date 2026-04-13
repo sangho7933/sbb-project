@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -62,9 +63,10 @@ public class AuthController {
 	}
 
 	@GetMapping("/login")
-	public String login(Model model) {
+	public String login(@RequestParam(value = "message", defaultValue = "") String loginErrorMessage, Model model) {
 		model.addAttribute("pageTitle", "로그인 - A2C");
 		model.addAttribute("activeNav", "auth");
+		model.addAttribute("loginErrorMessage", loginErrorMessage == null ? "" : loginErrorMessage.trim());
 		return "user_login";
 	}
 

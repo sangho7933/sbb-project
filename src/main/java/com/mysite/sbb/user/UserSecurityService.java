@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -33,6 +34,9 @@ public class UserSecurityService implements UserDetailsService {
 			throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
 		}
 		SiteUser siteUser = optionalSiteUser.get();
+		if (siteUser.isSuspended()) {
+			throw new LockedException(siteUser.getSuspensionMessage());
+		}
 		return new User(siteUser.getUsername(), siteUser.getPassword(), buildAuthorities(siteUser));
 	}
 
